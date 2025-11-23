@@ -155,7 +155,7 @@
                 <div class="form-group">
                     <label for="hardwareId">Hardware ID *</label>
                     <input type="text" id="hardwareId" name="hardwareId" required 
-                           placeholder="Your Hardware ID" readonly />
+                           placeholder="Your Hardware ID" />
                     <div class="error-message" id="hwIdError"></div>
                 </div>
 
@@ -208,11 +208,15 @@
         // Set initial selected state
         document.getElementById('monthlyOption').classList.add('selected');
 
-        // Stripe Payment Links - No backend required!
+        // Stripe Payment Links
         const STRIPE_PAYMENT_LINKS = {
             monthly: 'https://buy.stripe.com/test_28EdR91gla3Zcg85LmeUU01',  // Monthly subscription
             yearly: 'https://buy.stripe.com/test_3cIaEX5wBb837ZSehSeUU00'   // Yearly subscription
         };
+        
+        // API endpoint to save purchase info (optional - for automatic processing)
+        // If not available, you can manually match payments by email
+        const SAVE_INFO_API = 'http://localhost:5000/api/save-purchase-info';  // Optional - for local processing
 
         document.getElementById('purchaseForm').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -238,7 +242,38 @@
                 return;
             }
             
-            // Store email and hardware ID in sessionStorage for after payment
+            // Try to save purchase info to server (optional - for automatic processing)
+            // If this fails, you can manually process payments by matching email
+            try {
+                const saveResponse = await fetch(SAVE_INFO_API, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        email: email,
+                        hardware_id: hardwareId,
+                        plan: plan
+                    })
+                });
+                if (saveResponse.ok) {
+                    console.log('Purchase info saved for automatic processing');
+                }
+            } catch (e) {
+                console.warn('Could not save purchase info (will need manual processing):', e);
+            }
+            
+            // Store in localStorage as backup
+            try {
+                localStorage.setItem('pending_purchase', JSON.stringify({
+                    email: email,
+                    hardware_id: hardwareId,
+                    plan: plan,
+                    timestamp: Date.now()
+                }));
+            } catch (e) {
+                console.warn('Could not save to localStorage:', e);
+            }
+            
+            // Store email and hardware ID in sessionStorage for success page
             sessionStorage.setItem('purchase_email', email);
             sessionStorage.setItem('purchase_hardware_id', hardwareId);
             sessionStorage.setItem('purchase_plan', plan);
@@ -255,7 +290,6 @@
             }
             
             // Redirect to Stripe Payment Link with email pre-filled
-            // Note: Stripe Payment Links support ?prefilled_email parameter
             window.location.href = paymentLink + '?prefilled_email=' + encodeURIComponent(email);
         });
     </script>
