@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>User Manual & Installation Guide - ESP32 CAN Sniffer</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='20' y='20' width='60' height='60' fill='%237dd3fc' stroke='%23bae6fd' stroke-width='2' rx='4'/%3E%3Crect x='25' y='25' width='50' height='50' fill='%23080a10'/%3E%3Ccircle cx='20' cy='35' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='20' cy='50' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='20' cy='65' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='35' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='50' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='65' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='35' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='50' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='65' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='35' cy='80' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='50' cy='80' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='65' cy='80' r='2' fill='%237dd3fc'/%3E%3C/svg%3E" />
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='20' y='20' width='60' height='60' fill='%237dd3fc' stroke='%23bae6fd' stroke-width='2' rx='4'/%3E%3Crect x='25' y='25' width='50' height='50' fill='%23080a10'/%3E%3Ccircle cx='20' cy='35' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='20' cy='50' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='20' cy='65' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='35' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='50' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='65' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='35' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='50' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='65' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='35' cy='80' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='50' cy='80' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='65' cy='80' r='2' fill='%237dd3fc'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        body {
+            background-color: #080a10;
+            color: #e5e9f0;
+        }
+        .manual-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: transparent;
+            color: #e5e9f0;
+        }
+        .manual-content p, .manual-content li, .manual-content code {
+            color: #e5e9f0;
+        }
+        .manual-content code {
+            background: rgba(8, 10, 16, 0.8);
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+        .manual-content a {
+            color: #7dd3fc;
+        }
+        .manual-content a:hover {
+            color: #bae6fd;
+        }
+        .manual-content h1 {
+            color: #e5e9f0;
+            border-bottom: 3px solid #7dd3fc;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        .manual-content h2 {
+            color: #e5e9f0;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-left: 10px;
+            border-left: 4px solid #7dd3fc;
+        }
+        .manual-content h3 {
+            color: #cbd5f5;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        .manual-content ul, .manual-content ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+        .manual-content li {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+        .code-block {
+            background: rgba(8, 10, 16, 0.8);
+            border: 1px solid rgba(125, 211, 252, 0.3);
+            border-radius: 4px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            color: #e5e9f0;
+        }
+        .warning-box {
+            background: rgba(255, 193, 7, 0.15);
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            color: #e5e9f0;
+        }
+        .info-box {
+            background: rgba(125, 211, 252, 0.1);
+            border-left: 4px solid #7dd3fc;
+            padding: 15px;
+            margin: 20px 0;
+            color: #e5e9f0;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #7dd3fc;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+            color: #bae6fd;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: transparent;
+        }
+        table th, table td {
+            border: 1px solid rgba(125, 211, 252, 0.3);
+            padding: 12px;
+            text-align: left;
+            color: #e5e9f0;
+        }
+        table th {
+            background-color: rgba(125, 211, 252, 0.2);
+            color: #e5e9f0;
+        }
+        table tr:nth-child(even) {
+            background-color: rgba(8, 10, 16, 0.5);
+        }
+        table tr:nth-child(odd) {
+            background-color: rgba(12, 16, 27, 0.5);
+        }
+        table tr:hover {
+            background-color: rgba(125, 211, 252, 0.1);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .manual-content {
+                padding: 20px 15px;
+            }
+            
+            .manual-content h1 {
+                font-size: clamp(1.5rem, 6vw, 2rem);
+            }
+            
+            .manual-content h2 {
+                font-size: clamp(1.3rem, 5vw, 1.7rem);
+                margin-top: 30px;
+            }
+            
+            .manual-content h3 {
+                font-size: clamp(1.1rem, 4vw, 1.3rem);
+            }
+            
+            .code-block {
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+            
+            .warning-box, .info-box {
+                padding: 12px;
+                margin: 15px 0;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                font-size: 0.9rem;
+            }
+            
+            table th, table td {
+                padding: 10px 8px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .manual-content {
+                padding: 15px 10px;
+            }
+            
+            .manual-content ul, .manual-content ol {
+                padding-left: 20px;
+            }
+            
+            table {
+                font-size: 0.85rem;
+            }
+            
+            table th, table td {
+                padding: 8px 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="manual-content">
+        <h1>User Manual & Installation Guide</h1>
+        
+        <h2>📦 Installation Requirements</h2>
+        
+        <h3>Software Dependencies</h3>
+        <ul>
+            <li><strong>Python 3.8 or higher</strong> - Download from <a href="https://www.python.org/downloads/" target="_blank">python.org</a></li>
+            <li><strong>Arduino IDE</strong> - For flashing ESP32 firmware (version 1.8.19 or later)</li>
+            <li><strong>ESP32 Board Support</strong> - Install ESP32 board package in Arduino IDE</li>
+            <li><strong>ESP32 USB Drivers</strong> - CP210x or CH340 drivers (usually auto-installed on Windows 10+)</li>
+        </ul>
+        
+        <div class="info-box">
+            <strong>💡 Quick Tip:</strong> If using the pre-built executable, you don't need Python or Arduino IDE installed - just run .exe!
+        </div>
+        
+        <h3>Python Packages (if running from source)</h3>
+        <div class="code-block">
+pip install -r requirements.txt
+        </div>
+        
+        <p>Key packages include:</p>
+        <ul>
+            <li>PyQt5 - GUI framework</li>
+            <li>pyserial - Serial communication</li>
+            <li>pyqtgraph - Real-time plotting</li>
+            <li>numpy, pandas - Data processing</li>
+            <li>psutil - System information</li>
+        </ul>
+        
+        <h3>Hardware Requirements</h3>
+        <ul>
+            <li><strong>ESP32 Development Board</strong> (ESP32 DevKit recommended)</li>
+            <li><strong>MCP2515 CAN Controller Module</strong> or SN65HVD230 CAN Transceiver</li>
+            <li><strong>USB Cable</strong> (for Serial connection) or WiFi capability</li>
+            <li><strong>Jumper Wires</strong> (for connecting ESP32 to MCP2515)</li>
+            <li><strong>120Ω Resistor</strong> (for loopback testing without a car)</li>
+        </ul>
+        
+        <h2>🚀 Quick Start Guide</h2>
+        
+        <h3>1. First Launch</h3>
+        <ol>
+            <li>Start the application (double-click <code>ESP32_CAN_Sniffer_OneFile.exe</code> or run <code>python main.py</code>)</li>
+            <li>Ensure your ESP32 is powered and connected</li>
+            <li>Select connection type (Serial or WiFi)</li>
+            <li>Click "Connect" to establish communication</li>
+        </ol>
+        
+        <h3>2. Connection Setup</h3>
+        
+        <h4>Serial Connection (USB)</h4>
+        <ol>
+            <li>Connect ESP32 to your computer via USB cable</li>
+            <li>Click "Refresh" to scan for available ports</li>
+            <li>Select your ESP32 port (e.g., "COM3" on Windows)</li>
+            <li>Set baudrate (default: 115200)</li>
+            <li>Click "Connect"</li>
+        </ol>
+        
+        <h4>WiFi Connection</h4>
+        <ol>
+            <li>Connect your computer to the ESP32 WiFi network</li>
+            <li>Network name: Usually "ESP32_CAN_Sniffer"</li>
+            <li>Enter IP address (default: 192.168.4.1)</li>
+            <li>Enter port (default: 82)</li>
+            <li>Click "Connect"</li>
+        </ol>
+        
+        <h3>3. Viewing Messages</h3>
+        <ul>
+            <li><strong>Raw Messages Tab:</strong> View all captured CAN messages in real-time</li>
+            <li><strong>Decoded Messages Tab:</strong> See decoded signals and values</li>
+            <li><strong>Statistics:</strong> Monitor message rates, buffer usage, and performance</li>
+        </ul>
+        
+        <h2>📋 Most Used Features</h2>
+        
+        <h3>Message Filtering</h3>
+        <ul>
+            <li>Filter by CAN ID: Enter ID in the filter box</li>
+            <li>Filter by data: Use hex or decimal format</li>
+            <li>Clear filter: Click "Clear" button</li>
+        </ul>
+        
+        <h3>Saving Sessions</h3>
+        <ul>
+            <li>Click "Save Session" to save current capture</li>
+            <li>Sessions are saved in JSON format</li>
+            <li>Load sessions later for analysis or replay</li>
+        </ul>
+        
+        <h3>Exporting Data</h3>
+        <ul>
+            <li>Export to CSV: File → Export → CSV</li>
+            <li>Choose raw or decoded messages</li>
+            <li>Select date range if needed</li>
+        </ul>
+        
+        <h3>Custom Labels</h3>
+        <ul>
+            <li>Right-click on a CAN ID to add/edit label</li>
+            <li>Labels help identify messages quickly</li>
+            <li>Labels are saved in settings</li>
+        </ul>
+        
+        <h2>🔧 Hardware Setup (ESP32 + MCP2515)</h2>
+        
+        <h3>Pin Connections</h3>
+        <table>
+            <tr>
+                <th>ESP32 Pin</th>
+                <th>MCP2515 Pin</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>3V3</td>
+                <td>VCC</td>
+                <td>Power (⚠️ MUST be 3.3V, NOT 5V!)</td>
+            </tr>
+            <tr>
+                <td>GND</td>
+                <td>GND</td>
+                <td>Ground</td>
+            </tr>
+            <tr>
+                <td>GPIO18</td>
+                <td>SCK</td>
+                <td>SPI Clock</td>
+            </tr>
+            <tr>
+                <td>GPIO19</td>
+                <td>SO (MISO)</td>
+                <td>Master In Slave Out</td>
+            </tr>
+            <tr>
+                <td>GPIO23</td>
+                <td>SI (MOSI)</td>
+                <td>Master Out Slave In</td>
+            </tr>
+            <tr>
+                <td>GPIO5</td>
+                <td>CS</td>
+                <td>Chip Select</td>
+            </tr>
+            <tr>
+                <td>GPIO4</td>
+                <td>INT</td>
+                <td>Interrupt (optional)</td>
+            </tr>
+        </table>
+        
+        <div class="warning-box">
+            <strong>⚠️ Critical Warning:</strong> MCP2515 must be powered with 3.3V, NOT 5V! Using 5V will damage the module.
+        </div>
+        
+        <h3>Flashing ESP32 Firmware</h3>
+        <ol>
+            <li>Open Arduino IDE</li>
+            <li>Install ESP32 board support (File → Preferences → Additional Board Manager URLs)</li>
+            <li>Install "esp32" by Espressif Systems</li>
+            <li>Select board: Tools → Board → ESP32 Dev Module</li>
+            <li>Open the CAN sniffer sketch: <code>arduino/can_sniffer/MCP2515/MCP2515.ino</code></li>
+            <li>Select correct COM port</li>
+            <li>Click "Upload"</li>
+        </ol>
+        
+        <h2>⚙️ Performance Tuning</h2>
+        
+        <ul>
+            <li><strong>Buffer Size:</strong> Increase for longer captures (default: 10,000 messages)</li>
+            <li><strong>Update Rate:</strong> Adjust GUI refresh rate (default: 100ms)</li>
+            <li><strong>Baudrate:</strong> Increase serial speed for higher throughput (up to 1,000,000 bps)</li>
+        </ul>
+        
+        <h2>🆘 Getting Help</h2>
+        
+        <ul>
+            <li>Check the <a href="faq.html">FAQ/Troubleshooting</a> page</li>
+            <li>Review connection settings and baudrate</li>
+            <li>Check log file: <code>can_sniffer.log</code></li>
+            <li>Enable debug output in settings</li>
+            <li>Contact support: <a href="mailto:esp32contact@gmail.com">esp32contact@gmail.com</a></li>
+        </ul>
+        
+        <div style="margin-top: 3rem; text-align: center;">
+            <a href="../index.html" class="btn outline" style="display: inline-block;">Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>
+

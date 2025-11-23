@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+    <title>ESP32 CAN BUS Sniffer</title>
+    <meta name="description" content="Professional CAN bus monitoring and analysis software for automotive diagnostics. Works with ESP32 + MCP2515 hardware. Real-time message capture, WiFi/USB connectivity, and vehicle-specific decoding." />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://your-domain.com/" />
+    <meta property="og:title" content="ESP32 CAN Sniffer – Professional CAN Bus Analysis Tool" />
+    <meta property="og:description" content="Professional CAN bus monitoring and analysis software for automotive diagnostics. Works with ESP32 + MCP2515 hardware. Real-time message capture, WiFi/USB connectivity, and vehicle-specific decoding." />
+    <meta property="og:image" content="https://your-domain.com/images/dashboard.png" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://your-domain.com/" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='20' y='20' width='60' height='60' fill='%237dd3fc' stroke='%23bae6fd' stroke-width='2' rx='4'/%3E%3Crect x='25' y='25' width='50' height='50' fill='%23080a10'/%3E%3Ccircle cx='20' cy='35' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='20' cy='50' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='20' cy='65' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='35' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='50' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='65' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='35' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='50' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='65' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='35' cy='80' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='50' cy='80' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='65' cy='80' r='2' fill='%237dd3fc'/%3E%3C/svg%3E" />
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='20' y='20' width='60' height='60' fill='%237dd3fc' stroke='%23bae6fd' stroke-width='2' rx='4'/%3E%3Crect x='25' y='25' width='50' height='50' fill='%23080a10'/%3E%3Ccircle cx='20' cy='35' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='20' cy='50' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='20' cy='65' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='35' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='50' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='65' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='35' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='50' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='65' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='35' cy='80' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='50' cy='80' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='65' cy='80' r='2' fill='%237dd3fc'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+    <header class="hero">
+        <div class="container">
+            <nav class="nav">
+                <span class="logo">ESP32 CAN BUS Sniffer</span>
+                <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <div class="nav-links">
+                    <a href="#features">Features</a>
+                    <a href="#pricing">Pricing</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </nav>
+            <div class="hero-content">
+                <div>
+                    <p class="eyebrow">Professional CAN Toolkit</p>
+                    <h1>Monitor, decode and organize your CAN BUS messages.</h1>
+                    <p class="lead">
+                        High-performance CAN capture with Wi-Fi/USB,
+                        intuitive decoding tools, and streamlined workflows.
+                        Works with budget-friendly ESP32 + MCP2515 hardware.
+                    </p>
+                    <div class="hero-cta">
+                        <a class="btn primary" href="https://github.com/your-org/esp32-can-sniffer/releases" target="_blank">Download DEMO</a>
+                        <a class="btn secondary" href="#pricing">Activate PRO</a>
+                    </div>
+                </div>
+                <div class="hero-card">
+                    <h3>Current Release</h3>
+                    <p class="version">v1.0.0</p>
+                    <ul>
+                        <li>Real-time CAN analysis</li>
+                        <li>DBC import/export</li>
+                        <li>Automation rules + analytics</li>
+                    </ul>
+                    <p class="note">PRO unlocks Wi-Fi, DB tools, and automation.</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="screens" class="section gallery">
+        <div class="container">
+            <div class="gallery-header">
+                <div>
+                    <p class="eyebrow">Product Tour</p>
+                    <h2>See the desktop suite in action</h2>
+                    <p class="lead">Watch a quick demo of the GUI in action, then explore the screenshots below.</p>
+                </div>
+                <button class="btn outline" id="aboutSoftwareBtn">About Software</button>
+            </div>
+            
+            <div class="video-container">
+                <div class="video-link-wrapper">
+                    <a href="https://www.youtube.com/watch?v=P2dWxr8v9qQ" target="_blank" class="video-link">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 0.5rem;">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" fill="currentColor"/>
+                        </svg>
+                        Watch Demo Video on YouTube
+                    </a>
+                </div>
+            </div>
+            
+            <div class="gallery-grid">
+                <figure>
+                    <img src="images/dashboard.png" alt="Main dashboard overview" loading="lazy" />
+                    <figcaption>Real-time CAN monitoring with live filters and stream stats.</figcaption>
+                </figure>
+                <figure>
+                    <img src="images/decoder.png" alt="Decoder workspace" loading="lazy" />
+                    <figcaption>Decoder workspace, tested with Fiat / Alfa / Lancia dictionary.</figcaption>
+                </figure>
+                <figure>
+                    <img src="images/themes.png" alt="Dark and light theme preview" loading="lazy" />
+                    <figcaption>Instantly switch between sleek dark mode and airy light mode while keeping the same layout.</figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
+
+    <div id="lightbox" class="lightbox hidden" role="dialog" aria-modal="true" aria-label="Screenshot preview">
+        <button class="lightbox-close" aria-label="Close screenshot">&times;</button>
+        <img src="" alt="Expanded screenshot" />
+        <p class="lightbox-caption"></p>
+    </div>
+
+    <div id="aboutModal" class="modal hidden" role="dialog" aria-modal="true" aria-label="About Software">
+        <div class="modal-content">
+            <button class="modal-close" aria-label="Close modal">&times;</button>
+            <h2>ESP32 CAN Sniffer Desktop Suite</h2>
+            <p class="modal-lead">Professional-grade CAN bus monitoring and analysis software designed for automotive diagnostics, reverse engineering, and development workflows. Version 1.0.0 - Complete rewrite with modern architecture and enhanced database support.</p>
+            
+            <div class="modal-features">
+                <h3>Core Functionality</h3>
+                <ul>
+                    <li><strong>Real-time Monitoring:</strong> Live CAN message capture at 500+ messages/second with high-performance buffering</li>
+                    <li><strong>Dual Connection:</strong> WiFi and Serial (USB) connectivity with auto-detection</li>
+                    <li><strong>Hardware Compatibility:</strong> Works with budget-friendly ESP32 + MCP2515 or SN65HVD230 CAN controllers</li>
+                    <li><strong>Message Filtering:</strong> Advanced filtering by CAN ID, data patterns, and real-time highlighting</li>
+                    <li><strong>Auto-Detection:</strong> Automatic port and device detection for seamless setup</li>
+                </ul>
+                
+                <h3>Enhanced Database & Decoding</h3>
+                <ul>
+                    <li><strong>Byte Addressing Format:</strong> Support for d0-d7 byte addressing (Fiat format) with automatic conversion</li>
+                    <li><strong>Multiple Database Support:</strong> CANB and CANC database formats with auto-loading</li>
+                    <li><strong>Signal Extraction:</strong> Extract individual signals from CAN messages with unit conversion</li>
+                    <li><strong>Value Mapping:</strong> Support for enumerated values, descriptions, and custom labels</li>
+                    <li><strong>DBC Import/Export:</strong> Standard DBC file support for vehicle-specific protocols</li>
+                    <li><strong>Real-time Decoding:</strong> Live message decoding with database lookup and fallback mechanisms</li>
+                </ul>
+                
+                <h3>Data Management</h3>
+                <ul>
+                    <li><strong>Session Management:</strong> Save, load, and replay complete CAN capture sessions</li>
+                    <li><strong>Message Replay:</strong> Replay captured sessions for analysis and testing</li>
+                    <li><strong>CSV Export:</strong> Export raw and decoded messages to CSV for external analysis</li>
+                    <li><strong>Label Dictionary:</strong> Custom labels for CAN IDs and messages for easier identification</li>
+                    <li><strong>Message History:</strong> Comprehensive message history with search and filtering</li>
+                </ul>
+                
+                <h3>User Interface</h3>
+                <ul>
+                    <li><strong>Modern GUI:</strong> Clean, responsive PyQt5 interface with tabbed organization</li>
+                    <li><strong>Theme Support:</strong> Dark and light themes for comfortable long-term use</li>
+                    <li><strong>Real-time Statistics:</strong> Live message statistics, performance metrics, and traffic analysis</li>
+                    <li><strong>Performance Monitoring:</strong> Real-time performance metrics and memory management</li>
+                    <li><strong>Responsive Design:</strong> Adapts to different screen sizes and resolutions</li>
+                </ul>
+                
+                <h3>PRO Features</h3>
+                <ul>
+                    <li><strong>Wi-Fi Connectivity:</strong> Remote monitoring over Wi-Fi network (PRO only)</li>
+                    <li><strong>Database Tools:</strong> Load and save CAN message databases for persistent storage (PRO only)</li>
+                    <li><strong>Automation Suite:</strong> Automated health reports and CAN activity analytics (PRO only)</li>
+                    <li><strong>Performance Controls:</strong> Advanced buffering, refresh rates, and performance tuning (PRO only)</li>
+                    <li><strong>Auto-save:</strong> Automatic session saving with configurable intervals (PRO only)</li>
+                    <li><strong>Test Mode:</strong> Generate test messages for development and validation (PRO only)</li>
+                </ul>
+            </div>
+            
+            <div class="modal-requirements">
+                <h3>System Requirements</h3>
+                <ul>
+                    <li><strong>OS:</strong> Windows 10 or later (64-bit recommended)</li>
+                    <li><strong>RAM:</strong> 4 GB minimum, 8 GB recommended</li>
+                    <li><strong>Hardware:</strong> ESP32 development board with MCP2515 or SN65HVD230 CAN interface</li>
+                    <li><strong>Connection:</strong> USB cable or WiFi network for ESP32 communication</li>
+                </ul>
+            </div>
+            
+            <div class="modal-cta">
+                <a class="btn primary" href="https://github.com/your-org/esp32-can-sniffer/releases" target="_blank">Download DEMO</a>
+                <a class="btn secondary" href="#license">Learn About Licensing</a>
+            </div>
+        </div>
+    </div>
+
+    <section id="features" class="section">
+        <div class="container">
+            <h2>Built for automotive reverse engineering projects</h2>
+            <div class="feature-grid">
+                <article>
+                    <h3>Live Monitoring</h3>
+                    <p>Zero-copy buffering handles 500+ msg/s from Serial or Wi-Fi with real-time filtering.</p>
+                </article>
+                <article>
+                    <h3>Budget-Friendly Hardware</h3>
+                    <p>Designed for ESP32 microcontrollers paired with MCP2515 CAN controllers. Professional-grade performance without the premium price tag.</p>
+                </article>
+                <article>
+                    <h3>Decoder Ecosystem</h3>
+                    <p>Custom profiles, CSV exports, batch decoding, and DBC tooling in one desktop suite.</p>
+                </article>
+                <article>
+                    <h3>Pro Automation Suite</h3>
+                    <p>Batch session save/load, automated health reports, and CAN activity analytics to accelerate diagnostics.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="section dark">
+        <div class="container">
+            <h2>Choose your tier</h2>
+            <div class="pricing">
+                <div class="card">
+                    <p class="plan">DEMO</p>
+                    <p class="price">$0</p>
+                    <ul>
+                        <li>Serial capture</li>
+                        <li>Core decoding + CSV</li>
+                        <li>30-day trial</li>
+                    </ul>
+                    <a class="btn outline" href="https://github.com/your-org/esp32-can-sniffer/releases" target="_blank">Download</a>
+                </div>
+                <div class="card pro">
+                    <p class="plan">PRO</p>
+                    
+                    <div class="pricing-toggle">
+                        <span class="toggle-label" id="monthlyLabel">Monthly</span>
+                        <label class="switch">
+                            <input type="checkbox" id="pricingToggle">
+                            <span class="slider"></span>
+                        </label>
+                        <span class="toggle-label" id="yearlyLabel">Yearly <span class="save-badge">Save 20%</span></span>
+                    </div>
+                    
+                    <p class="price" id="proPrice">€15 <span class="price-period">/ month</span></p>
+                    <p class="price-note" id="priceNote" style="font-size: 0.85rem; color: #cbd5f5; margin-top: -0.5rem; margin-bottom: 1rem;"></p>
+                    <ul>
+                        <li>Unlocks all features</li>
+                        <li>Wi-Fi, DB import/export</li>
+                        <li>Automation suite & health reports</li>
+                    </ul>
+                    <a class="btn primary" href="#license">Request License</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="license" class="section">
+        <div class="container license-flow">
+            <div>
+                <h2>Hardware & firmware</h2>
+                <p class="lead">The desktop suite connects to ESP32-based CAN sniffers using the MCP2515 CAN controller. This affordable hardware combination delivers professional-grade CAN monitoring capabilities.</p>
+                <h3>Firmware & data packs</h3>
+                <ol>
+                    <li>Arduino sketches (ESP32 + MCP2515 firmware) are sold separately.</li>
+                    <li>Tested CAN dictionaries are sold separately.</li>
+                    <li>Additional CAN databases offered as optional packs for other makes and models.</li>
+                </ol>
+            </div>
+            <div class="checklist">
+                <p><strong>Why upgrade?</strong></p>
+                <ul>
+                    <li>Wi-Fi connectivity enables remote diagnostics and remote setups.</li>
+                    <li>Database tools streamline workflow with persistent storage and batch operations.</li>
+                    <li>Automation suite accelerates analysis with health reports and activity analytics.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section dark">
+        <div class="container contact">
+            <div>
+                <h2>Need help?</h2>
+                <p>Email <a href="mailto:esp32contact@gmail.com">esp32contact@gmail.com</a> for support.</p>
+            </div>
+            <div>
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="docs/terms.html">Terms, Privacy & Refund Policy</a></li>
+                    <li><a href="docs/user_manual.html">User Manual & Installation Guide</a></li>
+                    <li><a href="docs/faq.html">FAQ & Troubleshooting</a></li>
+                    <li><a href="docs/about.html">About the Project</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2025 ESP32 CAN Sniffer. All rights reserved.</p>
+            <p class="subtle">Hosted via GitHub Pages. Backend license verification lives on our private infrastructure.</p>
+        </div>
+    </footer>
+
+    <script>
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = lightbox.querySelector('img');
+        const lightboxCaption = lightbox.querySelector('.lightbox-caption');
+
+        function openLightbox(img) {
+            lightboxImg.src = img.src;
+            lightboxImg.alt = img.alt;
+            lightboxCaption.textContent = img.nextElementSibling ? img.nextElementSibling.textContent : '';
+            lightbox.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.add('hidden');
+            lightboxImg.src = '';
+            lightboxCaption.textContent = '';
+            document.body.style.overflow = '';
+        }
+
+        document.querySelectorAll('.gallery-grid img').forEach(img => {
+            img.style.cursor = 'zoom-in';
+            img.addEventListener('click', () => openLightbox(img));
+        });
+
+        lightbox.addEventListener('click', (event) => {
+            if (event.target === lightbox || event.target.classList.contains('lightbox-close')) {
+                closeLightbox();
+            }
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && !lightbox.classList.contains('hidden')) {
+                closeLightbox();
+            }
+        });
+
+        // About Software Modal
+        const aboutModal = document.getElementById('aboutModal');
+        const aboutSoftwareBtn = document.getElementById('aboutSoftwareBtn');
+        const modalClose = aboutModal.querySelector('.modal-close');
+
+        function openAboutModal() {
+            aboutModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeAboutModal() {
+            aboutModal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        aboutSoftwareBtn.addEventListener('click', openAboutModal);
+        modalClose.addEventListener('click', closeAboutModal);
+        
+        aboutModal.addEventListener('click', (event) => {
+            if (event.target === aboutModal) {
+                closeAboutModal();
+            }
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && !aboutModal.classList.contains('hidden')) {
+                closeAboutModal();
+            }
+        });
+
+        // Pricing Toggle
+        const pricingToggle = document.getElementById('pricingToggle');
+        const proPrice = document.getElementById('proPrice');
+        const priceNote = document.getElementById('priceNote');
+        const monthlyLabel = document.getElementById('monthlyLabel');
+        const yearlyLabel = document.getElementById('yearlyLabel');
+
+        // Pricing values
+        const monthlyPrice = 15; // €15/month
+        const yearlyTotal = 140; // €140/year (total)
+
+        function updatePricing() {
+            if (pricingToggle.checked) {
+                // Yearly pricing
+                proPrice.innerHTML = `€${yearlyTotal} <span class="price-period">/ year</span>`;
+                priceNote.textContent = '';
+                monthlyLabel.style.opacity = '0.6';
+                yearlyLabel.style.opacity = '1';
+            } else {
+                // Monthly pricing
+                proPrice.innerHTML = `€${monthlyPrice} <span class="price-period">/ month</span>`;
+                priceNote.textContent = '';
+                monthlyLabel.style.opacity = '1';
+                yearlyLabel.style.opacity = '0.6';
+            }
+        }
+
+        pricingToggle.addEventListener('change', updatePricing);
+        updatePricing(); // Initialize
+
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        
+        if (mobileMenuToggle && navLinks) {
+            mobileMenuToggle.addEventListener('click', () => {
+                const isExpanded = mobileMenuToggle.getAttribute('aria-expanded') === 'true';
+                mobileMenuToggle.setAttribute('aria-expanded', !isExpanded);
+                navLinks.classList.toggle('active');
+                document.body.style.overflow = isExpanded ? '' : 'hidden';
+            });
+            
+            // Close menu when clicking on a link
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                    navLinks.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            });
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', (event) => {
+                if (!navLinks.contains(event.target) && !mobileMenuToggle.contains(event.target)) {
+                    if (navLinks.classList.contains('active')) {
+                        mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                        navLinks.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                }
+            });
+            
+            // Close menu on escape key
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && navLinks.classList.contains('active')) {
+                    mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                    navLinks.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        }
+
+        // Remove white boxes - detect and fix white backgrounds
+        function removeWhiteBoxes() {
+            const allElements = document.querySelectorAll('*');
+            allElements.forEach(element => {
+                const style = window.getComputedStyle(element);
+                const bgColor = style.backgroundColor;
+                
+                // Check if background is white or very light
+                if (bgColor) {
+                    // Parse RGB values
+                    const rgbMatch = bgColor.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+                    if (rgbMatch) {
+                        const r = parseInt(rgbMatch[1]);
+                        const g = parseInt(rgbMatch[2]);
+                        const b = parseInt(rgbMatch[3]);
+                        
+                        // If background is white or very light (RGB > 240), make it dark
+                        if (r > 240 && g > 240 && b > 240) {
+                            element.style.backgroundColor = 'rgba(8, 10, 16, 0.9)';
+                            element.style.color = '#e5e9f0';
+                        }
+                    }
+                }
+                
+                // Also check inline styles
+                const inlineBg = element.getAttribute('style');
+                if (inlineBg) {
+                    if (inlineBg.includes('background-color: white') ||
+                        inlineBg.includes('background-color: #fff') ||
+                        inlineBg.includes('background-color: #ffffff') ||
+                        inlineBg.includes('background: white') ||
+                        inlineBg.includes('background: #fff') ||
+                        inlineBg.includes('background: #ffffff')) {
+                        element.style.backgroundColor = 'rgba(8, 10, 16, 0.9)';
+                        element.style.color = '#e5e9f0';
+                    }
+                }
+            });
+        }
+
+        // Run on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            removeWhiteBoxes();
+            // Also run after a short delay to catch dynamically added elements
+            setTimeout(removeWhiteBoxes, 100);
+            setTimeout(removeWhiteBoxes, 500);
+        });
+
+        // Run immediately if DOM is already loaded
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', removeWhiteBoxes);
+        } else {
+            removeWhiteBoxes();
+        }
+    </script>
+</body>
+</html>
+

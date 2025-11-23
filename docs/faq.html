@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>FAQ & Troubleshooting - ESP32 CAN Sniffer</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='20' y='20' width='60' height='60' fill='%237dd3fc' stroke='%23bae6fd' stroke-width='2' rx='4'/%3E%3Crect x='25' y='25' width='50' height='50' fill='%23080a10'/%3E%3Ccircle cx='20' cy='35' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='20' cy='50' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='20' cy='65' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='35' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='50' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='65' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='35' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='50' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='65' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='35' cy='80' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='50' cy='80' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='65' cy='80' r='2' fill='%237dd3fc'/%3E%3C/svg%3E" />
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='20' y='20' width='60' height='60' fill='%237dd3fc' stroke='%23bae6fd' stroke-width='2' rx='4'/%3E%3Crect x='25' y='25' width='50' height='50' fill='%23080a10'/%3E%3Ccircle cx='20' cy='35' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='20' cy='50' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='20' cy='65' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='35' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='50' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='65' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='35' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='50' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='65' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='35' cy='80' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='50' cy='80' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='65' cy='80' r='2' fill='%237dd3fc'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        body {
+            background-color: #080a10;
+            color: #e5e9f0;
+        }
+        .faq-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: transparent;
+            color: #e5e9f0;
+        }
+        .faq-content h1 {
+            color: #e5e9f0;
+            border-bottom: 3px solid #7dd3fc;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        .faq-content h2 {
+            color: #e5e9f0;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-left: 10px;
+            border-left: 4px solid #7dd3fc;
+        }
+        .faq-item {
+            margin: 25px 0;
+            padding: 20px;
+            background: rgba(8, 10, 16, 0.8);
+            border-radius: 5px;
+            border-left: 4px solid #7dd3fc;
+            color: #e5e9f0;
+        }
+        .faq-question {
+            font-weight: bold;
+            color: #e5e9f0;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        .faq-answer {
+            color: #cbd5f5;
+            line-height: 1.6;
+        }
+        .faq-answer ul {
+            margin: 10px 0;
+            padding-left: 25px;
+        }
+        .faq-answer li {
+            margin: 5px 0;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #7dd3fc;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+            color: #bae6fd;
+        }
+        .solution-box {
+            background: rgba(40, 167, 69, 0.15);
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 15px 0;
+            color: #e5e9f0;
+        }
+        .error-box {
+            background: rgba(220, 53, 69, 0.15);
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 15px 0;
+            color: #e5e9f0;
+        }
+        code {
+            background: rgba(8, 10, 16, 0.8);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #e5e9f0;
+        }
+        .faq-content p, .faq-content li, .faq-content a {
+            color: #e5e9f0;
+        }
+        .faq-content a {
+            color: #7dd3fc;
+        }
+        .faq-content a:hover {
+            color: #bae6fd;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .faq-content {
+                padding: 20px 15px;
+            }
+            
+            .faq-content h1 {
+                font-size: clamp(1.5rem, 6vw, 2rem);
+            }
+            
+            .faq-content h2 {
+                font-size: clamp(1.3rem, 5vw, 1.7rem);
+                margin-top: 30px;
+            }
+            
+            .faq-item {
+                padding: 15px;
+                margin: 20px 0;
+            }
+            
+            .faq-question {
+                font-size: 1rem;
+            }
+            
+            .faq-answer {
+                font-size: 0.95rem;
+            }
+            
+            .solution-box, .error-box {
+                padding: 12px;
+                margin: 12px 0;
+            }
+            
+            code {
+                font-size: 0.85rem;
+                padding: 2px 4px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .faq-content {
+                padding: 15px 10px;
+            }
+            
+            .faq-item {
+                padding: 12px;
+                margin: 15px 0;
+            }
+            
+            .faq-answer ul {
+                padding-left: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="faq-content">
+        <h1>FAQ & Troubleshooting</h1>
+        
+        <h2>🔌 Connection Issues</h2>
+        
+        <div class="faq-item">
+            <div class="faq-question">Q: Port not found or "Access is denied" error</div>
+            <div class="faq-answer">
+                <p><strong>A:</strong> This usually means another program is using the COM port.</p>
+                <ul>
+                    <li>Close Arduino IDE Serial Monitor if open</li>
+                    <li>Close any other programs using the port (PuTTY, Tera Term, etc.)</li>
+                    <li>Unplug and replug the USB cable</li>
+                    <li>Try a different USB port</li>
+                    <li>Restart the ESP32</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">Q: Connection timeout or "Failed to connect"</div>
+            <div class="faq-answer">
+                <p><strong>A:</strong> Check these settings:</p>
+                <ul>
+                    <li>Verify the baudrate matches your ESP32 firmware (common: 115200, 250000)</li>
+                    <li>Check USB cable is properly connected</li>
+                    <li>Ensure ESP32 is powered (LED should be on)</li>
+                    <li>Try different baudrates: 115200, 250000, 9600</li>
+                    <li>Check Device Manager (Windows) to confirm port is recognized</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">Q: WiFi connection not working</div>
+            <div class="faq-answer">
+                <p><strong>A:</strong> For WiFi connections:</p>
+                <ul>
+                    <li>Ensure you're connected to the ESP32 WiFi network first</li>
+                    <li>Check IP address (default: 192.168.4.1)</li>
+                    <li>Check port (default: 82)</li>
+                    <li>Verify ESP32 is in Access Point (AP) mode</li>
+                    <li>Check firewall settings on your computer</li>
+                    <li>Try pinging the ESP32 IP address</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">Q: No messages appearing after connecting</div>
+            <div class="faq-answer">
+                <p><strong>A:</strong> Possible causes:</p>
+                <ul>
+                    <li>ESP32 firmware may not be the CAN sniffer sketch - flash the correct firmware</li>
+                    <li>No CAN traffic on the bus - check if CAN bus is active</li>
+                    <li>MCP2515 not initialized - check serial monitor for errors</li>
+                    <li>Wrong CAN bus connection - verify CANH/CANL connections</li>
+                    <li>For testing without a car: connect 120Ω resistor between CANH and CANL</li>
+                </ul>
+            </div>
+        </div>
+        
+        <h2>🔧 Hardware Issues</h2>
+        
+        <div class="faq-item">
+            <div class="faq-question">Q: MCP2515 initialization failed</div>
+            <div class="faq-answer">
+                <p><strong>A:</strong> Check hardware connections:</p>
+                <ul>
+                    <li>Verify all SPI pins are connected correctly (GPIO18→SCK, GPIO19→SO, GPIO23→SI, GPIO5→CS)</li>
+                    <li>Check power connection: 3V3 (NOT 5V!) to VCC</li>
+                    <li>Verify ground connection (GND to GND)</li>
+                    <li>Check for loose connections or bad jumper wires</li>
+                    <li>Try a different MCP2515 module if available</li>
+                    <li>Check serial monitor for specific error messages</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">Q: MCP2515 module gets hot or doesn't work</div>
+            <div class="faq-answer">
+                <div class="error-box">
+                    <strong>⚠️ Critical:</strong> If the module gets hot, you may have connected 5V instead of 3.3V! Disconnect immediately.
+                </div>
+                <ul>
+                    <li>MCP2515 MUST be powered with 3.3V (ESP32's 3V3 pin)</li>
+                    <li>Using 5V will damage the module permanently</li>
+                    <li>Check power connection before testing</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">Q: How to test without a car?</div>
+            <div class="faq-answer">
+                <p><strong>A:</strong> Use loopback mode:</p>
+                <ul>
+                    <li>Connect a 120Ω resistor between CANH and CANL pins on MCP2515</li>
+                    <li>This simulates a terminated CAN bus</li>
+                    <li>Use the CAN simulator sketch to generate test messages</li>
+                    <li>Flash <code>arduino/can_simulator/can_simulator.ino</code> to ESP32</li>
+                </ul>
+            </div>
+        </div>
+        
+        <h2>💻 Software Issues</h2>
+        
+        <div class="faq-item">
+            <div class="faq-question">Q: Application crashes or freezes</div>
+            <div class="faq-answer">
+                <p><strong>A:</strong> Try these solutions:</p>
+                <ul>
+                    <li>Check log file: <code>can_sniffer.log</code> for error messages</li>
+                    <li>Reduce buffer size in Performance Tuning settings</li>
+                    <li>Close other resource-intensive applications</li>
+                    <li>Update Python and PyQt5 if running from source</li>
+                    <li>Use the crash report feature (About → Report Bug) to send details</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">Q: Low message rate or performance issues</div>
+            <div class="faq-answer">
+                <p><strong>A:</strong> Optimize performance:</p>
+                <ul>
+                    <li>Increase serial baudrate (up to 1,000,000 bps)</li>
+                    <li>Reduce GUI update rate in Performance Tuning</li>
+                    <li>Increase buffer size for longer captures</li>
+                    <li>Use Serial connection instead of WiFi for better performance</li>
+                    <li>Close unnecessary applications</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">Q: Messages not decoding correctly</div>
+            <div class="faq-answer">
+                <p><strong>A:</strong> Check decoding settings:</p>
+                <ul>
+                    <li>Verify correct vehicle database is loaded (Fiat CANB/CANC)</li>
+                    <li>Check if CAN ID exists in the database</li>
+                    <li>Enable debug output to see decoding details</li>
+                    <li>Verify database format is correct (byte addressing format)</li>
+                    <li>Some messages may not have decoders - this is normal</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">Q: License activation problems</div>
+            <div class="faq-answer">
+                <p><strong>A:</strong> For license issues:</p>
+                <ul>
+                    <li>Check internet connection (required for activation)</li>
+                    <li>Verify license key is correct (copy-paste to avoid typos)</li>
+                    <li>Check email for activation confirmation</li>
+                    <li>Ensure hardware hasn't changed significantly</li>
+                    <li>Contact support: <a href="mailto:esp32contact@gmail.com">esp32contact@gmail.com</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <h2>📦 Installation Issues</h2>
+        
+        <div class="faq-item">
+            <div class="faq-question">Q: Python packages won't install</div>
+            <div class="faq-answer">
+                <p><strong>A:</strong> Try these solutions:</p>
+                <ul>
+                    <li>Update pip: <code>python -m pip install --upgrade pip</code></li>
+                    <li>Use virtual environment: <code>python -m venv venv</code></li>
+                    <li>Install packages one by one to identify problematic package</li>
+                    <li>Check Python version (3.8+ required)</li>
+                    <li>On Windows, try running as Administrator</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">Q: ESP32 not recognized by computer</div>
+            <div class="faq-answer">
+                <p><strong>A:</strong> Install USB drivers:</p>
+                <ul>
+                    <li><strong>CP210x drivers:</strong> <a href="https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers" target="_blank">Download from Silicon Labs</a></li>
+                    <li><strong>CH340 drivers:</strong> <a href="https://github.com/nodemcu/nodemcu-devkit/tree/master/Drivers" target="_blank">Download CH340 drivers</a></li>
+                    <li>Check Device Manager (Windows) to see if device appears as "Unknown Device"</li>
+                    <li>Try different USB cable (some cables are power-only)</li>
+                    <li>Try different USB port</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">Q: Can't flash firmware to ESP32</div>
+            <div class="faq-answer">
+                <p><strong>A:</strong> Check Arduino IDE setup:</p>
+                <ul>
+                    <li>Install ESP32 board support in Arduino IDE</li>
+                    <li>Select correct board: Tools → Board → ESP32 Dev Module</li>
+                    <li>Select correct COM port</li>
+                    <li>Hold BOOT button while clicking Upload (some boards require this)</li>
+                    <li>Check Arduino IDE console for error messages</li>
+                    <li>Try different USB cable or port</li>
+                </ul>
+            </div>
+        </div>
+        
+        <h2>🆘 Still Need Help?</h2>
+        
+        <div class="solution-box">
+            <p><strong>If you're still experiencing issues:</strong></p>
+            <ul>
+                <li>Check the log file: <code>can_sniffer.log</code> for detailed error messages</li>
+                <li>Enable debug output in settings for more information</li>
+                <li>Use the "Report Bug" feature in the About window to send system information</li>
+                <li>Contact support: <a href="mailto:esp32contact@gmail.com">esp32contact@gmail.com</a></li>
+                <li>Include error messages, log file excerpts, and steps to reproduce the issue</li>
+            </ul>
+        </div>
+        
+        <div style="margin-top: 3rem; text-align: center;">
+            <a href="../index.html" class="btn outline" style="display: inline-block;">Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>
+

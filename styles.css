@@ -1,0 +1,1239 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Make text black inside white boxes for visibility */
+[style*="background-color: white"],
+[style*="background-color: #fff"],
+[style*="background-color: #ffffff"],
+[style*="background: white"],
+[style*="background: #fff"],
+[style*="background: #ffffff"],
+[style*="background-color: rgb(255"],
+[style*="background-color: rgba(255"],
+[style*="background-color:rgb(255"],
+[style*="background-color:rgba(255"] {
+    color: #000000 !important;
+}
+
+[style*="background-color: white"] *,
+[style*="background-color: #fff"] *,
+[style*="background-color: #ffffff"] *,
+[style*="background: white"] *,
+[style*="background: #fff"] *,
+[style*="background: #ffffff"] *,
+[style*="background-color: rgb(255"] *,
+[style*="background-color: rgba(255"] *,
+[style*="background-color:rgb(255"] *,
+[style*="background-color:rgba(255"] * {
+    color: #000000 !important;
+}
+
+/* Also target elements that might have white backgrounds from computed styles */
+div[style*="255"],
+span[style*="255"],
+p[style*="255"],
+li[style*="255"],
+td[style*="255"],
+th[style*="255"] {
+    color: #000000 !important;
+}
+
+/* Universal fallback: if background is light, text should be dark */
+* {
+    /* This will be overridden by more specific rules for dark backgrounds */
+}
+
+/* Ensure elements with explicitly set white backgrounds have black text */
+body > * {
+    /* Check if computed background is white - but CSS can't do this directly */
+    /* So we'll use a different approach: make all text black by default, then override for dark backgrounds */
+}
+
+/* Force all text to be visible - highest priority */
+/* Default to light text for dark theme */
+html, html *, body, body * {
+    color: #e5e9f0 !important;
+}
+
+/* Override for links */
+a, a * {
+    color: #7dd3fc !important;
+}
+
+a:hover, a:hover * {
+    color: #bae6fd !important;
+}
+
+/* Override for special colored elements */
+.eyebrow, .eyebrow * {
+    color: #7dd3fc !important;
+}
+
+.lead, .lead * {
+    color: #a7b1c6 !important;
+}
+
+.note, .note * {
+    color: #7dd3fc !important;
+}
+
+.plan, .plan * {
+    color: #94a3b8 !important;
+}
+
+.price-period, .price-period * {
+    color: #94a3b8 !important;
+}
+
+body {
+    font-family: "Space Grotesk", Arial, sans-serif;
+    background-color: #080a10;
+    color: #e5e9f0;
+    line-height: 1.6;
+}
+
+a {
+    color: #7dd3fc;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #bae6fd;
+}
+
+/* Ensure all text elements have visible color by default */
+body, body * {
+    color: #e5e9f0;
+}
+
+/* Override for buttons to ensure proper text color */
+/* Note: Individual button classes will override this with specific colors */
+
+/* Explicitly ensure all container text is visible */
+.hero-card,
+.hero-card *,
+.pricing .card,
+.pricing .card *,
+.feature-grid article,
+.feature-grid article *,
+.modal-content,
+.modal-content *,
+.modal-requirements,
+.modal-requirements *,
+.checklist,
+.checklist *,
+.license-flow,
+.license-flow *,
+.contact,
+.contact *,
+.section,
+.section * {
+    color: #e5e9f0;
+}
+
+/* Ensure headings are always visible */
+h1, h2, h3, h4, h5, h6 {
+    color: #e5e9f0;
+}
+
+/* Ensure paragraphs, lists, and text elements are visible */
+p, span, div, li, ul, ol, td, th, figcaption {
+    color: #e5e9f0;
+}
+
+/* Fix any white background form elements */
+input, textarea, select {
+    background-color: rgba(8, 10, 16, 0.8) !important;
+    color: #e5e9f0 !important;
+    border: 1px solid rgba(125, 211, 252, 0.3);
+}
+
+/* Override for specific colored elements (must come after general rules) */
+.eyebrow {
+    color: #7dd3fc !important;
+}
+
+.lead {
+    color: #a7b1c6 !important;
+}
+
+.note {
+    color: #7dd3fc !important;
+}
+
+.plan {
+    color: #94a3b8 !important;
+}
+
+.price-period {
+    color: #94a3b8 !important;
+}
+
+/* Ensure links maintain their color */
+a, a * {
+    color: #7dd3fc;
+}
+
+a:hover, a:hover * {
+    color: #bae6fd;
+}
+
+.container {
+    width: min(1100px, 90vw);
+    margin: 0 auto;
+}
+
+.hero {
+    padding: 2.5rem 0 4rem;
+    background: radial-gradient(circle at top, #0f1b3d, #05070d);
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+}
+
+.logo {
+    font-weight: 600;
+    letter-spacing: 0.05em;
+}
+
+.nav-links a {
+    margin-left: 1.5rem;
+    font-size: 0.95rem;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+.nav-links a:hover {
+    opacity: 1;
+}
+
+.hero-content {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    align-items: center;
+}
+
+.eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    font-size: 0.75rem;
+    color: #7dd3fc;
+}
+
+h1 {
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    margin: 0.5rem 0 1rem;
+}
+
+.lead {
+    color: #a7b1c6;
+    margin-bottom: 1.5rem;
+}
+
+.hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.btn {
+    border-radius: 999px;
+    padding: 0.75rem 1.8rem;
+    font-weight: 600;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+    background: transparent;
+    font-family: inherit;
+    font-size: inherit;
+    text-align: center;
+    text-decoration: none; /* Remove underline from links styled as buttons */
+    display: inline-block; /* Ensure proper spacing */
+    cursor: pointer;
+    /* Color will be set by specific button classes for proper contrast */
+}
+
+.btn.primary {
+    background: linear-gradient(120deg, #7dd3fc, #60a5fa);
+    color: #000000 !important; /* Pure black for maximum visibility */
+    font-weight: 700; /* Make it bolder for better visibility */
+}
+
+.btn.primary:hover {
+    transform: translateY(-1px);
+    color: #000000 !important; /* Keep pure black text on hover */
+    font-weight: 700;
+}
+
+.btn.primary * {
+    color: #000000 !important; /* Ensure any nested elements are also black */
+}
+
+.btn.secondary {
+    border-color: #4c566a;
+    color: #000000 !important; /* Pure black for maximum visibility */
+    background: rgba(255, 255, 255, 0.85) !important; /* Much lighter background for black text visibility */
+    font-weight: 700; /* Make it bolder for better visibility */
+}
+
+.btn.secondary:hover {
+    border-color: #7dd3fc;
+    color: #000000 !important; /* Keep pure black text on hover */
+    background: rgba(255, 255, 255, 0.95) !important; /* Even brighter background on hover */
+    box-shadow: 0 0 0 1px rgba(125, 211, 252, 0.3);
+    font-weight: 700;
+}
+
+.btn.secondary * {
+    color: #000000 !important; /* Ensure any nested elements are also black */
+}
+
+.btn.outline {
+    border-color: #7dd3fc;
+    color: #7dd3fc !important; /* Light cyan text for contrast on dark background */
+    background: transparent;
+    font-weight: 700; /* Consistent with other buttons */
+}
+
+.btn.outline:hover {
+    border-color: #60a5fa;
+    color: #60a5fa !important; /* Brighter cyan on hover */
+    background: rgba(125, 211, 252, 0.1); /* Subtle background on hover */
+    transform: translateY(-1px);
+}
+
+.btn.outline * {
+    color: #7dd3fc !important; /* Ensure nested elements match */
+}
+
+.hero-card {
+    background: rgba(5, 7, 13, 0.65) !important;
+    border: 1px solid rgba(125, 211, 252, 0.2);
+    border-radius: 16px;
+    padding: 1.8rem;
+    backdrop-filter: blur(8px);
+    color: #e5e9f0 !important;
+}
+
+.hero-card ul {
+    list-style: none;
+    margin: 1rem 0;
+}
+
+.hero-card li {
+    margin-bottom: 0.4rem;
+    color: #cbd5f5;
+}
+
+.hero-card .version {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.hero-card .note {
+    color: #7dd3fc;
+    font-size: 0.9rem;
+}
+
+.section {
+    padding: 4rem 0;
+}
+
+.section.gallery {
+    background: #05070d;
+    border-top: 1px solid rgba(125, 211, 252, 0.08);
+    border-bottom: 1px solid rgba(125, 211, 252, 0.08);
+}
+
+.gallery-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1.5rem;
+    align-items: flex-end;
+    margin-bottom: 2rem;
+}
+
+.video-container {
+    margin-bottom: 3rem;
+}
+
+.video-link-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.video-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 1.25rem 2rem;
+    background: rgba(12, 16, 27, 0.8);
+    border: 2px solid rgba(125, 211, 252, 0.3);
+    border-radius: 12px;
+    color: #7dd3fc;
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.video-link:hover {
+    background: rgba(125, 211, 252, 0.1);
+    border-color: rgba(125, 211, 252, 0.5);
+    color: #bae6fd;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(125, 211, 252, 0.2);
+}
+
+.video-link svg {
+    flex-shrink: 0;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.2rem;
+}
+
+.gallery-grid figure {
+    background: rgba(8, 10, 16, 0.85);
+    border: 1px solid rgba(125, 211, 252, 0.15);
+    border-radius: 14px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.gallery-grid img {
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid rgba(125, 211, 252, 0.25);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.gallery-grid img:hover {
+    transform: scale(1.01);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.35);
+}
+
+.gallery-grid figcaption {
+    font-size: 0.95rem;
+    color: #cbd5f5;
+}
+
+.lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    z-index: 9999;
+    backdrop-filter: blur(2px);
+}
+
+.lightbox.hidden {
+    display: none;
+}
+
+.lightbox img {
+    max-width: min(1200px, 90vw);
+    max-height: 80vh;
+    border-radius: 14px;
+    border: 1px solid rgba(125, 211, 252, 0.45);
+    box-shadow: 0 25px 55px rgba(0, 0, 0, 0.55);
+    margin-bottom: 1rem;
+}
+
+.lightbox-caption {
+    color: #e5e9f0;
+    max-width: min(900px, 80vw);
+    text-align: center;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 2rem;
+    background: transparent;
+    border: none;
+    font-size: 2.5rem;
+    color: #fff;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0.2rem 0.8rem;
+    border-radius: 999px;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.lightbox-close:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: scale(1.05);
+}
+
+.section.dark {
+    background: #0d111e;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.feature-grid article {
+    border: 1px solid rgba(125, 211, 252, 0.15);
+    border-radius: 12px;
+    padding: 1.5rem;
+    background: rgba(12, 16, 27, 0.7) !important;
+    color: #e5e9f0 !important;
+}
+
+.pricing-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin: 1rem 0 1.25rem;
+    padding: 0.75rem;
+    background: rgba(125, 211, 252, 0.05);
+    border-radius: 10px;
+    border: 1px solid rgba(125, 211, 252, 0.1);
+}
+
+.toggle-label {
+    font-size: 0.95rem;
+    color: #cbd5f5;
+    transition: opacity 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.save-badge {
+    background: rgba(125, 211, 252, 0.2);
+    color: #7dd3fc;
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 56px;
+    height: 30px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(125, 211, 252, 0.2);
+    transition: 0.3s;
+    border-radius: 30px;
+    border: 1px solid rgba(125, 211, 252, 0.3);
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 3px;
+    bottom: 3px;
+    background-color: #7dd3fc;
+    transition: 0.3s;
+    border-radius: 50%;
+}
+
+.switch input:checked + .slider {
+    background-color: rgba(125, 211, 252, 0.3);
+    border-color: rgba(125, 211, 252, 0.5);
+}
+
+.switch input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.pricing {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+}
+
+.pricing .card {
+    background: rgba(8, 10, 16, 0.8) !important;
+    border-radius: 16px;
+    border: 1px solid rgba(125, 211, 252, 0.1);
+    padding: 2rem;
+    color: #e5e9f0 !important;
+}
+
+.pricing .card ul {
+    list-style: none;
+    margin: 1.5rem 0;
+}
+
+.pricing .card li {
+    margin-bottom: 0.5rem;
+}
+
+.pricing .pro {
+    border-color: rgba(125, 211, 252, 0.4);
+    background: linear-gradient(145deg, rgba(13, 17, 30, 0.95), rgba(3, 10, 23, 0.9));
+}
+
+.plan {
+    letter-spacing: 0.5em;
+    font-size: 0.8rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+}
+
+.price {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+}
+
+.price-period {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #94a3b8;
+}
+
+.license-flow {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
+    align-items: center;
+}
+
+.license-flow ol {
+    padding-left: 1.2rem;
+}
+
+.checklist {
+    border: 1px solid rgba(125, 211, 252, 0.15);
+    border-radius: 12px;
+    padding: 1.5rem;
+    background: rgba(7, 11, 20, 0.8) !important;
+    color: #e5e9f0 !important;
+}
+
+.note {
+    color: #7dd3fc;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+}
+
+.contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+footer {
+    padding: 1.5rem 0;
+    text-align: center;
+    background: #05070d;
+    border-top: 1px solid rgba(125, 211, 252, 0.1);
+    color: #94a3b8;
+}
+
+footer .subtle {
+    font-size: 0.85rem;
+    opacity: 0.8;
+    margin-top: 0.5rem;
+}
+
+/* Modal Styles */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    z-index: 10000;
+    backdrop-filter: blur(4px);
+    overflow-y: auto;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: linear-gradient(145deg, rgba(13, 17, 30, 0.98), rgba(8, 10, 16, 0.95)) !important;
+    border: 1px solid rgba(125, 211, 252, 0.3);
+    border-radius: 20px;
+    padding: 2.5rem;
+    max-width: min(800px, 90vw);
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+    color: #e5e9f0 !important;
+}
+
+.modal-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: transparent;
+    border: none;
+    font-size: 2.5rem;
+    color: #e5e9f0;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0.2rem 0.8rem;
+    border-radius: 999px;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.modal-close:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: scale(1.05);
+}
+
+.modal-content h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #7dd3fc;
+}
+
+.modal-lead {
+    color: #cbd5f5;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    line-height: 1.7;
+}
+
+.modal-features {
+    margin: 2rem 0;
+}
+
+.modal-features h3 {
+    color: #7dd3fc;
+    font-size: 1.3rem;
+    margin: 1.5rem 0 1rem;
+}
+
+.modal-features h3:first-child {
+    margin-top: 0;
+}
+
+.modal-features ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 1.5rem;
+}
+
+.modal-features li {
+    margin-bottom: 0.8rem;
+    padding-left: 1.5rem;
+    position: relative;
+    color: #e5e9f0;
+    line-height: 1.6;
+}
+
+.modal-features li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #7dd3fc;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.modal-features strong {
+    color: #7dd3fc;
+}
+
+.modal-requirements {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: rgba(5, 7, 13, 0.5) !important;
+    border-radius: 12px;
+    border: 1px solid rgba(125, 211, 252, 0.15);
+    color: #e5e9f0 !important;
+}
+
+.modal-requirements h3 {
+    color: #7dd3fc;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.modal-requirements ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.modal-requirements li {
+    margin-bottom: 0.6rem;
+    padding-left: 1.5rem;
+    position: relative;
+    color: #e5e9f0;
+    line-height: 1.5;
+}
+
+.modal-requirements li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #7dd3fc;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.modal-requirements strong {
+    color: #7dd3fc;
+}
+
+.modal-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(125, 211, 252, 0.2);
+}
+
+.btn {
+    cursor: pointer;
+    display: inline-block;
+}
+
+/* Mobile Menu Toggle Button */
+.mobile-menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: rgba(8, 10, 16, 0.8) !important; /* Semi-transparent dark background for contrast */
+    border: 2px solid rgba(125, 211, 252, 0.3) !important; /* Visible border */
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 10px 8px;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px; /* Touch-friendly size */
+    min-height: 44px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.mobile-menu-toggle span {
+    width: 28px;
+    height: 3px;
+    background: #7dd3fc !important; /* Ensure cyan color is visible */
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    display: block !important; /* Ensure spans are displayed */
+    opacity: 1 !important; /* Ensure full opacity */
+    visibility: visible !important;
+    box-shadow: 0 0 4px rgba(125, 211, 252, 0.5); /* Glow effect for better visibility */
+}
+
+.mobile-menu-toggle[aria-expanded="true"] span:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+}
+
+.mobile-menu-toggle[aria-expanded="true"] span:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-menu-toggle[aria-expanded="true"] span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* Responsive Design - Tablets and Mobile */
+@media (max-width: 1024px) {
+    /* Tablet adjustments */
+    .container {
+        width: min(900px, 95vw);
+    }
+    
+    .hero-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+    
+    .pricing {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+    
+    .feature-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    /* Mobile adjustments */
+    .container {
+        width: 95vw;
+        padding: 0 10px;
+    }
+    
+    /* Navigation - Mobile Menu */
+    .nav {
+        position: relative;
+    }
+    
+    .mobile-menu-toggle {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: relative; /* Ensure proper positioning */
+    }
+    
+    .mobile-menu-toggle span {
+        background: #7dd3fc !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        width: 28px !important;
+        height: 3px !important;
+    }
+    
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 280px;
+        height: 100vh;
+        background: rgba(8, 10, 16, 0.98);
+        backdrop-filter: blur(10px);
+        display: flex !important;
+        flex-direction: column !important;
+        padding: 80px 30px 30px;
+        transition: right 0.3s ease;
+        z-index: 999;
+        border-left: 1px solid rgba(125, 211, 252, 0.2);
+        box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
+    }
+    
+    .nav-links.active {
+        right: 0;
+    }
+    
+    .nav-links a {
+        display: block !important; /* Force each link to its own line */
+        width: 100% !important; /* Full width */
+        margin: 0 !important;
+        padding: 15px 0;
+        font-size: 1.1rem;
+        border-bottom: 1px solid rgba(125, 211, 252, 0.1);
+        text-align: left;
+    }
+    
+    .nav-links a:last-child {
+        border-bottom: none;
+    }
+    
+    .logo {
+        font-size: 1rem;
+    }
+    
+    /* Hero Section */
+    .hero {
+        padding: 1.5rem 0 2.5rem;
+    }
+    
+    h1 {
+        font-size: clamp(1.5rem, 6vw, 2.5rem);
+    }
+    
+    .lead {
+        font-size: 0.95rem;
+    }
+    
+    .hero-cta {
+        flex-direction: column;
+    }
+    
+    .hero-cta .btn {
+        width: 100%;
+        padding: 1rem 1.5rem;
+        font-size: 1rem;
+    }
+    
+    .hero-card {
+        margin-top: 1.5rem;
+        padding: 1.5rem;
+    }
+    
+    /* Gallery */
+    .gallery-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .gallery-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .video-link {
+        width: 100%;
+        justify-content: center;
+        padding: 1rem 1.5rem;
+        font-size: 1rem;
+    }
+    
+    /* Pricing */
+    .pricing {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .pricing-toggle {
+        flex-wrap: wrap;
+        padding: 1rem;
+    }
+    
+    .toggle-label {
+        font-size: 0.9rem;
+    }
+    
+    /* Features */
+    .feature-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    /* License Flow */
+    .license-flow {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    /* Contact */
+    .contact {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    /* Modal */
+    .modal {
+        padding: 1rem;
+    }
+    
+    .modal-content {
+        padding: 1.5rem;
+        max-width: 95vw;
+        max-height: 95vh;
+    }
+    
+    .modal-content h2 {
+        font-size: 1.5rem;
+    }
+    
+    .modal-cta {
+        flex-direction: column;
+    }
+    
+    .modal-cta .btn {
+        width: 100%;
+        text-align: center;
+    }
+    
+    /* Lightbox */
+    .lightbox {
+        padding: 1rem;
+    }
+    
+    .lightbox img {
+        max-width: 95vw;
+        max-height: 70vh;
+    }
+    
+    .lightbox-close {
+        top: 1rem;
+        right: 1rem;
+        font-size: 2rem;
+    }
+    
+    /* Buttons - Touch friendly */
+    .btn {
+        min-height: 44px; /* iOS touch target minimum */
+        padding: 0.875rem 1.5rem;
+        font-size: 1rem;
+    }
+    
+    /* Section padding */
+    .section {
+        padding: 2.5rem 0;
+    }
+    
+    /* Typography */
+    h2 {
+        font-size: clamp(1.5rem, 5vw, 2rem);
+    }
+    
+    h3 {
+        font-size: clamp(1.2rem, 4vw, 1.5rem);
+    }
+}
+
+@media (max-width: 480px) {
+    /* Small mobile devices */
+    .container {
+        width: 100%;
+        padding: 0 15px;
+    }
+    
+    .logo {
+        font-size: 0.9rem;
+    }
+    
+    .hero {
+        padding: 1rem 0 2rem;
+    }
+    
+    .hero-card {
+        padding: 1.25rem;
+    }
+    
+    .section {
+        padding: 2rem 0;
+    }
+    
+    .pricing .card {
+        padding: 1.5rem;
+    }
+    
+    .price {
+        font-size: 2rem;
+    }
+    
+    /* Make tables scrollable on small screens */
+    table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Gallery images */
+    .gallery-grid figure {
+        padding: 0.75rem;
+    }
+    
+    /* Modal adjustments */
+    .modal-content {
+        padding: 1.25rem;
+    }
+    
+    .modal-features ul {
+        padding-left: 1rem;
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+    /* Touch devices */
+    .btn {
+        min-height: 48px;
+        padding: 1rem 1.75rem;
+    }
+    
+    .nav-links a {
+        padding: 18px 0;
+    }
+    
+    /* Larger touch targets */
+    a, button {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* Landscape mobile orientation */
+@media (max-width: 768px) and (orientation: landscape) {
+    .hero {
+        padding: 1rem 0 1.5rem;
+    }
+    
+    .nav-links {
+        width: 250px;
+    }
+    
+    .modal-content {
+        max-height: 90vh;
+    }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .logo, .btn, .nav-links a {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
+
+/* CRITICAL: Remove white boxes entirely - force dark backgrounds */
+/* Override any white/light backgrounds and replace with dark backgrounds */
+[style*="background-color: white"],
+[style*="background-color: #fff"],
+[style*="background-color: #ffffff"],
+[style*="background: white"],
+[style*="background: #fff"],
+[style*="background: #ffffff"],
+[style*="background-color: rgb(255, 255, 255"],
+[style*="background-color: rgba(255, 255, 255"],
+[style*="background-color:rgb(255,255,255"],
+[style*="background-color:rgba(255,255,255"] {
+    background-color: rgba(8, 10, 16, 0.9) !important;
+    background: rgba(8, 10, 16, 0.9) !important;
+    color: #e5e9f0 !important;
+}
+
+/* Ensure body and html have dark backgrounds */
+html {
+    background-color: #080a10 !important;
+}
+
+body {
+    background-color: #080a10 !important;
+}
+
+/* Prevent white backgrounds from browser defaults on common elements */
+div:not([class*="hero"]):not([class*="modal"]):not([class*="pricing"]):not([class*="feature"]):not([class*="gallery"]):not([class*="section"]):not([class*="container"]):not([class*="checklist"]):not([class*="license"]):not([class*="contact"]) {
+    background-color: transparent !important;
+}
+
+span, p, li, ul, ol {
+    background-color: transparent !important;
+}
+
