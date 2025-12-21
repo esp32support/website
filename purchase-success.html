@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Purchase Successful - ESP32 CAN Sniffer</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+        .success-container {
+            max-width: 600px;
+            margin: 4rem auto;
+            padding: 2rem;
+            background: rgba(8, 10, 16, 0.9);
+            border-radius: 8px;
+            border: 1px solid rgba(0, 170, 0, 0.3);
+            text-align: center;
+        }
+        .success-icon {
+            font-size: 4rem;
+            color: #00AA00;
+            margin-bottom: 1rem;
+        }
+        .success-container h1 {
+            color: #e5e9f0;
+            margin-bottom: 1rem;
+        }
+        .success-container p {
+            color: #cbd5f5;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        .info-box {
+            background: rgba(125, 211, 252, 0.1);
+            border: 1px solid rgba(125, 211, 252, 0.3);
+            border-radius: 4px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            text-align: left;
+        }
+        .info-box h3 {
+            color: #7dd3fc;
+            margin-bottom: 1rem;
+        }
+        .info-box ol {
+            color: #cbd5f5;
+            line-height: 1.8;
+        }
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: #7dd3fc;
+            color: #000000 !important;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-top: 1rem;
+        }
+        .btn:hover {
+            background: #5bc0de;
+            color: #000000 !important;
+        }
+        .btn * {
+            color: #000000 !important;
+        }
+    </style>
+</head>
+<body>
+    <header class="hero" style="min-height: auto; padding: 1rem 0;">
+        <div class="container">
+            <nav class="nav">
+                <span class="logo">ESP32 CAN BUS Sniffer</span>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="success-container">
+            <div class="success-icon">✓</div>
+            <h1>Payment Successful!</h1>
+            <p>Thank you for your purchase. Your Pro license has been activated.</p>
+            
+            <div class="info-box">
+                <h3>What's Next?</h3>
+                <ol>
+                    <li><strong>Your payment was successful!</strong> We'll process your license within 24 hours.</li>
+                    <li>Check your email inbox (and spam folder) for your license key</li>
+                    <li>Open ESP32 CAN Sniffer</li>
+                    <li>Go to <strong>Help → About → License Activation</strong></li>
+                    <li>Enter your license key and email address</li>
+                    <li>Click "Activate License"</li>
+                </ol>
+            </div>
+            
+            <div class="info-box" style="background: rgba(125, 211, 252, 0.15); border-color: #7dd3fc;">
+                <h3>License Processing</h3>
+                <p>Your license key will be generated and sent to your email address within 24 hours of payment confirmation.</p>
+                <p><strong>Email:</strong> <span id="customerEmail"></span></p>
+                <p><strong>Hardware ID:</strong> <code id="hardwareId" style="font-size: 0.9rem;"></code></p>
+            </div>
+            
+            <p>If you don't receive your license key within 24 hours, please contact us at 
+            <a href="mailto:esp32contact@gmail.com" style="color: #7dd3fc;">esp32contact@gmail.com</a> with your payment confirmation.</p>
+            
+            <script>
+                // Display stored purchase info
+                const email = sessionStorage.getItem('purchase_email');
+                const hwId = sessionStorage.getItem('purchase_hardware_id');
+                if (email) {
+                    document.getElementById('customerEmail').textContent = email;
+                }
+                if (hwId) {
+                    document.getElementById('hardwareId').textContent = hwId;
+                }
+                // Clear stored data
+                sessionStorage.removeItem('purchase_email');
+                sessionStorage.removeItem('purchase_hardware_id');
+                sessionStorage.removeItem('purchase_plan');
+            </script>
+            
+            <a href="index.html" class="btn">Return to Home</a>
+        </div>
+    </div>
+</body>
+</html>
+

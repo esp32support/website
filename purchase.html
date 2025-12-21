@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Purchase License - ESP32 CAN Sniffer</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        .purchase-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: rgba(8, 10, 16, 0.9);
+            border-radius: 8px;
+            border: 1px solid rgba(125, 211, 252, 0.2);
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #e5e9f0;
+            font-weight: 500;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(8, 10, 16, 0.8);
+            border: 1px solid rgba(125, 211, 252, 0.3);
+            border-radius: 4px;
+            color: #e5e9f0;
+            font-size: 1rem;
+            font-family: monospace;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #7dd3fc;
+            box-shadow: 0 0 0 2px rgba(125, 211, 252, 0.2);
+        }
+        .form-group input:read-only {
+            background: rgba(8, 10, 16, 0.5);
+            cursor: not-allowed;
+        }
+        .pricing-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .pricing-option {
+            padding: 1rem;
+            border: 2px solid rgba(125, 211, 252, 0.3);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .pricing-option:hover {
+            border-color: #7dd3fc;
+            background: rgba(125, 211, 252, 0.1);
+        }
+        .pricing-option.selected {
+            border-color: #7dd3fc;
+            background: rgba(125, 211, 252, 0.15);
+        }
+        .pricing-option input[type="radio"] {
+            display: none;
+        }
+        .pricing-option .plan-name {
+            font-weight: bold;
+            color: #7dd3fc;
+            margin-bottom: 0.5rem;
+        }
+        .pricing-option .plan-price {
+            font-size: 1.25rem;
+            color: #e5e9f0;
+            margin-bottom: 0.25rem;
+        }
+        .pricing-option .plan-period {
+            font-size: 0.85rem;
+            color: #cbd5f5;
+        }
+        .btn-purchase {
+            width: 100%;
+            padding: 1rem;
+            background: #00AA00;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 1rem;
+        }
+        .btn-purchase:hover {
+            background: #008800;
+        }
+        .btn-purchase:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+        .error-message {
+            color: #ff6b6b;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .success-message {
+            color: #00AA00;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .info-box {
+            background: rgba(125, 211, 252, 0.1);
+            border: 1px solid rgba(125, 211, 252, 0.3);
+            border-radius: 4px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: #cbd5f5;
+        }
+    </style>
+</head>
+<body>
+    <header class="hero" style="min-height: auto; padding: 1rem 0;">
+        <div class="container">
+            <nav class="nav">
+                <span class="logo">ESP32 CAN BUS Sniffer</span>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="purchase-container">
+            <h1 style="color: #e5e9f0; margin-bottom: 1rem;">Purchase Pro License</h1>
+            
+            <div class="info-box">
+                <strong>Important:</strong> After successful payment, your license key will be sent to the email address you provide below. 
+                Make sure to use the same email address when activating the license in the software.
+            </div>
+
+            <form id="purchaseForm">
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required 
+                           placeholder="your.email@example.com" />
+                    <div class="error-message" id="emailError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="hardwareId">Hardware ID *</label>
+                    <input type="text" id="hardwareId" name="hardwareId" required 
+                           placeholder="Your Hardware ID" />
+                    <div class="error-message" id="hwIdError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Select Subscription Plan *</label>
+                    <div class="pricing-options">
+                        <label class="pricing-option" id="monthlyOption">
+                            <input type="radio" name="plan" value="monthly" checked />
+                            <div class="plan-name">Monthly</div>
+                            <div class="plan-price">€15</div>
+                            <div class="plan-period">per month</div>
+                        </label>
+                        <label class="pricing-option" id="yearlyOption">
+                            <input type="radio" name="plan" value="yearly" />
+                            <div class="plan-name">Yearly</div>
+                            <div class="plan-price">€140</div>
+                            <div class="plan-period">per year</div>
+                            <div style="font-size: 0.8rem; color: #00AA00; margin-top: 0.25rem;">Save 20%</div>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-purchase" id="purchaseBtn">
+                    Proceed to Payment
+                </button>
+
+                <div class="error-message" id="formError"></div>
+                <div class="success-message" id="formSuccess"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Get parameters from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const hwId = urlParams.get('hwid');
+        const tier = urlParams.get('tier'); // 'monthly' or 'yearly'
+        
+        if (hwId) {
+            document.getElementById('hardwareId').value = hwId;
+        }
+
+        // Pricing option selection styling
+        document.querySelectorAll('.pricing-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.pricing-option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                this.querySelector('input[type="radio"]').checked = true;
+            });
+        });
+
+        // Set initial selected state based on URL parameter or default to monthly
+        let initialTier = 'monthly';
+        if (tier === 'yearly' || tier === 'monthly') {
+            initialTier = tier;
+        }
+        
+        // Select the appropriate option
+        if (initialTier === 'yearly') {
+            document.getElementById('yearlyOption').classList.add('selected');
+            document.getElementById('yearlyOption').querySelector('input[type="radio"]').checked = true;
+            document.getElementById('monthlyOption').querySelector('input[type="radio"]').checked = false;
+        } else {
+            document.getElementById('monthlyOption').classList.add('selected');
+            document.getElementById('monthlyOption').querySelector('input[type="radio"]').checked = true;
+            document.getElementById('yearlyOption').querySelector('input[type="radio"]').checked = false;
+        }
+
+        // Stripe Payment Links
+        const STRIPE_PAYMENT_LINKS = {
+            monthly: 'https://buy.stripe.com/test_28EdR91gla3Zcg85LmeUU01',  // Monthly subscription
+            yearly: 'https://buy.stripe.com/test_3cIaEX5wBb837ZSehSeUU00'   // Yearly subscription
+        };
+        
+        // API endpoint to save purchase info (optional - for automatic processing)
+        // If not available, you can manually match payments by email
+        const SAVE_INFO_API = 'http://localhost:5000/api/save-purchase-info';  // Optional - for local processing
+
+        document.getElementById('purchaseForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value.trim();
+            const hardwareId = document.getElementById('hardwareId').value.trim();
+            const plan = document.querySelector('input[name="plan"]:checked').value;
+            
+            // Clear previous errors
+            document.getElementById('emailError').textContent = '';
+            document.getElementById('hwIdError').textContent = '';
+            document.getElementById('formError').textContent = '';
+            document.getElementById('formSuccess').textContent = '';
+            
+            // Validate
+            if (!email || !email.includes('@')) {
+                document.getElementById('emailError').textContent = 'Please enter a valid email address';
+                return;
+            }
+            
+            if (!hardwareId || hardwareId.length < 8) {
+                document.getElementById('hwIdError').textContent = 'Please provide a valid Hardware ID';
+                return;
+            }
+            
+            // Try to save purchase info to server (optional - for automatic processing)
+            // If this fails, you can manually process payments by matching email
+            try {
+                const saveResponse = await fetch(SAVE_INFO_API, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        email: email,
+                        hardware_id: hardwareId,
+                        plan: plan
+                    })
+                });
+                if (saveResponse.ok) {
+                    console.log('Purchase info saved for automatic processing');
+                }
+            } catch (e) {
+                console.warn('Could not save purchase info (will need manual processing):', e);
+            }
+            
+            // Store in localStorage as backup
+            try {
+                localStorage.setItem('pending_purchase', JSON.stringify({
+                    email: email,
+                    hardware_id: hardwareId,
+                    plan: plan,
+                    timestamp: Date.now()
+                }));
+            } catch (e) {
+                console.warn('Could not save to localStorage:', e);
+            }
+            
+            // Store email and hardware ID in sessionStorage for success page
+            sessionStorage.setItem('purchase_email', email);
+            sessionStorage.setItem('purchase_hardware_id', hardwareId);
+            sessionStorage.setItem('purchase_plan', plan);
+            
+            // Get the payment link for selected plan
+            const paymentLink = STRIPE_PAYMENT_LINKS[plan];
+            
+            if (!paymentLink) {
+                document.getElementById('formError').textContent = 
+                    'Payment link not found for selected plan. Please contact support.';
+                purchaseBtn.disabled = false;
+                purchaseBtn.textContent = 'Proceed to Payment';
+                return;
+            }
+            
+            // Redirect to Stripe Payment Link with email pre-filled
+            window.location.href = paymentLink + '?prefilled_email=' + encodeURIComponent(email);
+        });
+    </script>
+</body>
+</html>
+

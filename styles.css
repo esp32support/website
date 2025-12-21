@@ -660,17 +660,61 @@ h1 {
 }
 
 footer {
-    padding: 1.5rem 0;
-    text-align: center;
+    padding: 2rem 0;
     background: #05070d;
     border-top: 1px solid rgba(125, 211, 252, 0.1);
     color: #94a3b8;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.footer-text {
+    text-align: left;
+    flex: 1;
+    min-width: 200px;
 }
 
 footer .subtle {
     font-size: 0.85rem;
     opacity: 0.8;
     margin-top: 0.5rem;
+}
+
+.support-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(120deg, #7dd3fc, #60a5fa);
+    color: #000000 !important;
+    text-decoration: none;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(125, 211, 252, 0.2);
+    white-space: nowrap;
+}
+
+.support-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(125, 211, 252, 0.3);
+    color: #000000 !important;
+}
+
+.support-btn * {
+    color: #000000 !important;
+}
+
+.support-icon {
+    font-size: 1.2rem;
+    line-height: 1;
 }
 
 /* Modal Styles */
@@ -1094,6 +1138,21 @@ footer .subtle {
     /* Section padding */
     .section {
         padding: 2.5rem 0;
+    }
+    
+    /* Footer - Mobile */
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .footer-text {
+        text-align: center;
+    }
+    
+    .support-btn {
+        width: 100%;
+        justify-content: center;
     }
     
     /* Typography */
