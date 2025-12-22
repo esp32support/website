@@ -165,17 +165,41 @@
                         <label class="pricing-option" id="monthlyOption">
                             <input type="radio" name="plan" value="monthly" checked />
                             <div class="plan-name">Monthly</div>
-                            <div class="plan-price">€15</div>
+                            <div class="plan-price" id="monthlyPrice">€15</div>
                             <div class="plan-period">per month</div>
                         </label>
                         <label class="pricing-option" id="yearlyOption">
                             <input type="radio" name="plan" value="yearly" />
                             <div class="plan-name">Yearly</div>
-                            <div class="plan-price">€140</div>
+                            <div class="plan-price" id="yearlyPrice">€140</div>
                             <div class="plan-period">per year</div>
-                            <div style="font-size: 0.8rem; color: #00AA00; margin-top: 0.25rem;">Save 20%</div>
+                            <div style="font-size: 0.8rem; color: #00AA00; margin-top: 0.25rem;" id="yearlySavings">Save 20%</div>
                         </label>
                     </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="promoCode">Promo Code (Optional)</label>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <input type="text" id="promoCode" name="promoCode" 
+                               placeholder="Enter promo code" 
+                               style="flex: 1;" />
+                        <button type="button" id="applyPromoBtn" 
+                                style="padding: 0.75rem 1.5rem; background: rgba(125, 211, 252, 0.2); border: 1px solid rgba(125, 211, 252, 0.3); border-radius: 4px; color: #7dd3fc; cursor: pointer; font-weight: 500; white-space: nowrap;">
+                            Apply
+                        </button>
+                    </div>
+                    <div class="success-message" id="promoSuccess" style="display: none;"></div>
+                    <div class="error-message" id="promoError"></div>
+                </div>
+
+                <div class="form-group" style="margin-top: 1.5rem;">
+                    <label style="display: flex; align-items: flex-start; cursor: pointer; font-weight: normal;">
+                        <input type="checkbox" id="termsCheckbox" name="termsCheckbox" required 
+                               style="width: auto; margin-right: 0.75rem; margin-top: 0.25rem; cursor: pointer;" />
+                        <span>I agree to the <a href="docs/terms.html" target="_blank" style="color: #7dd3fc; text-decoration: underline;">Terms, Privacy & Refund Policy</a> *</span>
+                    </label>
+                    <div class="error-message" id="termsError"></div>
                 </div>
 
                 <button type="submit" class="btn-purchase" id="purchaseBtn">
@@ -230,9 +254,126 @@
             yearly: 'https://buy.stripe.com/test_3cIaEX5wBb837ZSehSeUU00'   // Yearly subscription
         };
         
-        // API endpoint to save purchase info (optional - for automatic processing)
-        // If not available, you can manually match payments by email
-        const SAVE_INFO_API = 'http://localhost:5000/api/save-purchase-info';  // Optional - for local processing
+        // Base prices
+        const BASE_PRICES = {
+            monthly: 15,
+            yearly: 140
+        };
+        
+        let appliedPromo = null;
+        let currentPrices = { ...BASE_PRICES };
+        
+        // API endpoints
+        // For local development: use 'http://localhost:5000'
+        // For production: update with your actual API domain
+        const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+            ? 'http://localhost:5000'  // Local development
+            : 'https://your-api-domain.com';  // Production - UPDATE THIS!
+        const VALIDATE_PROMO_API = API_BASE_URL + '/api/validate-promo';
+        const SAVE_INFO_API = API_BASE_URL + '/api/save-purchase-info';
+        
+        // Promo code application (validated server-side to prevent code exposure)
+        document.getElementById('applyPromoBtn').addEventListener('click', async function() {
+            const promoCodeInput = document.getElementById('promoCode');
+            const promoCode = promoCodeInput.value.trim().toUpperCase();
+            const selectedPlan = document.querySelector('input[name="plan"]:checked').value;
+            
+            document.getElementById('promoError').textContent = '';
+            document.getElementById('promoSuccess').style.display = 'none';
+            
+            if (!promoCode) {
+                document.getElementById('promoError').textContent = 'Please enter a promo code';
+                return;
+            }
+            
+            // Validate promo code via backend API (promo codes not exposed in frontend)
+            console.log('Validating promo code:', promoCode, 'for plan:', selectedPlan);
+            console.log('API URL:', VALIDATE_PROMO_API);
+            
+            try {
+                const response = await fetch(VALIDATE_PROMO_API, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        promo_code: promoCode,
+                        plan: selectedPlan
+                    })
+                });
+                
+                console.log('Response status:', response.status);
+                
+                const result = await response.json();
+                
+                if (!result.valid) {
+                    document.getElementById('promoError').textContent = result.error || 'Invalid promo code';
+                    appliedPromo = null;
+                    updatePrices();
+                    return;
+                }
+                
+                // Promo code is valid
+                appliedPromo = {
+                    code: promoCode,
+                    discount: result.discount,
+                    description: result.description,
+                    validFor: selectedPlan
+                };
+                
+                document.getElementById('promoSuccess').textContent = `✓ ${result.description} applied!`;
+                document.getElementById('promoSuccess').style.display = 'block';
+                updatePrices();
+                
+            } catch (error) {
+                // If API is not available, show helpful error message
+                console.error('Promo code validation error:', error);
+                
+                // Check if it's a network/CORS error (API not running or wrong URL)
+                if (error.message && (error.message.includes('Failed to fetch') || error.message.includes('NetworkError'))) {
+                    document.getElementById('promoError').textContent = 'Unable to connect to server. Please ensure the API server is running or contact support.';
+                } else {
+                    document.getElementById('promoError').textContent = 'Unable to validate promo code. Please try again or contact support.';
+                }
+                appliedPromo = null;
+                updatePrices();
+            }
+        });
+        
+        // Update prices based on applied promo (discount info comes from backend)
+        function updatePrices() {
+            currentPrices = { ...BASE_PRICES };
+            
+            if (appliedPromo && document.querySelector('input[name="plan"]:checked').value === appliedPromo.validFor) {
+                // Use discount info from backend response
+                const discount = appliedPromo.discount;
+                const originalPrice = BASE_PRICES[appliedPromo.validFor];
+                const discountedPrice = originalPrice * (1 - discount);
+                currentPrices[appliedPromo.validFor] = Math.round(discountedPrice * 100) / 100;
+                
+                if (appliedPromo.validFor === 'yearly') {
+                    document.getElementById('yearlyPrice').textContent = `€${currentPrices.yearly}`;
+                    const savingsPercent = Math.round((1 - (currentPrices.yearly / BASE_PRICES.yearly)) * 100);
+                    document.getElementById('yearlySavings').textContent = `Save ${savingsPercent}%`;
+                }
+            } else {
+                // Reset to base prices
+                document.getElementById('monthlyPrice').textContent = `€${BASE_PRICES.monthly}`;
+                document.getElementById('yearlyPrice').textContent = `€${BASE_PRICES.yearly}`;
+                document.getElementById('yearlySavings').textContent = 'Save 20%';
+            }
+        }
+        
+        // Reset promo when plan changes
+        document.querySelectorAll('input[name="plan"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (appliedPromo && appliedPromo.validFor !== this.value) {
+                    appliedPromo = null;
+                    document.getElementById('promoCode').value = '';
+                    document.getElementById('promoError').textContent = '';
+                    document.getElementById('promoSuccess').style.display = 'none';
+                }
+                updatePrices();
+            });
+        });
 
         document.getElementById('purchaseForm').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -240,10 +381,12 @@
             const email = document.getElementById('email').value.trim();
             const hardwareId = document.getElementById('hardwareId').value.trim();
             const plan = document.querySelector('input[name="plan"]:checked').value;
+            const termsAccepted = document.getElementById('termsCheckbox').checked;
             
             // Clear previous errors
             document.getElementById('emailError').textContent = '';
             document.getElementById('hwIdError').textContent = '';
+            document.getElementById('termsError').textContent = '';
             document.getElementById('formError').textContent = '';
             document.getElementById('formSuccess').textContent = '';
             
@@ -258,6 +401,11 @@
                 return;
             }
             
+            if (!termsAccepted) {
+                document.getElementById('termsError').textContent = 'You must agree to the Terms, Privacy & Refund Policy to proceed';
+                return;
+            }
+            
             // Try to save purchase info to server (optional - for automatic processing)
             // If this fails, you can manually process payments by matching email
             try {
@@ -267,7 +415,10 @@
                     body: JSON.stringify({
                         email: email,
                         hardware_id: hardwareId,
-                        plan: plan
+                        plan: plan,
+                        promo_code: appliedPromo ? document.getElementById('promoCode').value.trim().toUpperCase() : null,
+                        discount_applied: appliedPromo ? appliedPromo.discount : 0,
+                        final_price: currentPrices[plan]
                     })
                 });
                 if (saveResponse.ok) {
@@ -283,6 +434,9 @@
                     email: email,
                     hardware_id: hardwareId,
                     plan: plan,
+                    promo_code: appliedPromo ? document.getElementById('promoCode').value.trim().toUpperCase() : null,
+                    discount_applied: appliedPromo ? appliedPromo.discount : 0,
+                    final_price: currentPrices[plan],
                     timestamp: Date.now()
                 }));
             } catch (e) {
@@ -309,6 +463,9 @@
             window.location.href = paymentLink + '?prefilled_email=' + encodeURIComponent(email);
         });
     </script>
+    
+    <!-- Statistics Tracking (Internal Use Only) -->
+    <script src="analytics.js"></script>
 </body>
 </html>
 

@@ -189,6 +189,26 @@
                 </ul>
                 <p><strong>Important:</strong> This system information is collected <strong>only with your explicit consent</strong> when you click "Report Bug" or "Report Problem". No data is collected automatically without your action. This information is used solely for troubleshooting and improving the software.</p>
 
+                <h3 style="color: #bae6fd; margin-top: 1.5rem; margin-bottom: 0.75rem; font-size: 1.1rem;">License Verification and Anti-Piracy Monitoring</h3>
+                <p>To ensure license compliance and prevent unauthorized use, the ESP32 CAN Sniffer software performs periodic online license verification. As part of this process, our license administration system records the following information:</p>
+                <ul style="margin-left: 2rem; margin-top: 0.5rem; margin-bottom: 1rem;">
+                    <li><strong>Last online verification timestamp:</strong> The date and time when your license was last verified online</li>
+                    <li><strong>Hardware ID:</strong> A unique identifier based on your computer's hardware configuration (bound to your license)</li>
+                    <li><strong>License status:</strong> Whether your license is active, expired, or revoked</li>
+                </ul>
+                <p><strong>Purpose and Legal Basis (GDPR Article 6):</strong> This data collection is necessary for:</p>
+                <ul style="margin-left: 2rem; margin-top: 0.5rem; margin-bottom: 1rem;">
+                    <li><strong>Contract performance:</strong> Verifying that you are using the software in accordance with your license agreement</li>
+                    <li><strong>Legitimate interests:</strong> Protecting our intellectual property rights and preventing software piracy, which is essential for maintaining the viability of our business</li>
+                </ul>
+                <p><strong>Access and Transparency:</strong> Our license administration panel allows authorized administrators to view when a license was last verified online. This information is used exclusively for:</p>
+                <ul style="margin-left: 2rem; margin-top: 0.5rem; margin-bottom: 1rem;">
+                    <li>License compliance verification</li>
+                    <li>Anti-piracy detection and prevention</li>
+                    <li>Customer support (e.g., troubleshooting activation issues)</li>
+                </ul>
+                <p>This data is processed in accordance with GDPR requirements and is not shared with third parties except as required by law. You have the right to access this information and request its deletion, subject to our legal obligations to maintain records for license verification purposes.</p>
+
                 <h3 style="color: #bae6fd; margin-top: 1.5rem; margin-bottom: 0.75rem; font-size: 1.1rem;">Data Sharing and Third Parties</h3>
                 <p>We do not sell, rent, or share your personal data with third parties except:</p>
                 <ul style="margin-left: 2rem; margin-top: 0.5rem; margin-bottom: 1rem;">
@@ -197,6 +217,24 @@
                     <li><strong>Legal requirements:</strong> When required by law or to protect our legal rights</li>
                 </ul>
                 <p>All third-party service providers are required to maintain appropriate security measures and use your data only for the specified purposes.</p>
+
+                <h3 style="color: #bae6fd; margin-top: 1.5rem; margin-bottom: 0.75rem; font-size: 1.1rem;">Website Usage Statistics</h3>
+                <p>We collect anonymous website usage statistics to understand how visitors interact with our website and to improve our services. This data collection is performed server-side and does not use cookies or track individual users.</p>
+                <p><strong>Data Collected:</strong></p>
+                <ul style="margin-left: 2rem; margin-top: 0.5rem; margin-bottom: 1rem;">
+                    <li><strong>Page views:</strong> Which pages are visited, referrer information (where visitors came from), and page visit timestamps</li>
+                    <li><strong>Download events:</strong> When visitors click download links for the software</li>
+                    <li><strong>Technical information:</strong> Browser type, screen resolution, and language preferences (anonymized, not linked to individuals)</li>
+                </ul>
+                <p><strong>Purpose and Legal Basis:</strong> This data is collected for our legitimate interests (GDPR Article 6(1)(f)) to:</p>
+                <ul style="margin-left: 2rem; margin-top: 0.5rem; margin-bottom: 1rem;">
+                    <li>Understand website traffic patterns and popular content</li>
+                    <li>Measure software download interest</li>
+                    <li>Improve website performance and user experience</li>
+                    <li>Make informed decisions about product development</li>
+                </ul>
+                <p><strong>Data Storage and Retention:</strong> Statistics are stored securely on our servers and retained for up to 2 years for analytical purposes. This data is aggregated and anonymized - it cannot be used to identify individual visitors.</p>
+                <p><strong>Your Rights:</strong> Since this data is anonymized and not linked to personal information, it does not fall under GDPR's right to access or deletion. However, if you have concerns about this data collection, please contact us at <a href="mailto:esp32contact@gmail.com" style="color: #7dd3fc;">esp32contact@gmail.com</a>.</p>
 
                 <h3 style="color: #bae6fd; margin-top: 1.5rem; margin-bottom: 0.75rem; font-size: 1.1rem;">Cookies and Website Analytics</h3>
                 <p>Our website may use cookies for:</p>
@@ -328,6 +366,9 @@
             });
         }
     </script>
+    
+    <!-- Statistics Tracking (Internal Use Only) -->
+    <script src="../analytics.js"></script>
 </body>
 </html>
 
