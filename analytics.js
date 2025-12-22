@@ -7,10 +7,9 @@
 (function() {
     'use strict';
     
-    // Configuration - Statistics API endpoint (optional)
-    // Leave as placeholder if you don't have a statistics API yet
-    // To enable: Replace 'your-api-domain.com' with your actual statistics API URL
-    const STATS_API_ENDPOINT = 'https://your-api-domain.com/api/track-stats'; // Optional - Replace with your actual API endpoint
+    // Configuration - Statistics API endpoint
+    // Update with your statistics API URL after deployment
+    const STATS_API_ENDPOINT = 'https://your-stats-api.onrender.com/api/track-stats'; // ⚠️ UPDATE THIS with your statistics API URL
     
     // Track page view
     function trackPageView() {

@@ -17,3 +17,12 @@ desktop.ini
 *.tmp
 *.temp
 
+# Internal documentation (not needed for live website)
+CONFIGURATION.md
+DEPLOYMENT_CHECKLIST.md
+STATISTICS_SETUP.md
+PROMO_CODE_SECURITY.md
+COOKIE_CONSENT_INFO.md
+
+# Keep README.md - useful for GitHub repository
+
