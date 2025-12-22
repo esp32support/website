@@ -264,11 +264,14 @@
         let currentPrices = { ...BASE_PRICES };
         
         // API endpoints
-        // For local development: use 'http://localhost:5000'
-        // For production: update with your actual API domain
+        // For local development: automatically uses 'http://localhost:5000'
+        // For production: update 'PRODUCTION_API_URL' below with your deployed API URL
+        // Example: 'https://your-api.up.railway.app' or 'https://your-api.onrender.com'
+        const PRODUCTION_API_URL = 'https://esp32-promo-api.onrender.com';  // ✅ Production API URL
+        
         const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-            ? 'http://localhost:5000'  // Local development
-            : 'https://your-api-domain.com';  // Production - UPDATE THIS!
+            ? 'http://localhost:5000'  // Local development (auto-detected)
+            : PRODUCTION_API_URL;  // Production
         const VALIDATE_PROMO_API = API_BASE_URL + '/api/validate-promo';
         const SAVE_INFO_API = API_BASE_URL + '/api/save-purchase-info';
         

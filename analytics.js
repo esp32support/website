@@ -7,8 +7,10 @@
 (function() {
     'use strict';
     
-    // Configuration - Update this with your API endpoint
-    const STATS_API_ENDPOINT = 'https://your-api-domain.com/api/track-stats'; // Replace with your actual API endpoint
+    // Configuration - Statistics API endpoint (optional)
+    // Leave as placeholder if you don't have a statistics API yet
+    // To enable: Replace 'your-api-domain.com' with your actual statistics API URL
+    const STATS_API_ENDPOINT = 'https://your-api-domain.com/api/track-stats'; // Optional - Replace with your actual API endpoint
     
     // Track page view
     function trackPageView() {
