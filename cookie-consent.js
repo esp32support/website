@@ -72,77 +72,28 @@
             const script = document.createElement('script');
             script.async = true;
             script.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
-            // Don't set crossOrigin - Google Analytics handles CORS automatically
+            document.head.appendChild(script);
             
             script.onload = function() {
-                console.log('Google Analytics script loaded successfully, initializing...');
+                console.log('Google Analytics script loaded, initializing...');
                 
+                // Initialize Google Analytics immediately
+                window.dataLayer = window.dataLayer || [];
+                window.gtag = function(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', gaId, {
+                    'anonymize_ip': true,  // GDPR: Anonymize IP addresses
+                    'send_page_view': false // We'll send this manually
+                });
+                
+                console.log('Google Analytics initialized, sending page view...');
+                
+                // Send page view immediately after initialization
                 try {
-                    // Initialize Google Analytics immediately
-                    window.dataLayer = window.dataLayer || [];
-                    window.gtag = function(){dataLayer.push(arguments);}
-                    gtag('js', new Date());
-                    
-                    // Configure GA4 with page view enabled
-                    gtag('config', gaId, {
-                        'anonymize_ip': true,  // GDPR: Anonymize IP addresses
-                        'send_page_view': true, // Send page view automatically
-                        'cookie_flags': 'SameSite=None;Secure',
+                    gtag('event', 'page_view', {
                         'page_title': document.title,
                         'page_location': window.location.href,
-                        'page_path': window.location.pathname + window.location.search
-                    });
-                    
-                    console.log('Google Analytics initialized and page view sent');
-                    window.gtagLoaded = true;
-                    
-                    // Enhanced Analytics Tracking
-                    setupAnalyticsTracking();
-                } catch (error) {
-                    console.error('Error initializing Google Analytics:', error);
-                }
-            };
-            
-            script.onerror = function(error) {
-                // CORS errors are typically caused by ad blockers blocking the request
-                // This is expected behavior - analytics will work for users without blockers
-                console.warn('Google Analytics script blocked (CORS error - likely by ad blocker or privacy extension). This is normal.');
-                console.warn('Analytics will work for users who allow tracking.');
-                
-                // Mark as attempted so we don't keep trying
-                window.gtagLoadAttempted = true;
-            };
-            
-            // Add timeout check - if script doesn't load within 5 seconds, assume it's blocked
-            setTimeout(function() {
-                if (!window.gtagLoaded && !window.gtagLoadAttempted) {
-                    // Check if script element exists but didn't load
-                    const existingScript = document.querySelector('script[src*="googletagmanager.com"]');
-                    if (existingScript && !window.gtag) {
-                        console.warn('Google Analytics script may be blocked. This is normal with ad blockers.');
-                        window.gtagLoadAttempted = true;
-                    }
-                }
-            }, 5000);
-            
-            // Add script to head
-            try {
-                document.head.appendChild(script);
-            } catch (appendError) {
-                console.error('Failed to append script to head:', appendError);
-            }
-        } else {
-            console.log('Google Analytics script already exists');
-            // Script already exists, try to use it
-            if (typeof gtag !== 'undefined' && gtag) {
-                try {
-                    // Send page view using config
-                    gtag('config', gaId, {
-                        'anonymize_ip': true,
-                        'send_page_view': true,
-                        'page_title': document.title,
-                        'page_location': window.location.href,
-                        'page_path': window.location.pathname + window.location.search
+                        'custom_parameter_1': document.referrer || 'direct'
                     });
                     
                     console.log('Page view sent to Google Analytics');
@@ -151,12 +102,34 @@
                     // Enhanced Analytics Tracking
                     setupAnalyticsTracking();
                 } catch (error) {
-                    console.warn('Error sending page view (script may be blocked):', error);
+                    console.error('Error sending page view:', error);
+                }
+            };
+            
+            script.onerror = function() {
+                console.error('Failed to load Google Analytics script');
+            };
+        } else {
+            console.log('Google Analytics script already exists');
+            // Script already exists, try to use it
+            if (typeof gtag !== 'undefined' && gtag) {
+                try {
+                    gtag('event', 'page_view', {
+                        'page_title': document.title,
+                        'page_location': window.location.href,
+                        'custom_parameter_1': document.referrer || 'direct'
+                    });
+                    
+                    console.log('Page view sent to Google Analytics');
+                    window.gtagLoaded = true;
+                    
+                    // Enhanced Analytics Tracking
+                    setupAnalyticsTracking();
+                } catch (error) {
+                    console.error('Error sending page view:', error);
                 }
             } else {
-                // Script tag exists but gtag not available - likely blocked
-                console.warn('Google Analytics script tag found but gtag function not available. Script may be blocked by ad blocker.');
-                window.gtagLoadAttempted = true;
+                console.error('Google Analytics script exists but gtag function not available');
             }
         }
     }
