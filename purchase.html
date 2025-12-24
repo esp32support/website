@@ -203,7 +203,7 @@
                     <label style="display: flex; align-items: flex-start; cursor: pointer; font-weight: normal;">
                         <input type="checkbox" id="termsCheckbox" name="termsCheckbox" required 
                                style="width: auto; margin-right: 0.75rem; margin-top: 0.25rem; cursor: pointer;" />
-                        <span>I agree to the <a href="docs/terms.html" target="_blank" style="color: #7dd3fc; text-decoration: underline;">Terms, Privacy & Refund Policy</a> *</span>
+                        <span>I agree to the <a href="docs/terms.html" target="_blank" style="color: #7dd3fc; text-decoration: underline;">Terms & Refund Policy</a> and <a href="privacy.html" target="_blank" style="color: #7dd3fc; text-decoration: underline;">Privacy Policy</a> *</span>
                     </label>
                     <div class="error-message" id="termsError"></div>
                 </div>
@@ -411,7 +411,7 @@
             }
             
             if (!termsAccepted) {
-                document.getElementById('termsError').textContent = 'You must agree to the Terms, Privacy & Refund Policy to proceed';
+                document.getElementById('termsError').textContent = 'You must agree to the Terms & Refund Policy and Privacy Policy to proceed';
                 return;
             }
             
@@ -472,9 +472,6 @@
             window.location.href = paymentLink + '?prefilled_email=' + encodeURIComponent(email);
         });
     </script>
-    
-    <!-- Statistics Tracking (Internal Use Only) -->
-    <script src="analytics.js"></script>
     
     <!-- Cookie Consent (GDPR Compliant) -->
     <script src="cookie-consent.js"></script>

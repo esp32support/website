@@ -21,20 +21,14 @@
 
 ---
 
-## Optional Configuration
+## Google Analytics
 
-### 2. Statistics Tracking API
+Google Analytics is already configured and will load automatically after users accept cookies. No additional configuration needed.
 
-**File:** `analytics.js`  
-**Line:** ~11
-
-**What to do:**
-1. Set up a statistics API endpoint (optional)
-2. Open `analytics.js`
-3. Find: `const STATS_API_ENDPOINT = 'https://your-api-domain.com/api/track-stats';`
-4. Replace with your actual statistics API URL
-
-**Note:** If not configured, statistics will only log to console (not sent to server).
+**View Statistics:**
+- Go to: **https://analytics.google.com**
+- Sign in with your Google account
+- View: Page views, user sessions, traffic sources, country data, etc.
 
 ---
 
@@ -49,10 +43,6 @@
 
 2. Open `purchase.html` in browser
 3. Promo codes will automatically use `http://localhost:5000`
-
-### Statistics
-
-Statistics tracking works locally but won't send data if API is not configured (logs to console only).
 
 ---
 
@@ -73,17 +63,17 @@ Statistics tracking works locally but won't send data if API is not configured (
 - ✅ Check browser console (F12) for errors
 - ✅ Verify CORS is enabled on backend (already done in `save_purchase_info.py`)
 
-### Statistics not tracking:
-- ✅ Check `analytics.js` API URL is configured
-- ✅ Check browser console for errors
-- ✅ Verify statistics API is running
+### Google Analytics not working:
+- ✅ Check cookie consent banner appears
+- ✅ Verify user accepts cookies
+- ✅ Check Google Analytics ID is set: `window.gaId = 'G-6KFL6RX1SM';`
+- ✅ View statistics at https://analytics.google.com
 
 ---
 
 ## Files That Need Configuration
 
 - ✅ `purchase.html` - **REQUIRED** (for promo codes)
-- ⚪ `analytics.js` - **OPTIONAL** (for statistics)
 
 All other files work without configuration!
 

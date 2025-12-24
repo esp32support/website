@@ -12,9 +12,8 @@ The website is automatically deployed via Cloudflare Pages.
 /
 ├── index.html          # Main homepage
 ├── styles.css          # Website styles
-├── analytics.js        # Statistics tracking (optional)
-├── cookie-consent.js   # Cookie consent banner (optional)
-├── cookie-consent.css  # Cookie consent styles (optional)
+├── cookie-consent.js   # Cookie consent banner
+├── cookie-consent.css  # Cookie consent styles
 ├── images/             # Screenshots and assets
 │   ├── dashboard.png
 │   ├── decoder.png
@@ -22,7 +21,8 @@ The website is automatically deployed via Cloudflare Pages.
 └── docs/               # Documentation pages
     ├── about.html      # About the project
     ├── faq.html        # FAQ & Troubleshooting
-    ├── terms.html      # Terms, Privacy & Refund Policy
+    ├── terms.html      # Terms & Refund Policy
+    ├── privacy.html    # Privacy Policy (GDPR Compliant)
     └── user_manual.html # User Manual & Installation Guide
 ```
 
@@ -45,15 +45,9 @@ const PRODUCTION_API_URL = 'https://esp32-promo-api.onrender.com';  // Your Rend
 
 **Note:** The code automatically detects localhost for local testing. For production, update the production URL.
 
-### Statistics Tracking (Optional)
+### Google Analytics
 
-If you want to track website statistics:
-
-1. Open `analytics.js`
-2. Find line 11: `const STATS_API_ENDPOINT = ...`
-3. Replace with your statistics API endpoint
-
-**Note:** Statistics tracking is optional. If not configured, it will log to console only.
+Google Analytics is configured and will load automatically after users accept cookies. No additional configuration needed.
 
 ## 🛠️ Local Development
 
