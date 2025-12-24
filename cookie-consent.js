@@ -72,7 +72,7 @@
             const script = document.createElement('script');
             script.async = true;
             script.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
-            script.crossOrigin = 'anonymous';
+            // Don't set crossOrigin - Google Analytics handles CORS automatically
             
             script.onload = function() {
                 console.log('Google Analytics script loaded successfully, initializing...');
@@ -104,9 +104,9 @@
             };
             
             script.onerror = function(error) {
-                // Silently handle blocked scripts (common with ad blockers)
+                // CORS errors are typically caused by ad blockers blocking the request
                 // This is expected behavior - analytics will work for users without blockers
-                console.warn('Google Analytics script blocked (likely by ad blocker or privacy extension). This is normal.');
+                console.warn('Google Analytics script blocked (CORS error - likely by ad blocker or privacy extension). This is normal.');
                 console.warn('Analytics will work for users who allow tracking.');
                 
                 // Mark as attempted so we don't keep trying
