@@ -82,7 +82,6 @@
                 window.gtag = function(){dataLayer.push(arguments);}
                 gtag('js', new Date());
                 gtag('config', gaId, {
-                    'anonymize_ip': true,  // GDPR: Anonymize IP addresses
                     'send_page_view': false // We'll send this manually
                 });
                 
