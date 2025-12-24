@@ -73,30 +73,22 @@
                 window.dataLayer = window.dataLayer || [];
                 window.gtag = function(){dataLayer.push(arguments);}
                 gtag('js', new Date());
+                
+                // Configure GA4 with page view enabled
                 gtag('config', gaId, {
                     'anonymize_ip': true,  // GDPR: Anonymize IP addresses
-                    'send_page_view': false, // We'll send this manually
-                    'cookie_flags': 'SameSite=None;Secure'
+                    'send_page_view': true, // Send page view automatically
+                    'cookie_flags': 'SameSite=None;Secure',
+                    'page_title': document.title,
+                    'page_location': window.location.href,
+                    'page_path': window.location.pathname + window.location.search
                 });
                 
-                console.log('Google Analytics initialized, sending page view...');
+                console.log('Google Analytics initialized and page view sent');
+                window.gtagLoaded = true;
                 
-                // Send page view immediately after initialization
-                try {
-                    gtag('event', 'page_view', {
-                        'page_title': document.title,
-                        'page_location': window.location.href,
-                        'custom_parameter_1': document.referrer || 'direct'
-                    });
-                    
-                    console.log('Page view sent to Google Analytics');
-                    window.gtagLoaded = true;
-                    
-                    // Enhanced Analytics Tracking
-                    setupAnalyticsTracking();
-                } catch (error) {
-                    console.error('Error sending page view:', error);
-                }
+                // Enhanced Analytics Tracking
+                setupAnalyticsTracking();
             };
             
             script.onerror = function() {
@@ -107,10 +99,13 @@
             // Script already exists, try to use it
             if (typeof gtag !== 'undefined' && gtag) {
                 try {
-                    gtag('event', 'page_view', {
+                    // Send page view using config
+                    gtag('config', gaId, {
+                        'anonymize_ip': true,
+                        'send_page_view': true,
                         'page_title': document.title,
                         'page_location': window.location.href,
-                        'custom_parameter_1': document.referrer || 'direct'
+                        'page_path': window.location.pathname + window.location.search
                     });
                     
                     console.log('Page view sent to Google Analytics');
@@ -309,6 +304,17 @@
                 setCookie("cookie-consent", "allow", 365);
                 hideBanner();
                 loadAnalytics();
+                // Force a page view after accepting (in case user was already on the page)
+                setTimeout(function() {
+                    if (window.gtagLoaded && typeof gtag !== 'undefined') {
+                        gtag('event', 'page_view', {
+                            'page_title': document.title,
+                            'page_location': window.location.href,
+                            'page_path': window.location.pathname + window.location.search
+                        });
+                        console.log('Page view sent after accepting cookies');
+                    }
+                }, 500);
             });
         }
         
@@ -349,6 +355,17 @@
                 document.getElementById("cookie-preferences-modal").style.display = "none";
                 if (analyticsAllowed) {
                     loadAnalytics();
+                    // Force a page view after accepting (in case user was already on the page)
+                    setTimeout(function() {
+                        if (window.gtagLoaded && typeof gtag !== 'undefined') {
+                            gtag('event', 'page_view', {
+                                'page_title': document.title,
+                                'page_location': window.location.href,
+                                'page_path': window.location.pathname + window.location.search
+                            });
+                            console.log('Page view sent after saving preferences');
+                        }
+                    }, 500);
                 }
             });
         }
