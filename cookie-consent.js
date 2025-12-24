@@ -227,7 +227,7 @@
         banner.setAttribute('aria-modal', 'true');
         banner.setAttribute('aria-labelledby', 'cookie-banner-title');
         banner.setAttribute('aria-describedby', 'cookie-banner-desc');
-        banner.style.cssText = 'background-color: rgba(8, 10, 16, 0.98); color: #ffffff; position: fixed; bottom: 0; left: 0; right: 0; padding: 1.5rem; z-index: 9999; display: none; border-top: 2px solid rgba(125, 211, 252, 0.3); box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);';
+        banner.style.cssText = 'background-color: #080a10 !important; color: #ffffff !important; position: fixed !important; bottom: 0 !important; left: 0 !important; right: 0 !important; padding: 1.5rem !important; z-index: 9999 !important; display: none !important; border-top: 2px solid rgba(125, 211, 252, 0.5) !important; box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.8) !important; opacity: 1 !important;';
         
         banner.innerHTML = `
             <h2 id="cookie-banner-title" style="display:none;">Cookie Settings</h2>
@@ -237,7 +237,7 @@
             </p>
             <div style="display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap;">
                 <button id="cookie-accept-all" class="cookie-btn cookie-btn-accept" style="background-color: #00AA00; color: #ffffff; border: 2px solid #00AA00; padding: 10px 20px; cursor: pointer; border-radius: 4px; font-weight: 600;" aria-label="Accept all cookies">Accept All</button>
-                <button id="cookie-reject-all" class="cookie-btn cookie-btn-decline" style="background-color: rgba(125, 211, 252, 0.2); color: #7dd3fc; border: 1px solid rgba(125, 211, 252, 0.3); padding: 10px 20px; cursor: pointer; border-radius: 4px; font-weight: 600;" aria-label="Reject all cookies">Reject</button>
+                <button id="cookie-reject-all" class="cookie-btn cookie-btn-decline" style="background-color: #dc2626; color: #ffffff; border: 2px solid #dc2626; padding: 10px 20px; cursor: pointer; border-radius: 4px; font-weight: 600;" aria-label="Reject all cookies">Reject</button>
                 <button id="cookie-customize" class="cookie-btn" style="background-color: rgba(125, 211, 252, 0.2); color: #7dd3fc; border: 1px solid rgba(125, 211, 252, 0.3); padding: 10px 20px; cursor: pointer; border-radius: 4px; font-weight: 600;" aria-label="Customize cookie settings">Customize</button>
             </div>
             <p style="margin: 0.5rem 0 0 0; text-align: center; font-size: 0.9rem;">
@@ -250,6 +250,8 @@
         // Show banner
         setTimeout(() => {
             banner.style.display = 'block';
+            banner.style.opacity = '1';
+            banner.style.backgroundColor = '#080a10';
             banner.classList.add('show');
         }, 100);
         
@@ -270,10 +272,10 @@
         modal.setAttribute('aria-modal', 'true');
         modal.setAttribute('aria-labelledby', 'cookie-modal-title');
         modal.setAttribute('aria-describedby', 'cookie-modal-desc');
-        modal.style.cssText = 'display:none; position: fixed; left: 0; right: 0; top: 0; bottom: 0; background: rgba(0,0,0,0.85); z-index: 10001; align-items: center; justify-content: center;';
+        modal.style.cssText = 'display:none !important; position: fixed !important; left: 0 !important; right: 0 !important; top: 0 !important; bottom: 0 !important; background: #000000 !important; z-index: 10001 !important; align-items: center !important; justify-content: center !important; opacity: 1 !important;';
         
         modal.innerHTML = `
-            <div style="background: rgba(8, 10, 16, 1); color: #cbd5f5; max-width: 500px; margin: 40px auto; padding: 30px 20px; border-radius: 8px; position: relative; border: 2px solid rgba(125, 211, 252, 0.5); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);">
+            <div style="background: #080a10 !important; color: #cbd5f5 !important; max-width: 500px; margin: 40px auto; padding: 30px 20px; border-radius: 8px; position: relative; border: 2px solid rgba(125, 211, 252, 0.7); box-shadow: 0 8px 32px rgba(0, 0, 0, 1); opacity: 1 !important;">
                 <h3 id="cookie-modal-title" style="margin-top:0; color: #7dd3fc;">Cookie Settings</h3>
                 <div id="cookie-modal-desc">
                     <form id="cookie-preferences-form">
@@ -322,7 +324,15 @@
         var customizeBtn = document.getElementById("cookie-customize");
         if (customizeBtn) {
             customizeBtn.addEventListener("click", function() {
-                document.getElementById("cookie-preferences-modal").style.display = "flex";
+                var modal = document.getElementById("cookie-preferences-modal");
+                modal.style.display = "flex";
+                modal.style.opacity = "1";
+                modal.style.backgroundColor = "#000000";
+                var modalContent = modal.querySelector("div");
+                if (modalContent) {
+                    modalContent.style.opacity = "1";
+                    modalContent.style.backgroundColor = "#080a10";
+                }
             });
         }
     }
