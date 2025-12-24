@@ -104,6 +104,31 @@
     color: #bae6fd;
 }
 
+/* Cookie Preferences Modal Styles */
+#cookie-preferences-modal {
+    display: none;
+}
+
+#cookie-preferences-modal[style*="flex"] {
+    display: flex !important;
+}
+
+#cookie-preferences-modal form label {
+    transition: background-color 0.2s;
+}
+
+#cookie-preferences-modal form label:hover {
+    background: rgba(125, 211, 252, 0.15) !important;
+}
+
+#cookie-preferences-modal input[type="checkbox"] {
+    accent-color: #7dd3fc;
+}
+
+#cookie-preferences-modal input[type="checkbox"]:checked {
+    accent-color: #00AA00;
+}
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
     .cookie-consent-content {
@@ -119,6 +144,12 @@
     .cookie-btn {
         flex: 1;
         min-width: 120px;
+    }
+    
+    #cookie-preferences-modal > div {
+        margin: 20px !important;
+        padding: 20px !important;
+        max-width: calc(100% - 40px) !important;
     }
 }
 

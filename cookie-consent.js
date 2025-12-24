@@ -53,47 +53,90 @@
             return;
         }
         
-        if (!hasGoogleAnalytics()) return;
-        
-        console.log('Loading Google Analytics...');
+        if (!hasGoogleAnalytics()) {
+            console.warn('Google Analytics ID not configured or invalid');
+            return;
+        }
         
         const gaId = window.gaId;
+        console.log('Loading Google Analytics with ID:', gaId);
+        
+        // Verify gaId is valid before attempting to load
+        if (!gaId || !gaId.startsWith('G-')) {
+            console.error('Invalid Google Analytics ID:', gaId);
+            return;
+        }
         
         // Load Google Analytics script dynamically after consent
         if (!document.querySelector('script[src*="googletagmanager.com"]')) {
             const script = document.createElement('script');
             script.async = true;
             script.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
-            document.head.appendChild(script);
+            script.crossOrigin = 'anonymous';
             
             script.onload = function() {
-                console.log('Google Analytics script loaded, initializing...');
+                console.log('Google Analytics script loaded successfully, initializing...');
                 
-                // Initialize Google Analytics immediately
-                window.dataLayer = window.dataLayer || [];
-                window.gtag = function(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                
-                // Configure GA4 with page view enabled
-                gtag('config', gaId, {
-                    'anonymize_ip': true,  // GDPR: Anonymize IP addresses
-                    'send_page_view': true, // Send page view automatically
-                    'cookie_flags': 'SameSite=None;Secure',
-                    'page_title': document.title,
-                    'page_location': window.location.href,
-                    'page_path': window.location.pathname + window.location.search
-                });
-                
-                console.log('Google Analytics initialized and page view sent');
-                window.gtagLoaded = true;
-                
-                // Enhanced Analytics Tracking
-                setupAnalyticsTracking();
+                try {
+                    // Initialize Google Analytics immediately
+                    window.dataLayer = window.dataLayer || [];
+                    window.gtag = function(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    
+                    // Configure GA4 with page view enabled
+                    gtag('config', gaId, {
+                        'anonymize_ip': true,  // GDPR: Anonymize IP addresses
+                        'send_page_view': true, // Send page view automatically
+                        'cookie_flags': 'SameSite=None;Secure',
+                        'page_title': document.title,
+                        'page_location': window.location.href,
+                        'page_path': window.location.pathname + window.location.search
+                    });
+                    
+                    console.log('Google Analytics initialized and page view sent');
+                    window.gtagLoaded = true;
+                    
+                    // Enhanced Analytics Tracking
+                    setupAnalyticsTracking();
+                } catch (error) {
+                    console.error('Error initializing Google Analytics:', error);
+                }
             };
             
-            script.onerror = function() {
-                console.error('Failed to load Google Analytics script');
+            script.onerror = function(error) {
+                console.error('Failed to load Google Analytics script. Error:', error);
+                console.error('Attempted URL:', script.src);
+                console.error('Google Analytics ID:', gaId);
+                console.error('Possible causes:');
+                console.error('1. Ad blocker or privacy extension blocking the script');
+                console.error('2. Network connectivity issues');
+                console.error('3. Firewall/proxy blocking the connection');
+                console.error('4. Invalid Google Analytics ID');
+                
+                // Try alternative loading method as fallback
+                console.log('Attempting fallback method...');
+                try {
+                    // Fallback: Initialize dataLayer and gtag manually
+                    window.dataLayer = window.dataLayer || [];
+                    window.gtag = function(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', gaId, {
+                        'anonymize_ip': true,
+                        'send_page_view': true
+                    });
+                    console.log('Google Analytics initialized via fallback method');
+                    window.gtagLoaded = true;
+                } catch (fallbackError) {
+                    console.error('Fallback initialization also failed:', fallbackError);
+                }
             };
+            
+            // Add script to head
+            try {
+                document.head.appendChild(script);
+            } catch (appendError) {
+                console.error('Failed to append script to head:', appendError);
+            }
         } else {
             console.log('Google Analytics script already exists');
             // Script already exists, try to use it
@@ -225,19 +268,19 @@
         banner.style.cssText = 'background-color: #080a10 !important; color: #ffffff !important; position: fixed !important; bottom: 0 !important; left: 0 !important; right: 0 !important; padding: 1.5rem !important; z-index: 9999 !important; display: none !important; border-top: 2px solid rgba(125, 211, 252, 0.5) !important; box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.8) !important; opacity: 1 !important;';
         
         banner.innerHTML = `
-            <h2 id="cookie-banner-title" style="display:none;">Cookie Settings</h2>
-            <p id="cookie-banner-desc" style="margin: 0 0 1rem 0; line-height: 1.6;">
-                We use cookies to improve your experience and analyze website traffic. You can allow, reject, or customize cookie usage.
-                <a href="privacy.html#cookies" style="color: #7dd3fc; text-decoration: underline;">Learn More</a>
-            </p>
-            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap;">
-                <button id="cookie-accept-all" class="cookie-btn cookie-btn-accept" style="background-color: #00AA00; color: #ffffff; border: 2px solid #00AA00; padding: 10px 20px; cursor: pointer; border-radius: 4px; font-weight: 600;" aria-label="Accept all cookies">Accept All</button>
-                <button id="cookie-reject-all" class="cookie-btn cookie-btn-decline" style="background-color: #dc2626; color: #ffffff; border: 2px solid #dc2626; padding: 10px 20px; cursor: pointer; border-radius: 4px; font-weight: 600;" aria-label="Reject all cookies">Reject</button>
-                <button id="cookie-customize" class="cookie-btn" style="background-color: rgba(125, 211, 252, 0.2); color: #7dd3fc; border: 1px solid rgba(125, 211, 252, 0.3); padding: 10px 20px; cursor: pointer; border-radius: 4px; font-weight: 600;" aria-label="Customize cookie settings">Customize</button>
+            <div style="max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 250px;">
+                    <p id="cookie-banner-desc" style="margin: 0; line-height: 1.6; color: #cbd5f5;">
+                        We use cookies to improve your experience and analyze website traffic. You can allow, reject, or customize cookie usage. 
+                        <a href="privacy.html#cookies" style="color: #7dd3fc; text-decoration: underline;">Read more</a>
+                    </p>
+                </div>
+                <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                    <button id="cookie-accept-all" class="cookie-btn cookie-btn-accept" style="background-color: #00AA00; color: #ffffff; border: 2px solid #00AA00; padding: 10px 20px; cursor: pointer; border-radius: 4px; font-weight: 600; white-space: nowrap;" aria-label="Accept all cookies">Accept All</button>
+                    <button id="cookie-reject-all" class="cookie-btn cookie-btn-decline" style="background-color: #dc2626; color: #ffffff; border: 2px solid #dc2626; padding: 10px 20px; cursor: pointer; border-radius: 4px; font-weight: 600; white-space: nowrap;" aria-label="Reject all cookies">Reject</button>
+                    <button id="cookie-customize" class="cookie-btn" style="background-color: rgba(125, 211, 252, 0.2); color: #7dd3fc; border: 1px solid rgba(125, 211, 252, 0.3); padding: 10px 20px; cursor: pointer; border-radius: 4px; font-weight: 600; white-space: nowrap;" aria-label="Customize cookie settings">Customize</button>
+                </div>
             </div>
-            <p style="margin: 0.5rem 0 0 0; text-align: center; font-size: 0.9rem;">
-                <a href="privacy.html#cookies" style="color: #7dd3fc; text-decoration: underline;">Learn More</a>
-            </p>
         `;
         
         document.body.appendChild(banner);
@@ -270,21 +313,31 @@
         modal.style.cssText = 'display:none !important; position: fixed !important; left: 0 !important; right: 0 !important; top: 0 !important; bottom: 0 !important; background: #000000 !important; z-index: 10001 !important; align-items: center !important; justify-content: center !important; opacity: 1 !important;';
         
         modal.innerHTML = `
-            <div style="background: #080a10 !important; color: #cbd5f5 !important; max-width: 500px; margin: 40px auto; padding: 30px 20px; border-radius: 8px; position: relative; border: 2px solid rgba(125, 211, 252, 0.7); box-shadow: 0 8px 32px rgba(0, 0, 0, 1); opacity: 1 !important;">
-                <h3 id="cookie-modal-title" style="margin-top:0; color: #7dd3fc;">Cookie Settings</h3>
+            <div style="background: #080a10 !important; color: #cbd5f5 !important; max-width: 550px; margin: 40px auto; padding: 30px; border-radius: 8px; position: relative; border: 2px solid rgba(125, 211, 252, 0.7); box-shadow: 0 8px 32px rgba(0, 0, 0, 1); opacity: 1 !important;">
+                <h3 id="cookie-modal-title" style="margin-top:0; margin-bottom: 1.5rem; color: #7dd3fc; font-size: 1.5rem;">Cookie Settings</h3>
                 <div id="cookie-modal-desc">
                     <form id="cookie-preferences-form">
-                        <label style="display:block; margin-bottom: 15px; padding: 10px; background: rgba(125, 211, 252, 0.1); border-radius: 4px;">
-                            <input type="checkbox" checked disabled style="margin-right: 10px;">
-                            <strong>Essential Cookies</strong> (always active) - Required for website functionality
-                        </label>
-                        <label style="display:block; margin-bottom: 15px; padding: 10px; background: rgba(125, 211, 252, 0.1); border-radius: 4px;">
-                            <input type="checkbox" id="analytics-cookies" style="margin-right: 10px;">
-                            <strong>Analytics Cookies</strong> (Google Analytics) - Help us understand how visitors interact with our website
-                        </label>
-                        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
-                            <button type="button" id="cookie-save-preferences" style="background-color: #00AA00; color: #fff; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: 600;">Save Preferences</button>
-                            <button type="button" id="cookie-cancel-preferences" style="background-color: rgba(125, 211, 252, 0.2); color: #7dd3fc; border: 1px solid rgba(125, 211, 252, 0.3); padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: 600;">Cancel</button>
+                        <div style="margin-bottom: 1rem; padding: 15px; background: rgba(125, 211, 252, 0.1); border-radius: 6px; border: 1px solid rgba(125, 211, 252, 0.2);">
+                            <label style="display: flex; align-items: flex-start; cursor: default;">
+                                <input type="checkbox" checked disabled style="margin-right: 12px; margin-top: 3px; cursor: not-allowed; width: 18px; height: 18px;">
+                                <div>
+                                    <strong style="color: #7dd3fc; display: block; margin-bottom: 4px;">Essential Cookies</strong>
+                                    <span style="color: #cbd5f5; font-size: 0.9rem;">Always active - Required for website functionality</span>
+                                </div>
+                            </label>
+                        </div>
+                        <div style="margin-bottom: 1.5rem; padding: 15px; background: rgba(125, 211, 252, 0.1); border-radius: 6px; border: 1px solid rgba(125, 211, 252, 0.2);">
+                            <label style="display: flex; align-items: flex-start; cursor: pointer;">
+                                <input type="checkbox" id="analytics-cookies" style="margin-right: 12px; margin-top: 3px; cursor: pointer; width: 18px; height: 18px;">
+                                <div>
+                                    <strong style="color: #7dd3fc; display: block; margin-bottom: 4px;">Analytics Cookies</strong>
+                                    <span style="color: #cbd5f5; font-size: 0.9rem;">Google Analytics - Help us understand how visitors interact with our website</span>
+                                </div>
+                            </label>
+                        </div>
+                        <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(125, 211, 252, 0.2);">
+                            <button type="button" id="cookie-save-preferences" style="background-color: #00AA00; color: #fff; border: none; padding: 12px 24px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 1rem;">Save Settings</button>
+                            <button type="button" id="cookie-cancel-preferences" style="background-color: rgba(125, 211, 252, 0.2); color: #7dd3fc; border: 1px solid rgba(125, 211, 252, 0.3); padding: 12px 24px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 1rem;">Cancel</button>
                         </div>
                     </form>
                 </div>
