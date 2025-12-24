@@ -104,32 +104,26 @@
             };
             
             script.onerror = function(error) {
-                console.error('Failed to load Google Analytics script. Error:', error);
-                console.error('Attempted URL:', script.src);
-                console.error('Google Analytics ID:', gaId);
-                console.error('Possible causes:');
-                console.error('1. Ad blocker or privacy extension blocking the script');
-                console.error('2. Network connectivity issues');
-                console.error('3. Firewall/proxy blocking the connection');
-                console.error('4. Invalid Google Analytics ID');
+                // Silently handle blocked scripts (common with ad blockers)
+                // This is expected behavior - analytics will work for users without blockers
+                console.warn('Google Analytics script blocked (likely by ad blocker or privacy extension). This is normal.');
+                console.warn('Analytics will work for users who allow tracking.');
                 
-                // Try alternative loading method as fallback
-                console.log('Attempting fallback method...');
-                try {
-                    // Fallback: Initialize dataLayer and gtag manually
-                    window.dataLayer = window.dataLayer || [];
-                    window.gtag = function(){dataLayer.push(arguments);}
-                    gtag('js', new Date());
-                    gtag('config', gaId, {
-                        'anonymize_ip': true,
-                        'send_page_view': true
-                    });
-                    console.log('Google Analytics initialized via fallback method');
-                    window.gtagLoaded = true;
-                } catch (fallbackError) {
-                    console.error('Fallback initialization also failed:', fallbackError);
-                }
+                // Mark as attempted so we don't keep trying
+                window.gtagLoadAttempted = true;
             };
+            
+            // Add timeout check - if script doesn't load within 5 seconds, assume it's blocked
+            setTimeout(function() {
+                if (!window.gtagLoaded && !window.gtagLoadAttempted) {
+                    // Check if script element exists but didn't load
+                    const existingScript = document.querySelector('script[src*="googletagmanager.com"]');
+                    if (existingScript && !window.gtag) {
+                        console.warn('Google Analytics script may be blocked. This is normal with ad blockers.');
+                        window.gtagLoadAttempted = true;
+                    }
+                }
+            }, 5000);
             
             // Add script to head
             try {
@@ -157,10 +151,12 @@
                     // Enhanced Analytics Tracking
                     setupAnalyticsTracking();
                 } catch (error) {
-                    console.error('Error sending page view:', error);
+                    console.warn('Error sending page view (script may be blocked):', error);
                 }
             } else {
-                console.error('Google Analytics script exists but gtag function not available');
+                // Script tag exists but gtag not available - likely blocked
+                console.warn('Google Analytics script tag found but gtag function not available. Script may be blocked by ad blocker.');
+                window.gtagLoadAttempted = true;
             }
         }
     }
