@@ -205,11 +205,9 @@
     </div>
 
     <script>
-        // API endpoints - Using GitHub API directly
-        // ⚠️ IMPORTANT: Deploy github_api_server.py to any Python hosting service
-        // Options: PythonAnywhere (free), Heroku, Railway, or any VPS
-        // Update this URL to your deployed server
-        const PRODUCTION_API_URL = 'https://your-username.pythonanywhere.com'; // ⚠️ UPDATE THIS!
+        // API endpoints
+        // ⚠️ IMPORTANT: Update this URL to your deployed API server
+        const PRODUCTION_API_URL = 'https://esp32-promo-api.onrender.com'; // ✅ Production API URL
         const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
             ? 'http://localhost:5000'
             : PRODUCTION_API_URL;
@@ -401,17 +399,30 @@
                     sessionStorage.setItem('addon_purchase_email', email);
                     sessionStorage.setItem('addon_purchase_license_key', licenseKey);
                     
+                } else if (saveResponse.status === 404) {
+                    // API endpoint not found - service may not be deployed or is sleeping
+                    document.getElementById('formError').textContent = 
+                        'API server is not available. The service may be sleeping or not deployed. ' +
+                        'Please contact support at esp32contact@gmail.com or try again in a few moments.';
+                    document.getElementById('purchaseBtn').disabled = false;
+                    document.getElementById('purchaseBtn').textContent = 'Proceed to Payment (€30)';
                 } else {
                     // Error from server
                     document.getElementById('formError').textContent = 
-                        result.error || 'Failed to process purchase. Please try again or contact support.';
+                        result.error || 'Failed to process purchase. Please try again or contact support at esp32contact@gmail.com';
                     document.getElementById('purchaseBtn').disabled = false;
                     document.getElementById('purchaseBtn').textContent = 'Proceed to Payment (€30)';
                 }
             } catch (e) {
                 console.error('Purchase error:', e);
-                document.getElementById('formError').textContent = 
-                    'Failed to process purchase. Please check your connection and try again, or contact support at esp32contact@gmail.com';
+                console.error('API URL:', SAVE_ADDON_PURCHASE_API);
+                let errorMsg = 'Failed to process purchase. ';
+                if (e.name === 'TypeError' && e.message.includes('fetch')) {
+                    errorMsg += 'Cannot connect to server. Please check your internet connection.';
+                } else {
+                    errorMsg += 'Please try again or contact support at esp32contact@gmail.com';
+                }
+                document.getElementById('formError').textContent = errorMsg;
                 document.getElementById('purchaseBtn').disabled = false;
                 document.getElementById('purchaseBtn').textContent = 'Proceed to Payment (€30)';
             }
