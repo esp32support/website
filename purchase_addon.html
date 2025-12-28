@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Purchase Add-On - ESP32 CAN Sniffer</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="cookie-consent.css" />
+    <script src="https://js.stripe.com/v3/"></script>
+    
+    <!-- Google Analytics - Only loads if user accepts cookies -->
+    <script>
+        window.gaId = 'G-6KFL6RX1SM'; // ✅ Google Analytics ID
+    </script>
+    <style>
+        .purchase-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: rgba(8, 10, 16, 0.9);
+            border-radius: 8px;
+            border: 1px solid rgba(125, 211, 252, 0.2);
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #e5e9f0;
+            font-weight: 500;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(8, 10, 16, 0.8);
+            border: 1px solid rgba(125, 211, 252, 0.3);
+            border-radius: 4px;
+            color: #e5e9f0;
+            font-size: 1rem;
+            font-family: monospace;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #7dd3fc;
+            box-shadow: 0 0 0 2px rgba(125, 211, 252, 0.2);
+        }
+        .addon-info-box {
+            background: rgba(125, 211, 252, 0.15);
+            border: 2px solid rgba(125, 211, 252, 0.4);
+            border-radius: 4px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .addon-info-box h3 {
+            color: #7dd3fc;
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+        .addon-info-box ul {
+            margin: 0.5rem 0;
+            padding-left: 1.5rem;
+            color: #cbd5f5;
+        }
+        .addon-info-box .price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #00AA00;
+            margin: 1rem 0;
+        }
+        .btn-purchase {
+            width: 100%;
+            padding: 1rem;
+            background: #00AA00;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 1rem;
+        }
+        .btn-purchase:hover {
+            background: #008800;
+        }
+        .btn-purchase:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+        .error-message {
+            color: #ff6b6b;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .success-message {
+            color: #00AA00;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .info-box {
+            background: rgba(125, 211, 252, 0.1);
+            border: 1px solid rgba(125, 211, 252, 0.3);
+            border-radius: 4px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: #cbd5f5;
+        }
+        .license-verification {
+            background: rgba(125, 211, 252, 0.1);
+            border: 1px solid rgba(125, 211, 252, 0.3);
+            border-radius: 4px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        .license-verification.verified {
+            background: rgba(0, 170, 0, 0.1);
+            border-color: rgba(0, 170, 0, 0.3);
+        }
+        .license-verification.error {
+            background: rgba(255, 107, 107, 0.1);
+            border-color: rgba(255, 107, 107, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <header class="hero" style="min-height: auto; padding: 1rem 0;">
+        <div class="container">
+            <nav class="nav">
+                <span class="logo">ESP32 CAN BUS Sniffer</span>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="purchase.html">Purchase License</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="purchase-container">
+            <h1 style="color: #e5e9f0; margin-bottom: 1rem;">Purchase Add-On</h1>
+            
+            <div class="addon-info-box">
+                <h3>🔧 Fiat Dictionary Add-On</h3>
+                <p style="color: #cbd5f5; margin: 0.5rem 0;">
+                    Unlock specialized Fiat CAN message decoding capabilities for your existing PRO license.
+                </p>
+                <ul>
+                    <li>Fiat-specific byte addressing support</li>
+                    <li>Fiat PID detection and decoding</li>
+                    <li>Auto-learning for Fiat signals</li>
+                    <li>Hardware-bound encryption (tied to your license)</li>
+                    <li>Lifetime access (one-time purchase)</li>
+                </ul>
+                <div class="price">€30 (one-time purchase)</div>
+            </div>
+
+            <div class="info-box">
+                <strong>Important:</strong> You must have an active PRO license to purchase this add-on. 
+                After payment, the add-on will be activated on your license and you'll receive a confirmation email.
+            </div>
+
+            <form id="addonPurchaseForm">
+                <div class="form-group">
+                    <label for="email">Email Address (used for license) *</label>
+                    <input type="email" id="email" name="email" required 
+                           placeholder="your.email@example.com" />
+                    <div class="error-message" id="emailError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="licenseKey">License Key *</label>
+                    <input type="text" id="licenseKey" name="licenseKey" required 
+                           placeholder="XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX" />
+                    <div class="error-message" id="licenseKeyError"></div>
+                    <div class="success-message" id="licenseKeySuccess" style="display: none;"></div>
+                </div>
+
+                <div id="licenseVerification" class="license-verification" style="display: none;">
+                    <div id="verificationMessage"></div>
+                </div>
+
+                <div class="form-group" style="margin-top: 1.5rem;">
+                    <label style="display: flex; align-items: flex-start; cursor: pointer; font-weight: normal;">
+                        <input type="checkbox" id="termsCheckbox" name="termsCheckbox" required 
+                               style="width: auto; margin-right: 0.75rem; margin-top: 0.25rem; cursor: pointer;" />
+                        <span>I agree to the <a href="docs/terms.html" target="_blank" style="color: #7dd3fc; text-decoration: underline;">Terms & Refund Policy</a> and <a href="privacy.html" target="_blank" style="color: #7dd3fc; text-decoration: underline;">Privacy Policy</a> *</span>
+                    </label>
+                    <div class="error-message" id="termsError"></div>
+                </div>
+
+                <button type="submit" class="btn-purchase" id="purchaseBtn" disabled>
+                    Verify License & Proceed to Payment (€30)
+                </button>
+
+                <div class="error-message" id="formError"></div>
+                <div class="success-message" id="formSuccess"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // API endpoints
+        const PRODUCTION_API_URL = 'https://esp32-promo-api.onrender.com';
+        const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+            ? 'http://localhost:5000'
+            : PRODUCTION_API_URL;
+        const VERIFY_LICENSE_API = API_BASE_URL + '/api/verify-license';
+        const SAVE_ADDON_PURCHASE_API = API_BASE_URL + '/api/save-addon-purchase';
+        
+        // Stripe Payment Link for Fiat Dictionary Add-On (€30)
+        // ⚠️ TEST LINK - Replace with production link when ready
+        const STRIPE_ADDON_PAYMENT_LINK = 'https://buy.stripe.com/test_8x228rcZ3b835RKc9KeUU02';  // ✅ Test link configured
+        
+        let licenseVerified = false;
+        let verifiedLicenseData = null;
+        
+        // License key verification
+        document.getElementById('licenseKey').addEventListener('blur', async function() {
+            const licenseKey = this.value.trim();
+            const email = document.getElementById('email').value.trim();
+            
+            if (!licenseKey || licenseKey.length < 16) {
+                return;
+            }
+            
+            if (!email || !email.includes('@')) {
+                document.getElementById('emailError').textContent = 'Please enter your email first';
+                return;
+            }
+            
+            // Verify license
+            document.getElementById('purchaseBtn').disabled = true;
+            document.getElementById('purchaseBtn').textContent = 'Verifying License...';
+            document.getElementById('licenseKeyError').textContent = '';
+            document.getElementById('licenseKeySuccess').style.display = 'none';
+            document.getElementById('licenseVerification').style.display = 'none';
+            
+            try {
+                const response = await fetch(VERIFY_LICENSE_API, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        license_key: licenseKey,
+                        email: email
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.valid && result.license_type === 'pro') {
+                    // License is valid
+                    licenseVerified = true;
+                    verifiedLicenseData = result;
+                    
+                    // Check if dictionary already enabled
+                    if (result.dictionary === true || result.dictionary === 1) {
+                        document.getElementById('licenseKeyError').textContent = 'Fiat Dictionary add-on is already enabled on this license.';
+                        document.getElementById('licenseVerification').className = 'license-verification error';
+                        document.getElementById('licenseVerification').style.display = 'block';
+                        document.getElementById('verificationMessage').innerHTML = 
+                            '<strong style="color: #ff6b6b;">Add-on Already Active</strong><br>' +
+                            'This license already has the Fiat Dictionary add-on enabled.';
+                        document.getElementById('purchaseBtn').disabled = true;
+                        licenseVerified = false;
+                    } else {
+                        document.getElementById('licenseKeySuccess').textContent = '✓ License verified successfully';
+                        document.getElementById('licenseKeySuccess').style.display = 'block';
+                        document.getElementById('licenseVerification').className = 'license-verification verified';
+                        document.getElementById('licenseVerification').style.display = 'block';
+                        document.getElementById('verificationMessage').innerHTML = 
+                            '<strong style="color: #00AA00;">License Verified</strong><br>' +
+                            `License Type: ${result.license_type.toUpperCase()}<br>` +
+                            `Status: ${result.status || 'Active'}`;
+                        document.getElementById('purchaseBtn').disabled = false;
+                        document.getElementById('purchaseBtn').textContent = 'Proceed to Payment (€30)';
+                    }
+                } else {
+                    // License invalid or not PRO
+                    licenseVerified = false;
+                    let errorMsg = 'License verification failed. ';
+                    if (result.license_type !== 'pro') {
+                        errorMsg += 'This add-on requires a PRO license.';
+                    } else if (result.status === 'revoked') {
+                        errorMsg += 'This license has been revoked.';
+                    } else if (result.status !== 'active') {
+                        errorMsg += 'This license is not active.';
+                    } else {
+                        errorMsg += result.error || 'Please check your license key and email.';
+                    }
+                    
+                    document.getElementById('licenseKeyError').textContent = errorMsg;
+                    document.getElementById('licenseVerification').className = 'license-verification error';
+                    document.getElementById('licenseVerification').style.display = 'block';
+                    document.getElementById('verificationMessage').innerHTML = 
+                        '<strong style="color: #ff6b6b;">Verification Failed</strong><br>' + errorMsg;
+                    document.getElementById('purchaseBtn').disabled = true;
+                    document.getElementById('purchaseBtn').textContent = 'Verify License & Proceed to Payment (€30)';
+                }
+            } catch (error) {
+                console.error('License verification error:', error);
+                document.getElementById('licenseKeyError').textContent = 
+                    'Unable to verify license. Please check your connection and try again.';
+                document.getElementById('purchaseBtn').disabled = true;
+                document.getElementById('purchaseBtn').textContent = 'Verify License & Proceed to Payment (€30)';
+                licenseVerified = false;
+            }
+        });
+
+        document.getElementById('addonPurchaseForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value.trim();
+            const licenseKey = document.getElementById('licenseKey').value.trim();
+            const termsAccepted = document.getElementById('termsCheckbox').checked;
+            
+            // Clear previous errors
+            document.getElementById('emailError').textContent = '';
+            document.getElementById('licenseKeyError').textContent = '';
+            document.getElementById('termsError').textContent = '';
+            document.getElementById('formError').textContent = '';
+            document.getElementById('formSuccess').textContent = '';
+            
+            // Validate
+            if (!email || !email.includes('@')) {
+                document.getElementById('emailError').textContent = 'Please enter a valid email address';
+                return;
+            }
+            
+            if (!licenseKey || licenseKey.length < 16) {
+                document.getElementById('licenseKeyError').textContent = 'Please enter a valid license key';
+                return;
+            }
+            
+            if (!licenseVerified) {
+                document.getElementById('licenseKeyError').textContent = 'Please verify your license first';
+                return;
+            }
+            
+            if (!termsAccepted) {
+                document.getElementById('termsError').textContent = 'You must agree to the Terms & Refund Policy and Privacy Policy to proceed';
+                return;
+            }
+            
+            // Save purchase info to server
+            try {
+                const saveResponse = await fetch(SAVE_ADDON_PURCHASE_API, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        email: email,
+                        license_key: licenseKey,
+                        addon_type: 'fiat_dictionary',
+                        price: 30
+                    })
+                });
+                if (saveResponse.ok) {
+                    console.log('Add-on purchase info saved for processing');
+                }
+            } catch (e) {
+                console.warn('Could not save purchase info (will need manual processing):', e);
+            }
+            
+            // Store in localStorage as backup
+            try {
+                localStorage.setItem('pending_addon_purchase', JSON.stringify({
+                    email: email,
+                    license_key: licenseKey,
+                    addon_type: 'fiat_dictionary',
+                    price: 30,
+                    timestamp: Date.now()
+                }));
+            } catch (e) {
+                console.warn('Could not save to localStorage:', e);
+            }
+            
+            // Store in sessionStorage for success page
+            sessionStorage.setItem('addon_purchase_email', email);
+            sessionStorage.setItem('addon_purchase_license_key', licenseKey);
+            sessionStorage.setItem('addon_purchase_type', 'fiat_dictionary');
+            
+            // Redirect to Stripe Payment Link
+            if (!STRIPE_ADDON_PAYMENT_LINK || STRIPE_ADDON_PAYMENT_LINK.includes('test_ADDON_LINK_HERE') || STRIPE_ADDON_PAYMENT_LINK === '') {
+                document.getElementById('formError').textContent = 
+                    'Payment link not configured. Please contact support at esp32contact@gmail.com';
+                return;
+            }
+            
+            // Redirect to Stripe Payment Link with email pre-filled
+            window.location.href = STRIPE_ADDON_PAYMENT_LINK + '?prefilled_email=' + encodeURIComponent(email);
+        });
+    </script>
+    
+    <!-- Cookie Consent (GDPR Compliant) -->
+    <script src="cookie-consent.js"></script>
+</body>
+</html>
+

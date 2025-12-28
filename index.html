@@ -60,6 +60,11 @@
                         <a class="btn primary" href="https://github.com/your-org/esp32-can-sniffer/releases" target="_blank">Download DEMO</a>
                         <a class="btn secondary" href="purchase.html" id="purchaseLinkHero">Purchase PRO License</a>
                     </div>
+                    <div style="margin-top: 1rem; text-align: center;">
+                        <a href="purchase_addon.html" style="color: #7dd3fc; text-decoration: underline; font-size: 0.9rem;">
+                            🔧 Already have a license? Purchase Fiat Dictionary Add-On (€30) →
+                        </a>
+                    </div>
                 </div>
                 <div class="hero-card">
                     <h3>Current Release</h3>
@@ -189,6 +194,11 @@
                 <a class="btn primary" href="https://github.com/your-org/esp32-can-sniffer/releases" target="_blank">Download DEMO</a>
                 <a class="btn secondary" href="purchase.html" id="purchaseLinkModal">Purchase PRO License</a>
             </div>
+            <div style="margin-top: 1rem; text-align: center;">
+                <a href="purchase_addon.html" style="color: #7dd3fc; text-decoration: underline; font-size: 0.9rem;">
+                    🔧 Already have a license? Purchase Fiat Dictionary Add-On (€30) →
+                </a>
+            </div>
         </div>
     </div>
 
@@ -249,7 +259,27 @@
                         <li>Wi-Fi, DB import/export</li>
                         <li>Automation suite & health reports</li>
                     </ul>
-                    <a class="btn primary" href="purchase.html" id="purchaseLink">Purchase License</a>
+                    <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(125, 211, 252, 0.1); border: 2px solid rgba(125, 211, 252, 0.3); border-radius: 4px;">
+                        <label style="display: flex; align-items: flex-start; cursor: pointer; font-weight: normal; margin: 0; margin-bottom: 0.75rem;" id="fiatAddonLabelHome">
+                            <input type="checkbox" id="fiatAddonCheckboxHome" 
+                                   style="width: auto; margin-right: 0.75rem; margin-top: 0.25rem; cursor: pointer; width: 18px; height: 18px;" />
+                            <div style="flex: 1;">
+                                <div style="font-weight: bold; color: #7dd3fc; margin-bottom: 0.25rem; font-size: 0.9rem;">
+                                    🔧 Fiat Dictionary Add-On
+                                </div>
+                                <div style="color: #cbd5f5; font-size: 0.85rem;">
+                                    Specialized Fiat decoding • <strong style="color: #00AA00;">+€30</strong> (one-time)
+                                </div>
+                            </div>
+                        </label>
+                        <div style="padding-top: 0.75rem; border-top: 1px solid rgba(125, 211, 252, 0.2);">
+                            <a href="purchase_addon.html" style="color: #7dd3fc; text-decoration: underline; font-size: 0.85rem;">
+                                Already have a license? Purchase add-on separately →
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <a class="btn primary" href="purchase.html" id="purchaseLink" style="margin-top: 1rem;">Purchase License</a>
                 </div>
             </div>
         </div>
@@ -265,6 +295,7 @@
                     <li>Arduino sketches (ESP32 + MCP2515 firmware) are sold separately.</li>
                     <li>Tested CAN dictionaries are sold separately.</li>
                     <li>Additional CAN databases offered as optional packs for other makes and models.</li>
+                    <li><strong>Fiat Dictionary Add-On:</strong> €30 one-time purchase for specialized Fiat CAN message decoding (includes Fiat-specific byte addressing, PID detection, and auto-learning). Contact <a href="mailto:esp32contact@gmail.com" style="color: #7dd3fc;">esp32contact@gmail.com</a> to add to your license.</li>
                 </ol>
             </div>
             <div class="checklist">
@@ -409,20 +440,45 @@
                 yearlyLabel.style.opacity = '0.6';
             }
             
-            // Update purchase links with selected tier
+            // Update purchase links with selected tier and add-on
             const tier = pricingToggle.checked ? 'yearly' : 'monthly';
             const purchaseLink = document.getElementById('purchaseLink');
             const purchaseLinkHero = document.getElementById('purchaseLinkHero');
             const purchaseLinkModal = document.getElementById('purchaseLinkModal');
             
-            if (purchaseLink) {
-                purchaseLink.href = `purchase.html?tier=${tier}`;
-            }
-            if (purchaseLinkHero) {
-                purchaseLinkHero.href = `purchase.html?tier=${tier}`;
-            }
-            if (purchaseLinkModal) {
-                purchaseLinkModal.href = `purchase.html?tier=${tier}`;
+            const updatePurchaseLinks = () => {
+                const fiatAddonCheckbox = document.getElementById('fiatAddonCheckboxHome');
+                const fiatAddonParam = fiatAddonCheckbox && fiatAddonCheckbox.checked ? '&fiat_addon=yes' : '';
+                const baseUrl = `purchase.html?tier=${tier}${fiatAddonParam}`;
+                
+                if (purchaseLink) {
+                    purchaseLink.href = baseUrl;
+                }
+                if (purchaseLinkHero) {
+                    purchaseLinkHero.href = baseUrl;
+                }
+                if (purchaseLinkModal) {
+                    purchaseLinkModal.href = baseUrl;
+                }
+            };
+            
+            updatePurchaseLinks();
+            
+            // Update links when add-on checkbox changes
+            const fiatAddonCheckbox = document.getElementById('fiatAddonCheckboxHome');
+            const fiatAddonLabel = document.getElementById('fiatAddonLabelHome');
+            
+            if (fiatAddonCheckbox && fiatAddonLabel) {
+                fiatAddonCheckbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        fiatAddonLabel.style.borderColor = 'rgba(125, 211, 252, 0.6)';
+                        fiatAddonLabel.style.background = 'rgba(125, 211, 252, 0.15)';
+                    } else {
+                        fiatAddonLabel.style.borderColor = 'rgba(125, 211, 252, 0.3)';
+                        fiatAddonLabel.style.background = 'rgba(125, 211, 252, 0.1)';
+                    }
+                    updatePurchaseLinks();
+                });
             }
         }
 

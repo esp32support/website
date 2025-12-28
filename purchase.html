@@ -108,6 +108,10 @@
             background: #666;
             cursor: not-allowed;
         }
+        #fiatAddonLabel:hover {
+            border-color: rgba(125, 211, 252, 0.5);
+            background: rgba(125, 211, 252, 0.12);
+        }
         .error-message {
             color: #ff6b6b;
             margin-top: 0.5rem;
@@ -143,7 +147,7 @@
 
     <div class="container">
         <div class="purchase-container">
-            <h1 style="color: #e5e9f0; margin-bottom: 1rem;">Purchase Pro License</h1>
+            <h1 style="color: #e5e9f0; margin-bottom: 1rem;">Purchase License</h1>
             
             <div class="info-box">
                 <strong>Important:</strong> After successful payment, your license key will be sent to the email address you provide below. 
@@ -182,6 +186,25 @@
                             <div style="font-size: 0.8rem; color: #00AA00; margin-top: 0.25rem;" id="yearlySavings">Save 20%</div>
                         </label>
                     </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 1.5rem;">
+                    <label style="display: flex; align-items: flex-start; cursor: pointer; font-weight: normal; padding: 1rem; background: rgba(125, 211, 252, 0.1); border: 2px solid rgba(125, 211, 252, 0.3); border-radius: 4px; transition: all 0.2s;" id="fiatAddonLabel">
+                        <input type="checkbox" id="fiatAddonCheckbox" name="fiatAddon" value="yes" 
+                               style="width: auto; margin-right: 0.75rem; margin-top: 0.25rem; cursor: pointer; width: 20px; height: 20px;" />
+                        <div style="flex: 1;">
+                            <div style="font-weight: bold; color: #7dd3fc; margin-bottom: 0.25rem;">
+                                🔧 Fiat Dictionary Add-On
+                            </div>
+                            <div style="color: #cbd5f5; font-size: 0.9rem; margin-bottom: 0.5rem;">
+                                Specialized Fiat CAN message decoding with byte addressing, PID detection, and auto-learning
+                            </div>
+                            <div style="color: #00AA00; font-weight: bold; font-size: 1rem;">
+                                +€30 (one-time purchase)
+                            </div>
+                        </div>
+                    </label>
+                    <div class="error-message" id="fiatAddonError"></div>
                 </div>
 
                 <div class="form-group">
@@ -223,10 +246,13 @@
         const urlParams = new URLSearchParams(window.location.search);
         const hwId = urlParams.get('hwid');
         const tier = urlParams.get('tier'); // 'monthly' or 'yearly'
+        const fiatAddonParam = urlParams.get('fiat_addon'); // 'yes' or null
         
         if (hwId) {
             document.getElementById('hardwareId').value = hwId;
         }
+        
+        // Pre-check Fiat add-on if parameter is present (will be handled after functions are defined)
 
         // Pricing option selection styling
         document.querySelectorAll('.pricing-option').forEach(option => {
@@ -234,8 +260,40 @@
                 document.querySelectorAll('.pricing-option').forEach(opt => opt.classList.remove('selected'));
                 this.classList.add('selected');
                 this.querySelector('input[type="radio"]').checked = true;
+                updateTotalPrice();
             });
         });
+        
+        // Fiat add-on checkbox styling
+        const fiatAddonCheckbox = document.getElementById('fiatAddonCheckbox');
+        const fiatAddonLabel = document.getElementById('fiatAddonLabel');
+        
+        fiatAddonCheckbox.addEventListener('change', function() {
+            fiatAddonSelected = this.checked;
+            if (this.checked) {
+                fiatAddonLabel.style.borderColor = 'rgba(125, 211, 252, 0.6)';
+                fiatAddonLabel.style.background = 'rgba(125, 211, 252, 0.15)';
+            } else {
+                fiatAddonLabel.style.borderColor = 'rgba(125, 211, 252, 0.3)';
+                fiatAddonLabel.style.background = 'rgba(125, 211, 252, 0.1)';
+            }
+            updateTotalPrice();
+        });
+        
+        // Update total price display
+        function updateTotalPrice() {
+            const selectedPlan = document.querySelector('input[name="plan"]:checked').value;
+            const basePrice = currentPrices[selectedPlan];
+            const totalPrice = basePrice + (fiatAddonSelected ? FIAT_ADDON_PRICE : 0);
+            
+            // Update purchase button text to show total
+            const purchaseBtn = document.getElementById('purchaseBtn');
+            if (fiatAddonSelected) {
+                purchaseBtn.textContent = `Proceed to Payment (Total: €${totalPrice})`;
+            } else {
+                purchaseBtn.textContent = 'Proceed to Payment';
+            }
+        }
 
         // Set initial selected state based on URL parameter or default to monthly
         let initialTier = 'monthly';
@@ -255,9 +313,14 @@
         }
 
         // Stripe Payment Links
+        // ⚠️ SECURITY NOTE: These are TEST payment links. 
+        // For production, replace with your live Stripe Payment Links:
+        // 1. Create Payment Links in Stripe Dashboard (https://dashboard.stripe.com/payment-links)
+        // 2. Replace the URLs below with your production Payment Link URLs
+        // 3. Remove the '/test_' prefix from the URLs
         const STRIPE_PAYMENT_LINKS = {
-            monthly: 'https://buy.stripe.com/test_28EdR91gla3Zcg85LmeUU01',  // Monthly subscription
-            yearly: 'https://buy.stripe.com/test_3cIaEX5wBb837ZSehSeUU00'   // Yearly subscription
+            monthly: 'https://buy.stripe.com/test_28EdR91gla3Zcg85LmeUU01',  // ⚠️ TEST LINK - Replace for production
+            yearly: 'https://buy.stripe.com/test_3cIaEX5wBb837ZSehSeUU00'   // ⚠️ TEST LINK - Replace for production
         };
         
         // Base prices
@@ -266,8 +329,12 @@
             yearly: 140
         };
         
+        // Add-on prices
+        const FIAT_ADDON_PRICE = 30; // One-time purchase
+        
         let appliedPromo = null;
         let currentPrices = { ...BASE_PRICES };
+        let fiatAddonSelected = false;
         
         // API endpoints
         // For local development: automatically uses 'http://localhost:5000'
@@ -369,6 +436,9 @@
                 document.getElementById('yearlyPrice').textContent = `€${BASE_PRICES.yearly}`;
                 document.getElementById('yearlySavings').textContent = 'Save 20%';
             }
+            
+            // Update total price when promo changes
+            updateTotalPrice();
         }
         
         // Reset promo when plan changes
@@ -383,6 +453,22 @@
                 updatePrices();
             });
         });
+        
+        // Pre-check Fiat add-on if parameter is present (after functions are defined)
+        if (fiatAddonParam === 'yes') {
+            const fiatAddonCheckbox = document.getElementById('fiatAddonCheckbox');
+            const fiatAddonLabel = document.getElementById('fiatAddonLabel');
+            if (fiatAddonCheckbox) {
+                fiatAddonCheckbox.checked = true;
+                fiatAddonSelected = true;
+                if (fiatAddonLabel) {
+                    fiatAddonLabel.style.borderColor = 'rgba(125, 211, 252, 0.6)';
+                    fiatAddonLabel.style.background = 'rgba(125, 211, 252, 0.15)';
+                }
+                // Update total price display
+                updateTotalPrice();
+            }
+        }
 
         document.getElementById('purchaseForm').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -391,6 +477,7 @@
             const hardwareId = document.getElementById('hardwareId').value.trim();
             const plan = document.querySelector('input[name="plan"]:checked').value;
             const termsAccepted = document.getElementById('termsCheckbox').checked;
+            const fiatAddon = document.getElementById('fiatAddonCheckbox').checked;
             
             // Clear previous errors
             document.getElementById('emailError').textContent = '';
@@ -415,6 +502,11 @@
                 return;
             }
             
+            // Calculate total price
+            const basePrice = currentPrices[plan];
+            const addonPrice = fiatAddon ? FIAT_ADDON_PRICE : 0;
+            const totalPrice = basePrice + addonPrice;
+            
             // Try to save purchase info to server (optional - for automatic processing)
             // If this fails, you can manually process payments by matching email
             try {
@@ -427,7 +519,10 @@
                         plan: plan,
                         promo_code: appliedPromo ? document.getElementById('promoCode').value.trim().toUpperCase() : null,
                         discount_applied: appliedPromo ? appliedPromo.discount : 0,
-                        final_price: currentPrices[plan]
+                        fiat_addon: fiatAddon,
+                        base_price: basePrice,
+                        addon_price: addonPrice,
+                        final_price: totalPrice
                     })
                 });
                 if (saveResponse.ok) {
@@ -445,7 +540,10 @@
                     plan: plan,
                     promo_code: appliedPromo ? document.getElementById('promoCode').value.trim().toUpperCase() : null,
                     discount_applied: appliedPromo ? appliedPromo.discount : 0,
-                    final_price: currentPrices[plan],
+                    fiat_addon: fiatAddon,
+                    base_price: basePrice,
+                    addon_price: addonPrice,
+                    final_price: totalPrice,
                     timestamp: Date.now()
                 }));
             } catch (e) {
@@ -456,6 +554,8 @@
             sessionStorage.setItem('purchase_email', email);
             sessionStorage.setItem('purchase_hardware_id', hardwareId);
             sessionStorage.setItem('purchase_plan', plan);
+            sessionStorage.setItem('purchase_fiat_addon', fiatAddon ? 'yes' : 'no');
+            sessionStorage.setItem('purchase_total_price', totalPrice.toString());
             
             // Get the payment link for selected plan
             const paymentLink = STRIPE_PAYMENT_LINKS[plan];
