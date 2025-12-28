@@ -173,7 +173,11 @@
                 <div class="form-group">
                     <label for="licenseKey">License Key *</label>
                     <input type="text" id="licenseKey" name="licenseKey" required 
-                           placeholder="XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX" />
+                           placeholder="B61D-8A50-0081-850E-E956-C3F4-12F4-9034 (or without dashes)" 
+                           style="font-family: monospace; letter-spacing: 0.5px;" />
+                    <div style="font-size: 0.85rem; color: #cbd5f5; margin-top: 0.25rem;">
+                        You can enter your license key with or without dashes. Both formats are accepted.
+                    </div>
                     <div class="error-message" id="licenseKeyError"></div>
                     <div class="success-message" id="licenseKeySuccess" style="display: none;"></div>
                 </div>
@@ -217,12 +221,36 @@
         let licenseVerified = false;
         let verifiedLicenseData = null;
         
+        // Auto-format license key as user types (optional - adds dashes for readability)
+        document.getElementById('licenseKey').addEventListener('input', function() {
+            let value = this.value.replace(/[^A-Z0-9]/gi, '').toUpperCase(); // Remove non-alphanumeric, uppercase
+            if (value.length > 32) {
+                value = value.substring(0, 32);
+            }
+            // Optionally format with dashes (but don't force it - user can type either way)
+            // We'll normalize on the server side anyway
+            this.value = value;
+        });
+        
         // License key verification
         document.getElementById('licenseKey').addEventListener('blur', async function() {
-            const licenseKey = this.value.trim();
+            let licenseKey = this.value.trim().replace(/[^A-Z0-9]/gi, '').toUpperCase(); // Normalize: remove dashes/spaces
             const email = document.getElementById('email').value.trim();
             
+            // Update display to show normalized version (without dashes for consistency)
+            if (licenseKey.length === 32) {
+                // Show formatted version for user feedback, but send normalized to API
+                const formatted = licenseKey.match(/.{1,4}/g)?.join('-') || licenseKey;
+                // Don't change the input value - let user see what they typed
+                // But we'll send normalized version to API
+            }
+            
             if (!licenseKey || licenseKey.length < 16) {
+                return;
+            }
+            
+            if (licenseKey.length !== 32) {
+                document.getElementById('licenseKeyError').textContent = 'License key must be 32 characters (after removing dashes/spaces)';
                 return;
             }
             
@@ -239,16 +267,43 @@
             document.getElementById('licenseVerification').style.display = 'none';
             
             try {
+                // Normalize license key before sending (remove dashes, spaces, uppercase)
+                const normalizedKey = licenseKey.replace(/[^A-Z0-9]/gi, '').toUpperCase();
+                
+                console.log('Verifying license:', { normalizedKey, email, apiUrl: VERIFY_LICENSE_API });
+                
                 const response = await fetch(VERIFY_LICENSE_API, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({
-                        license_key: licenseKey,
+                        license_key: normalizedKey, // Send normalized version
                         email: email
                     })
                 });
                 
+                // Check if response is OK before parsing JSON
+                if (!response.ok) {
+                    let errorText = '';
+                    try {
+                        errorText = await response.text();
+                        // Try to parse as JSON for better error message
+                        try {
+                            const errorJson = JSON.parse(errorText);
+                            if (errorJson.error) {
+                                errorText = errorJson.error;
+                            }
+                        } catch (e) {
+                            // Not JSON, use text as-is
+                        }
+                    } catch (e) {
+                        errorText = `HTTP ${response.status}`;
+                    }
+                    console.error('API error response:', response.status, errorText);
+                    throw new Error(`Server error: ${errorText}`);
+                }
+                
                 const result = await response.json();
+                console.log('API response:', result);
                 
                 if (result.valid && result.license_type === 'pro') {
                     // License is valid
@@ -301,8 +356,22 @@
                 }
             } catch (error) {
                 console.error('License verification error:', error);
-                document.getElementById('licenseKeyError').textContent = 
-                    'Unable to verify license. Please check your connection and try again.';
+                let errorMsg = 'Unable to verify license. ';
+                
+                // Provide more specific error messages
+                if (error.message && error.message.includes('Failed to fetch')) {
+                    errorMsg += 'Cannot connect to server. Please check your internet connection.';
+                } else if (error.message && error.message.includes('API returned')) {
+                    errorMsg += `Server error: ${error.message}`;
+                } else {
+                    errorMsg += 'Please check your connection and try again.';
+                }
+                
+                document.getElementById('licenseKeyError').textContent = errorMsg;
+                document.getElementById('licenseVerification').className = 'license-verification error';
+                document.getElementById('licenseVerification').style.display = 'block';
+                document.getElementById('verificationMessage').innerHTML = 
+                    '<strong style="color: #ff6b6b;">Verification Error</strong><br>' + errorMsg;
                 document.getElementById('purchaseBtn').disabled = true;
                 document.getElementById('purchaseBtn').textContent = 'Verify License & Proceed to Payment (€30)';
                 licenseVerified = false;
@@ -313,7 +382,9 @@
             e.preventDefault();
             
             const email = document.getElementById('email').value.trim();
-            const licenseKey = document.getElementById('licenseKey').value.trim();
+            let licenseKey = document.getElementById('licenseKey').value.trim();
+            // Normalize license key (remove dashes, spaces, uppercase)
+            licenseKey = licenseKey.replace(/[^A-Z0-9]/gi, '').toUpperCase();
             const termsAccepted = document.getElementById('termsCheckbox').checked;
             
             // Clear previous errors
@@ -329,8 +400,8 @@
                 return;
             }
             
-            if (!licenseKey || licenseKey.length < 16) {
-                document.getElementById('licenseKeyError').textContent = 'Please enter a valid license key';
+            if (!licenseKey || licenseKey.length !== 32) {
+                document.getElementById('licenseKeyError').textContent = 'License key must be 32 characters (dashes/spaces are optional)';
                 return;
             }
             
