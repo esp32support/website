@@ -207,12 +207,50 @@
 
     <script>
         // API endpoints
+        // ⚠️ IMPORTANT: Make sure the API is deployed and accessible at this URL
         const PRODUCTION_API_URL = 'https://esp32-promo-api.onrender.com';
         const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
             ? 'http://localhost:5000'
             : PRODUCTION_API_URL;
         const VERIFY_LICENSE_API = API_BASE_URL + '/api/verify-license';
         const SAVE_ADDON_PURCHASE_API = API_BASE_URL + '/api/save-addon-purchase';
+        const API_HEALTH_CHECK = API_BASE_URL + '/api/health';
+        
+        // Test API connection on page load (for debugging)
+        async function testApiConnection() {
+            try {
+                console.log('Testing API connection to:', API_BASE_URL);
+                const response = await fetch(API_HEALTH_CHECK, {
+                    method: 'GET',
+                    headers: {'Content-Type': 'application/json'},
+                    // Add timeout
+                    signal: AbortSignal.timeout(5000)
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('API connection: OK', data);
+                } else {
+                    console.warn('API health check failed:', response.status, response.statusText);
+                }
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    console.error('API connection timeout - server may be slow or unreachable');
+                } else {
+                    console.error('API connection test failed:', error.message);
+                    console.error('API URL:', API_BASE_URL);
+                    console.error('This usually means:');
+                    console.error('  1. API server is not deployed');
+                    console.error('  2. API server is down');
+                    console.error('  3. Wrong API URL');
+                    console.error('  4. CORS issue (check API CORS configuration)');
+                }
+            }
+        }
+        
+        // Test connection when page loads (only log to console, don't show to user)
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            testApiConnection();
+        }
         
         // Stripe Payment Link for Fiat Dictionary Add-On (€30)
         // ⚠️ TEST LINK - Replace with production link when ready
@@ -356,13 +394,31 @@
                 }
             } catch (error) {
                 console.error('License verification error:', error);
+                console.error('Error details:', {
+                    message: error.message,
+                    stack: error.stack,
+                    apiUrl: VERIFY_LICENSE_API
+                });
+                
                 let errorMsg = 'Unable to verify license. ';
                 
                 // Provide more specific error messages
-                if (error.message && error.message.includes('Failed to fetch')) {
-                    errorMsg += 'Cannot connect to server. Please check your internet connection.';
+                if (error.message && (error.message.includes('Failed to fetch') || error.message.includes('NetworkError'))) {
+                    errorMsg += `Cannot connect to API server. `;
+                    errorMsg += `The API at ${API_BASE_URL} is not reachable. `;
+                    errorMsg += 'This usually means the API server is not deployed or is down. ';
+                    errorMsg += 'Please contact support at esp32contact@gmail.com for assistance.';
                 } else if (error.message && error.message.includes('API returned')) {
-                    errorMsg += `Server error: ${error.message}`;
+                    // Check if it's a 404 (API not found)
+                    if (error.message.includes('404')) {
+                        errorMsg += `API endpoint not found (404). `;
+                        errorMsg += `The API server may not be deployed or the endpoint is missing. `;
+                        errorMsg += 'Please contact support.';
+                    } else {
+                        errorMsg += `Server error: ${error.message}`;
+                    }
+                } else if (error.message) {
+                    errorMsg += error.message;
                 } else {
                     errorMsg += 'Please check your connection and try again.';
                 }
