@@ -127,11 +127,30 @@
             <a href="mailto:esp32contact@gmail.com" style="color: #7dd3fc;">esp32contact@gmail.com</a> with your payment confirmation.</p>
             
             <script>
-                // Display stored purchase info
-                const email = sessionStorage.getItem('purchase_email');
-                const hwId = sessionStorage.getItem('purchase_hardware_id');
+                // Get session_id from URL parameter (from Stripe redirect)
+                const urlParams = new URLSearchParams(window.location.search);
+                const sessionId = urlParams.get('session_id');
+                
+                // Try to get purchase info from sessionStorage first (if available)
+                let email = sessionStorage.getItem('purchase_email');
+                let hwId = sessionStorage.getItem('purchase_hardware_id');
                 const addonEmail = sessionStorage.getItem('addon_purchase_email');
                 const addonLicenseKey = sessionStorage.getItem('addon_purchase_license_key');
+                
+                // If sessionStorage is empty but we have session_id, try localStorage as backup
+                if (!email && !hwId && sessionId) {
+                    // Try localStorage (persists across page loads)
+                    const storedPurchase = localStorage.getItem('pending_purchase');
+                    if (storedPurchase) {
+                        try {
+                            const purchaseData = JSON.parse(storedPurchase);
+                            email = purchaseData.email;
+                            hwId = purchaseData.hardware_id;
+                        } catch (e) {
+                            console.warn('Could not parse stored purchase data:', e);
+                        }
+                    }
+                }
                 
                 // Determine what was purchased
                 const isLicensePurchase = email && hwId; // License purchase has email and hardware ID
@@ -158,8 +177,18 @@
                     }
                 }
                 
-                // If neither section should be shown (direct page access), show both as fallback
-                if (!isLicensePurchase && !isAddonPurchase) {
+                // If we have session_id but no stored data, show generic success message
+                if (sessionId && !isLicensePurchase && !isAddonPurchase) {
+                    // Show both sections as informational (payment was successful)
+                    document.getElementById('licenseProcessingBox').style.display = 'block';
+                    document.getElementById('addonBox').style.display = 'block';
+                    document.getElementById('customerEmail').textContent = 'Check your email';
+                    document.getElementById('hardwareId').textContent = 'N/A';
+                    document.getElementById('addonEmail').textContent = 'Check your email';
+                }
+                
+                // If neither section should be shown (direct page access without session_id), show both as fallback
+                if (!sessionId && !isLicensePurchase && !isAddonPurchase) {
                     // User accessed page directly - show both sections as informational
                     document.getElementById('licenseProcessingBox').style.display = 'block';
                     document.getElementById('addonBox').style.display = 'block';
@@ -168,12 +197,12 @@
                     document.getElementById('addonEmail').textContent = 'N/A';
                 }
                 
-                // Clear stored data
-                sessionStorage.removeItem('purchase_email');
-                sessionStorage.removeItem('purchase_hardware_id');
-                sessionStorage.removeItem('purchase_plan');
-                sessionStorage.removeItem('addon_purchase_email');
-                sessionStorage.removeItem('addon_purchase_license_key');
+                // Clear stored data (optional - can keep for debugging)
+                // sessionStorage.removeItem('purchase_email');
+                // sessionStorage.removeItem('purchase_hardware_id');
+                // sessionStorage.removeItem('purchase_plan');
+                // sessionStorage.removeItem('addon_purchase_email');
+                // sessionStorage.removeItem('addon_purchase_license_key');
             </script>
             
             <a href="index.html" class="btn">Return to Home</a>
