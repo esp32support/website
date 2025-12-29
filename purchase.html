@@ -314,17 +314,6 @@
             document.getElementById('yearlyOption').querySelector('input[type="radio"]').checked = false;
         }
 
-        // Stripe Payment Links
-        // ⚠️ SECURITY NOTE: These are TEST payment links. 
-        // For production, replace with your live Stripe Payment Links:
-        // 1. Create Payment Links in Stripe Dashboard (https://dashboard.stripe.com/payment-links)
-        // 2. Replace the URLs below with your production Payment Link URLs
-        // 3. Remove the '/test_' prefix from the URLs
-        const STRIPE_PAYMENT_LINKS = {
-            monthly: 'https://buy.stripe.com/test_28EdR91gla3Zcg85LmeUU01',  // ⚠️ TEST LINK - Replace for production
-            yearly: 'https://buy.stripe.com/test_3cIaEX5wBb837ZSehSeUU00'   // ⚠️ TEST LINK - Replace for production
-        };
-        
         // Base prices
         const BASE_PRICES = {
             monthly: 15,
@@ -348,7 +337,7 @@
             ? 'http://localhost:5000'  // Local development (auto-detected)
             : PRODUCTION_API_URL;  // Production
         const VALIDATE_PROMO_API = API_BASE_URL + '/api/validate-promo';
-        const SAVE_INFO_API = API_BASE_URL + '/api/save-purchase-info';
+        const CREATE_CHECKOUT_SESSION_API = API_BASE_URL + '/api/create-checkout-session';
         
         // Promo code application (validated server-side to prevent code exposure)
         document.getElementById('applyPromoBtn').addEventListener('click', async function() {
@@ -504,15 +493,19 @@
                 return;
             }
             
-            // Calculate total price
+            // Disable button and show loading
+            const purchaseBtn = document.getElementById('purchaseBtn');
+            purchaseBtn.disabled = true;
+            purchaseBtn.textContent = 'Creating checkout session...';
+            
+            // Calculate total price (for display only - server will calculate correctly)
             const basePrice = currentPrices[plan];
             const addonPrice = fiatAddon ? FIAT_ADDON_PRICE : 0;
             const totalPrice = basePrice + addonPrice;
             
-            // Try to save purchase info to server (optional - for automatic processing)
-            // If this fails, you can manually process payments by matching email
+            // Create Stripe Checkout Session with correct price (including discount and add-on)
             try {
-                const saveResponse = await fetch(SAVE_INFO_API, {
+                const checkoutResponse = await fetch(CREATE_CHECKOUT_SESSION_API, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({
@@ -520,58 +513,33 @@
                         hardware_id: hardwareId,
                         plan: plan,
                         promo_code: appliedPromo ? document.getElementById('promoCode').value.trim().toUpperCase() : null,
-                        discount_applied: appliedPromo ? appliedPromo.discount : 0,
-                        fiat_addon: fiatAddon,
-                        base_price: basePrice,
-                        addon_price: addonPrice,
-                        final_price: totalPrice
+                        fiat_addon: fiatAddon
                     })
                 });
-                if (saveResponse.ok) {
-                    console.log('Purchase info saved for automatic processing');
+                
+                const checkoutResult = await checkoutResponse.json();
+                
+                if (!checkoutResponse.ok) {
+                    throw new Error(checkoutResult.error || 'Failed to create checkout session');
                 }
-            } catch (e) {
-                console.warn('Could not save purchase info (will need manual processing):', e);
-            }
-            
-            // Store in localStorage as backup
-            try {
-                localStorage.setItem('pending_purchase', JSON.stringify({
-                    email: email,
-                    hardware_id: hardwareId,
-                    plan: plan,
-                    promo_code: appliedPromo ? document.getElementById('promoCode').value.trim().toUpperCase() : null,
-                    discount_applied: appliedPromo ? appliedPromo.discount : 0,
-                    fiat_addon: fiatAddon,
-                    base_price: basePrice,
-                    addon_price: addonPrice,
-                    final_price: totalPrice,
-                    timestamp: Date.now()
-                }));
-            } catch (e) {
-                console.warn('Could not save to localStorage:', e);
-            }
-            
-            // Store email and hardware ID in sessionStorage for success page
-            sessionStorage.setItem('purchase_email', email);
-            sessionStorage.setItem('purchase_hardware_id', hardwareId);
-            sessionStorage.setItem('purchase_plan', plan);
-            sessionStorage.setItem('purchase_fiat_addon', fiatAddon ? 'yes' : 'no');
-            sessionStorage.setItem('purchase_total_price', totalPrice.toString());
-            
-            // Get the payment link for selected plan
-            const paymentLink = STRIPE_PAYMENT_LINKS[plan];
-            
-            if (!paymentLink) {
+                
+                // Store purchase info in sessionStorage for success page
+                sessionStorage.setItem('purchase_email', email);
+                sessionStorage.setItem('purchase_hardware_id', hardwareId);
+                sessionStorage.setItem('purchase_plan', plan);
+                sessionStorage.setItem('purchase_fiat_addon', fiatAddon ? 'yes' : 'no');
+                sessionStorage.setItem('purchase_total_price', checkoutResult.total_price.toString());
+                
+                // Redirect to Stripe Checkout
+                window.location.href = checkoutResult.url;
+                
+            } catch (error) {
+                console.error('Error creating checkout session:', error);
                 document.getElementById('formError').textContent = 
-                    'Payment link not found for selected plan. Please contact support.';
+                    'Failed to create checkout session. Please try again or contact support at esp32contact@gmail.com';
                 purchaseBtn.disabled = false;
                 purchaseBtn.textContent = 'Proceed to Payment';
-                return;
             }
-            
-            // Redirect to Stripe Payment Link with email pre-filled
-            window.location.href = paymentLink + '?prefilled_email=' + encodeURIComponent(email);
         });
     </script>
     
