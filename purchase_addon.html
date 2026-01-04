@@ -212,7 +212,7 @@
             ? 'http://localhost:5000'
             : PRODUCTION_API_URL;
         const VERIFY_LICENSE_API = API_BASE_URL + '/api/verify-license';
-        const SAVE_ADDON_PURCHASE_API = API_BASE_URL + '/api/save-addon-purchase';
+        const CREATE_ADDON_CHECKOUT_SESSION_API = API_BASE_URL + '/api/create-addon-checkout-session';
         const API_HEALTH_CHECK = API_BASE_URL + '/api/health';
         
         // Test API connection on page load (for debugging)
@@ -362,69 +362,56 @@
                 return;
             }
             
-            // Save purchase info to server and generate activation code
+            // Create Stripe Checkout Session for add-on purchase
             document.getElementById('purchaseBtn').disabled = true;
-            document.getElementById('purchaseBtn').textContent = 'Processing Purchase...';
+            document.getElementById('purchaseBtn').textContent = 'Creating Checkout...';
             document.getElementById('formError').textContent = '';
             document.getElementById('formSuccess').textContent = '';
             
             try {
-                const saveResponse = await fetch(SAVE_ADDON_PURCHASE_API, {
+                const checkoutResponse = await fetch(CREATE_ADDON_CHECKOUT_SESSION_API, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({
                         email: email,
                         license_key: normalizedKey, // Send normalized version
-                        addon_type: 'fiat_dictionary',
-                        price: 30
+                        addon_type: 'fiat_dictionary'
                     })
                 });
                 
-                const result = await saveResponse.json();
+                const checkoutResult = await checkoutResponse.json();
                 
-                if (saveResponse.ok && result.success) {
-                    // Success - payment logged, files will be sent manually
-                    document.getElementById('formSuccess').textContent = 
-                        '✓ Payment successful! You will receive the dictionary files via email shortly. ' +
-                        'The files will be sent as a zip file - simply extract and place them in your ESP32 CAN Sniffer directory.';
-                    document.getElementById('purchaseBtn').textContent = 'Payment Complete';
-                    document.getElementById('purchaseBtn').disabled = true;
-                    
-                    // Clear form
-                    document.getElementById('email').value = '';
-                    document.getElementById('licenseKey').value = '';
-                    document.getElementById('termsCheckbox').checked = false;
-                    
-                    // Store in sessionStorage for reference
-                    sessionStorage.setItem('addon_purchase_email', email);
-                    sessionStorage.setItem('addon_purchase_license_key', licenseKey);
-                    
-                } else if (saveResponse.status === 404) {
-                    // API endpoint not found - service may not be deployed or is sleeping
-                    document.getElementById('formError').textContent = 
-                        'API server is not available. The service may be sleeping or not deployed. ' +
-                        'Please contact support at esp32contact@gmail.com or try again in a few moments.';
-                    document.getElementById('purchaseBtn').disabled = false;
-                    document.getElementById('purchaseBtn').textContent = 'Proceed to Payment (€30)';
-                } else {
-                    // Error from server
-                    document.getElementById('formError').textContent = 
-                        result.error || 'Failed to process purchase. Please try again or contact support at esp32contact@gmail.com';
-                    document.getElementById('purchaseBtn').disabled = false;
-                    document.getElementById('purchaseBtn').textContent = 'Proceed to Payment (€30)';
+                if (!checkoutResponse.ok) {
+                    throw new Error(checkoutResult.error || 'Failed to create checkout session');
                 }
-            } catch (e) {
-                console.error('Purchase error:', e);
-                console.error('API URL:', SAVE_ADDON_PURCHASE_API);
-                let errorMsg = 'Failed to process purchase. ';
-                if (e.name === 'TypeError' && e.message.includes('fetch')) {
-                    errorMsg += 'Cannot connect to server. Please check your internet connection.';
-                } else {
-                    errorMsg += 'Please try again or contact support at esp32contact@gmail.com';
-                }
-                document.getElementById('formError').textContent = errorMsg;
+                
+                // Store purchase info in sessionStorage for success page
+                sessionStorage.setItem('addon_purchase_email', email);
+                sessionStorage.setItem('addon_purchase_license_key', normalizedKey);
+                sessionStorage.setItem('addon_purchase_type', 'fiat_dictionary');
+                sessionStorage.setItem('addon_purchase_price', '30');
+                
+                // Redirect to Stripe Checkout
+                window.location.href = checkoutResult.url;
+                
+            } catch (error) {
+                // Re-enable button on error
                 document.getElementById('purchaseBtn').disabled = false;
                 document.getElementById('purchaseBtn').textContent = 'Proceed to Payment (€30)';
+                
+                console.error('Checkout creation error:', error);
+                console.error('API URL:', CREATE_ADDON_CHECKOUT_SESSION_API);
+                
+                let errorMsg = 'Failed to create checkout session. ';
+                if (error.message.includes('404') || error.message.includes('not found')) {
+                    errorMsg = 'API server is not available. The service may be sleeping or not deployed. ' +
+                        'Please contact support at esp32contact@gmail.com or try again in a few moments.';
+                } else if (error.name === 'TypeError' && error.message.includes('fetch')) {
+                    errorMsg += 'Cannot connect to server. Please check your internet connection.';
+                } else {
+                    errorMsg += error.message || 'Please try again or contact support at esp32contact@gmail.com';
+                }
+                document.getElementById('formError').textContent = errorMsg;
             }
         });
     </script>
