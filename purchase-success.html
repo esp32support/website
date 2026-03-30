@@ -108,6 +108,8 @@
                 <p>Your license key is being generated and will be sent shortly.</p>
                 <p><strong>Email:</strong> <span id="customerEmail"></span></p>
                 <p><strong>Hardware ID:</strong> <code id="hardwareId" style="font-size: 0.9rem;"></code></p>
+                <p><strong>Provider:</strong> <span id="paymentProvider">N/A</span></p>
+                <p><strong>Order ID:</strong> <code id="orderId" style="font-size: 0.9rem;">N/A</code></p>
             </div>
             
             <div class="info-box" id="addonBox" style="background: rgba(0, 170, 0, 0.1); border-color: rgba(0, 170, 0, 0.3); display: none;">
@@ -128,6 +130,9 @@
             
             <script>
                 // Display stored purchase info
+                const urlParams = new URLSearchParams(window.location.search);
+                const providerFromUrl = urlParams.get('provider') || 'mypos';
+                const orderIdFromUrl = urlParams.get('order_id') || 'N/A';
                 const email = sessionStorage.getItem('purchase_email');
                 const hwId = sessionStorage.getItem('purchase_hardware_id');
                 const addonEmail = sessionStorage.getItem('addon_purchase_email');
@@ -143,6 +148,8 @@
                     document.getElementById('licenseProcessingBox').style.display = 'block';
                     document.getElementById('customerEmail').textContent = email;
                     document.getElementById('hardwareId').textContent = hwId;
+                    document.getElementById('paymentProvider').textContent = providerFromUrl.toUpperCase();
+                    document.getElementById('orderId').textContent = orderIdFromUrl;
                 }
                 
                 if (isAddonPurchase) {
@@ -165,6 +172,8 @@
                     document.getElementById('addonBox').style.display = 'block';
                     document.getElementById('customerEmail').textContent = 'N/A';
                     document.getElementById('hardwareId').textContent = 'N/A';
+                    document.getElementById('paymentProvider').textContent = providerFromUrl.toUpperCase();
+                    document.getElementById('orderId').textContent = orderIdFromUrl;
                     document.getElementById('addonEmail').textContent = 'N/A';
                 }
                 
