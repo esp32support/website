@@ -89,68 +89,49 @@
         <div class="success-container">
             <div class="success-icon">✓</div>
             <h1>Payment Successful!</h1>
-            <p>Thank you for your purchase. You will receive an email shortly.</p>
+            <p>Your PRO license is being generated and will be delivered to your email shortly.</p>
             
             <div class="info-box">
                 <h3>What's Next?</h3>
-                <ol>
-                    <li><strong>Your payment was successful!</strong> We'll process your license within 24 hours.</li>
-                    <li>Check your email inbox (and spam folder) for your license key</li>
-                    <li>Open ESP32 CAN Sniffer</li>
-                    <li>Go to <strong>Help → About → License Activation</strong></li>
-                    <li>Enter your license key and email address</li>
-                    <li>Click "Activate License"</li>
-                </ol>
+                <ul style="color: #cbd5f5; line-height: 1.8; margin-left: 1.5rem;">
+                    <li>✔ Check your email inbox (and spam folder)</li>
+                    <li>✔ Open ESP32 CAN Sniffer</li>
+                    <li>✔ Go to Help → About → License Activation</li>
+                    <li>✔ Enter your email and license key</li>
+                    <li>✔ Click "Activate License"</li>
+                </ul>
+                <p style="margin-top: 0.75rem;">🚀 Activation usually takes just a few minutes after payment.</p>
             </div>
             
             <div class="info-box" id="licenseProcessingBox" style="background: rgba(125, 211, 252, 0.15); border-color: #7dd3fc; display: none;">
                 <h3>License Processing</h3>
-                <p>Your license key will be generated and sent to your email address within 24 hours of payment confirmation.</p>
+                <p>Your license key is being generated and will be sent shortly.</p>
                 <p><strong>Email:</strong> <span id="customerEmail"></span></p>
                 <p><strong>Hardware ID:</strong> <code id="hardwareId" style="font-size: 0.9rem;"></code></p>
             </div>
             
             <div class="info-box" id="addonBox" style="background: rgba(0, 170, 0, 0.1); border-color: rgba(0, 170, 0, 0.3); display: none;">
                 <h3>🔧 Add-Ons</h3>
-                <p>If you purchased any add-ons (such as the Fiat Dictionary Add-On), the files will be sent to your email address as a zip file.</p>
+                <p>If you purchased any add-ons (such as the Fiat Dictionary), they will be delivered via email.</p>
                 <p><strong>What to expect:</strong></p>
                 <ul style="color: #cbd5f5; line-height: 1.8; margin-left: 1.5rem;">
-                    <li>Add-on files will be sent via email within 24-48 hours</li>
-                    <li>Files will be in a zip format</li>
-                    <li>Simply extract the zip file and place the files in your ESP32 CAN Sniffer installation directory</li>
-                    <li>Make sure to check your spam folder if you don't see the email</li>
+                    <li>✔ Files delivered as a ZIP package</li>
+                    <li>✔ Simply extract into your application folder</li>
+                    <li>✔ Ready to use immediately</li>
                 </ul>
+                <p style="margin-top: 0.75rem;">📩 Most deliveries are instant, but in rare cases may take up to a few hours.</p>
                 <p style="margin-top: 1rem;"><strong>Email:</strong> <span id="addonEmail"></span></p>
             </div>
             
-            <p>If you don't receive your license key or add-on files within the expected time, please contact us at 
-            <a href="mailto:esp32contact@gmail.com" style="color: #7dd3fc;">esp32contact@gmail.com</a> with your payment confirmation.</p>
+            <p>If you don’t receive your license or files, contact:
+            <a href="mailto:esp32contact@gmail.com" style="color: #7dd3fc;">esp32contact@gmail.com</a></p>
             
             <script>
-                // Get session_id from URL parameter (from Stripe redirect)
-                const urlParams = new URLSearchParams(window.location.search);
-                const sessionId = urlParams.get('session_id');
-                
-                // Try to get purchase info from sessionStorage first (if available)
-                let email = sessionStorage.getItem('purchase_email');
-                let hwId = sessionStorage.getItem('purchase_hardware_id');
+                // Display stored purchase info
+                const email = sessionStorage.getItem('purchase_email');
+                const hwId = sessionStorage.getItem('purchase_hardware_id');
                 const addonEmail = sessionStorage.getItem('addon_purchase_email');
                 const addonLicenseKey = sessionStorage.getItem('addon_purchase_license_key');
-                
-                // If sessionStorage is empty but we have session_id, try localStorage as backup
-                if (!email && !hwId && sessionId) {
-                    // Try localStorage (persists across page loads)
-                    const storedPurchase = localStorage.getItem('pending_purchase');
-                    if (storedPurchase) {
-                        try {
-                            const purchaseData = JSON.parse(storedPurchase);
-                            email = purchaseData.email;
-                            hwId = purchaseData.hardware_id;
-                        } catch (e) {
-                            console.warn('Could not parse stored purchase data:', e);
-                        }
-                    }
-                }
                 
                 // Determine what was purchased
                 const isLicensePurchase = email && hwId; // License purchase has email and hardware ID
@@ -177,18 +158,8 @@
                     }
                 }
                 
-                // If we have session_id but no stored data, show generic success message
-                if (sessionId && !isLicensePurchase && !isAddonPurchase) {
-                    // Show both sections as informational (payment was successful)
-                    document.getElementById('licenseProcessingBox').style.display = 'block';
-                    document.getElementById('addonBox').style.display = 'block';
-                    document.getElementById('customerEmail').textContent = 'Check your email';
-                    document.getElementById('hardwareId').textContent = 'N/A';
-                    document.getElementById('addonEmail').textContent = 'Check your email';
-                }
-                
-                // If neither section should be shown (direct page access without session_id), show both as fallback
-                if (!sessionId && !isLicensePurchase && !isAddonPurchase) {
+                // If neither section should be shown (direct page access), show both as fallback
+                if (!isLicensePurchase && !isAddonPurchase) {
                     // User accessed page directly - show both sections as informational
                     document.getElementById('licenseProcessingBox').style.display = 'block';
                     document.getElementById('addonBox').style.display = 'block';
@@ -197,12 +168,12 @@
                     document.getElementById('addonEmail').textContent = 'N/A';
                 }
                 
-                // Clear stored data (optional - can keep for debugging)
-                // sessionStorage.removeItem('purchase_email');
-                // sessionStorage.removeItem('purchase_hardware_id');
-                // sessionStorage.removeItem('purchase_plan');
-                // sessionStorage.removeItem('addon_purchase_email');
-                // sessionStorage.removeItem('addon_purchase_license_key');
+                // Clear stored data
+                sessionStorage.removeItem('purchase_email');
+                sessionStorage.removeItem('purchase_hardware_id');
+                sessionStorage.removeItem('purchase_plan');
+                sessionStorage.removeItem('addon_purchase_email');
+                sessionStorage.removeItem('addon_purchase_license_key');
             </script>
             
             <a href="index.html" class="btn">Return to Home</a>

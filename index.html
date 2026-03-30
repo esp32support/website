@@ -4,18 +4,18 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
-    <title>ESP32 CAN BUS Sniffer</title>
-    <meta name="description" content="Professional CAN bus monitoring and analysis software for automotive diagnostics. Works with ESP32 + MCP2515 hardware. Real-time message capture, WiFi/USB connectivity, and vehicle-specific decoding." />
+    <title>ESP32 CAN Bus Sniffer – Real-Time CAN Analysis & Decoding Tool</title>
+    <meta name="description" content="Professional CAN bus analysis software for ESP32. Monitor, decode and analyze vehicle CAN data in real-time. Supports WiFi & USB. No custom PCB required." />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://your-domain.com/" />
-    <meta property="og:title" content="ESP32 CAN Sniffer – Professional CAN Bus Analysis Tool" />
-    <meta property="og:description" content="Professional CAN bus monitoring and analysis software for automotive diagnostics. Works with ESP32 + MCP2515 hardware. Real-time message capture, WiFi/USB connectivity, and vehicle-specific decoding." />
-    <meta property="og:image" content="https://your-domain.com/images/dashboard.png" />
+    <meta property="og:url" content="https://esp32canbus.pages.dev/" />
+    <meta property="og:title" content="ESP32 CAN Sniffer – Real-Time CAN Analysis Tool" />
+    <meta property="og:description" content="Analyze and decode CAN data in real-time using ESP32 hardware. No custom PCB required." />
+    <meta property="og:image" content="https://esp32canbus.pages.dev/images/dashboard.png" />
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://your-domain.com/" />
+    <link rel="canonical" href="https://esp32canbus.pages.dev/" />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='20' y='20' width='60' height='60' fill='%237dd3fc' stroke='%23bae6fd' stroke-width='2' rx='4'/%3E%3Crect x='25' y='25' width='50' height='50' fill='%23080a10'/%3E%3Ccircle cx='20' cy='35' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='20' cy='50' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='20' cy='65' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='35' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='50' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='65' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='35' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='50' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='65' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='35' cy='80' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='50' cy='80' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='65' cy='80' r='2' fill='%237dd3fc'/%3E%3C/svg%3E" />
     <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='20' y='20' width='60' height='60' fill='%237dd3fc' stroke='%23bae6fd' stroke-width='2' rx='4'/%3E%3Crect x='25' y='25' width='50' height='50' fill='%23080a10'/%3E%3Ccircle cx='20' cy='35' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='20' cy='50' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='20' cy='65' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='35' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='50' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='65' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='35' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='50' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='65' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='35' cy='80' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='50' cy='80' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='65' cy='80' r='2' fill='%237dd3fc'/%3E%3C/svg%3E" />
     <link rel="stylesheet" href="styles.css" />
@@ -50,19 +50,26 @@
             <div class="hero-content">
                 <div>
                     <p class="eyebrow">Professional CAN Toolkit</p>
-                    <h1>Monitor, decode and organize your CAN BUS messages.</h1>
+                    <h1>Real-Time CAN Bus Analysis & Decoding with ESP32</h1>
                     <p class="lead">
-                        High-performance CAN capture with Wi-Fi/USB,
-                        intuitive decoding tools, and streamlined workflows.
-                        Works with budget-friendly ESP32 + MCP2515 hardware.
+                        Analyze, decode and monitor vehicle CAN data in real-time using affordable ESP32 hardware.
+                        No custom PCB required. Built for developers, technicians and automotive enthusiasts.
                     </p>
                     <div class="hero-cta">
-                        <a class="btn primary" href="https://github.com/your-org/esp32-can-sniffer/releases" target="_blank">Download DEMO</a>
-                        <a class="btn secondary" href="purchase.html" id="purchaseLinkHero">Purchase PRO License</a>
+                        <a class="btn primary" href="https://github.com/your-org/esp32-can-sniffer/releases" target="_blank">Download Demo (Free Trial)</a>
+                        <a class="btn secondary" href="purchase.html" id="purchaseLinkHero">Get PRO License</a>
                     </div>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: #cbd5f5;">
+                        ✔ Real-time CAN decoding<br>
+                        ✔ Signal-level analysis (not just raw data)<br>
+                        ✔ Works with ESP32 + MCP2515 (no custom hardware)
+                    </p>
+                    <p style="margin-top: 0.5rem; color: #7dd3fc; font-size: 0.9rem;">
+                        🔧 Fiat Stilo CAN Dictionary (tested) available – €30 add-on
+                    </p>
                     <div style="margin-top: 1rem; text-align: center;">
                         <a href="purchase_addon.html" style="color: #7dd3fc; text-decoration: underline; font-size: 0.9rem;">
-                            🔧 Already have a license? Purchase Fiat Dictionary Add-On (€30) →
+                            Get Fiat Dictionary Add-On →
                         </a>
                     </div>
                 </div>
@@ -192,7 +199,7 @@
             
             <div class="modal-cta">
                 <a class="btn primary" href="https://github.com/your-org/esp32-can-sniffer/releases" target="_blank">Download DEMO</a>
-                <a class="btn secondary" href="purchase.html" id="purchaseLinkModal">Purchase PRO License</a>
+                <a class="btn secondary" href="purchase.html" id="purchaseLinkModal">Get PRO License</a>
             </div>
             <div style="margin-top: 1rem; text-align: center;">
                 <a href="purchase_addon.html" style="color: #7dd3fc; text-decoration: underline; font-size: 0.9rem;">
@@ -204,23 +211,27 @@
 
     <section id="features" class="section">
         <div class="container">
-            <h2>Built for automotive reverse engineering projects</h2>
+            <h2>Built for automotive diagnostics & reverse engineering</h2>
             <div class="feature-grid">
                 <article>
                     <h3>Live Monitoring</h3>
-                    <p>Zero-copy buffering handles 500+ msg/s from Serial or Wi-Fi with real-time filtering.</p>
+                    <p>High-performance capture with real-time filtering and stream stats.</p>
                 </article>
                 <article>
-                    <h3>Budget-Friendly Hardware</h3>
-                    <p>Designed for ESP32 microcontrollers paired with MCP2515 CAN controllers. Professional-grade performance without the premium price tag.</p>
+                    <h3>Budget Hardware</h3>
+                    <p>Works with ESP32 + MCP2515. No custom PCB required.</p>
                 </article>
                 <article>
                     <h3>Decoder Ecosystem</h3>
-                    <p>Custom profiles, CSV exports, batch decoding, and DBC tooling in one desktop suite.</p>
+                    <p>DBC support, custom decoding and structured CAN analysis workflows.</p>
                 </article>
                 <article>
                     <h3>Pro Automation Suite</h3>
                     <p>Batch session save/load, automated health reports, and CAN activity analytics to accelerate diagnostics.</p>
+                </article>
+                <article>
+                    <h3>Signal-Level Analysis</h3>
+                    <p>Track and monitor individual decoded signals inside CAN messages. Focus on meaningful states and values (enums, units, scaling) instead of raw hex bytes.</p>
                 </article>
             </div>
         </div>
@@ -228,7 +239,7 @@
 
     <section id="pricing" class="section dark">
         <div class="container">
-            <h2>Choose your tier</h2>
+            <h2>Choose your plan</h2>
             <div class="pricing">
                 <div class="card">
                     <p class="plan">DEMO</p>
@@ -279,7 +290,7 @@
                         </div>
                     </div>
                     
-                    <a class="btn primary" href="purchase.html" id="purchaseLink" style="margin-top: 1rem;">Purchase License</a>
+                    <a class="btn primary" href="purchase.html" id="purchaseLink" style="margin-top: 1rem;">Get PRO License</a>
                 </div>
             </div>
         </div>
@@ -288,22 +299,35 @@
     <section id="license" class="section">
         <div class="container license-flow">
             <div>
-                <h2>Hardware & firmware</h2>
-                <p class="lead">The desktop suite connects to ESP32-based CAN sniffers using the MCP2515 CAN controller. This affordable hardware combination delivers professional-grade CAN monitoring capabilities.</p>
-                <h3>Firmware & data packs</h3>
-                <ol>
-                    <li>Arduino sketches (ESP32 + MCP2515 firmware) are sold separately.</li>
-                    <li>Tested CAN dictionaries are sold separately.</li>
-                    <li>Additional CAN databases offered as optional packs for other makes and models.</li>
-                    <li><strong>Fiat Dictionary Add-On:</strong> €30 one-time purchase for specialized Fiat CAN message decoding (includes Fiat-specific byte addressing, PID detection, and auto-learning). Contact <a href="mailto:esp32contact@gmail.com" style="color: #7dd3fc;">esp32contact@gmail.com</a> to add to your license.</li>
-                </ol>
+                <h2>Hardware & Setup</h2>
+                <p class="lead">
+                    The software works with ESP32-based CAN sniffers using the MCP2515 controller.
+                    This widely available and affordable hardware setup delivers reliable, real-time CAN monitoring without the need for custom PCB design.
+                </p>
+                <h3>Getting Started</h3>
+                <ul>
+                    <li>Works with ESP32 + MCP2515 hardware (no custom board required)</li>
+                    <li>Ready-to-use firmware available for quick setup</li>
+                    <li>Pre-built CAN decoding profiles available as optional add-ons</li>
+                </ul>
+
+                <h3>Optional Add-Ons</h3>
+                <ul>
+                    <li>
+                        <strong>Fiat Stilo CAN Dictionary – €30 (one-time)</strong><br>
+                        Advanced decoding with signal extraction, byte addressing and real-world tested data.
+                    </li>
+                    <li>
+                        Additional CAN databases will be available for other vehicles and use cases.
+                    </li>
+                </ul>
             </div>
             <div class="checklist">
                 <p><strong>Why upgrade?</strong></p>
                 <ul>
-                    <li>Wi-Fi connectivity enables remote diagnostics and remote setups.</li>
-                    <li>Database tools streamline workflow with persistent storage and batch operations.</li>
-                    <li>Automation suite accelerates analysis with health reports and activity analytics.</li>
+                    <li>Wi-Fi connectivity for remote diagnostics and setups</li>
+                    <li>Advanced database tools for structured CAN analysis</li>
+                    <li>Automation tools for faster diagnostics and workflow optimization</li>
                 </ul>
             </div>
         </div>
@@ -527,60 +551,9 @@
             });
         }
 
-        // Remove white boxes - detect and fix white backgrounds
-        function removeWhiteBoxes() {
-            const allElements = document.querySelectorAll('*');
-            allElements.forEach(element => {
-                const style = window.getComputedStyle(element);
-                const bgColor = style.backgroundColor;
-                
-                // Check if background is white or very light
-                if (bgColor) {
-                    // Parse RGB values
-                    const rgbMatch = bgColor.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
-                    if (rgbMatch) {
-                        const r = parseInt(rgbMatch[1]);
-                        const g = parseInt(rgbMatch[2]);
-                        const b = parseInt(rgbMatch[3]);
-                        
-                        // If background is white or very light (RGB > 240), make it dark
-                        if (r > 240 && g > 240 && b > 240) {
-                            element.style.backgroundColor = 'rgba(8, 10, 16, 0.9)';
-                            element.style.color = '#e5e9f0';
-                        }
-                    }
-                }
-                
-                // Also check inline styles
-                const inlineBg = element.getAttribute('style');
-                if (inlineBg) {
-                    if (inlineBg.includes('background-color: white') ||
-                        inlineBg.includes('background-color: #fff') ||
-                        inlineBg.includes('background-color: #ffffff') ||
-                        inlineBg.includes('background: white') ||
-                        inlineBg.includes('background: #fff') ||
-                        inlineBg.includes('background: #ffffff')) {
-                        element.style.backgroundColor = 'rgba(8, 10, 16, 0.9)';
-                        element.style.color = '#e5e9f0';
-                    }
-                }
-            });
-        }
-
-        // Run on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            removeWhiteBoxes();
-            // Also run after a short delay to catch dynamically added elements
-            setTimeout(removeWhiteBoxes, 100);
-            setTimeout(removeWhiteBoxes, 500);
-        });
-
-        // Run immediately if DOM is already loaded
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', removeWhiteBoxes);
-        } else {
-            removeWhiteBoxes();
-        }
+        // NOTE: removed the previous "removeWhiteBoxes()" script.
+        // It was overriding computed styles globally and could fight with CSS + cause
+        // unpredictable colors/contrast. Ensure styles.css/cookie-consent.css handle dark mode.
     </script>
     
     <!-- Cookie Consent (GDPR Compliant) -->
