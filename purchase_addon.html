@@ -389,6 +389,7 @@
                 sessionStorage.setItem('addon_purchase_license_key', normalizedKey);
                 sessionStorage.setItem('addon_purchase_type', 'fiat_dictionary');
                 sessionStorage.setItem('addon_purchase_price', '30');
+                sessionStorage.setItem('purchase_order_id', checkoutResult.order_id || '');
                 
                 // Redirect via POST form to myPOS checkout
                 if (!checkoutResult.checkout_url || !checkoutResult.fields) {

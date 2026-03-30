@@ -132,7 +132,7 @@
                 // Display stored purchase info
                 const urlParams = new URLSearchParams(window.location.search);
                 const providerFromUrl = urlParams.get('provider') || 'mypos';
-                const orderIdFromUrl = urlParams.get('order_id') || 'N/A';
+                const orderIdFromUrl = urlParams.get('order_id') || sessionStorage.getItem('purchase_order_id') || 'N/A';
                 const email = sessionStorage.getItem('purchase_email');
                 const hwId = sessionStorage.getItem('purchase_hardware_id');
                 const addonEmail = sessionStorage.getItem('addon_purchase_email');
@@ -181,6 +181,7 @@
                 sessionStorage.removeItem('purchase_email');
                 sessionStorage.removeItem('purchase_hardware_id');
                 sessionStorage.removeItem('purchase_plan');
+                sessionStorage.removeItem('purchase_order_id');
                 sessionStorage.removeItem('addon_purchase_email');
                 sessionStorage.removeItem('addon_purchase_license_key');
             </script>

@@ -534,6 +534,7 @@
             sessionStorage.setItem('purchase_plan', plan);
                 sessionStorage.setItem('purchase_fiat_addon', fiatAddon ? 'yes' : 'no');
                 sessionStorage.setItem('purchase_total_price', checkoutResult.total_price.toString());
+                sessionStorage.setItem('purchase_order_id', checkoutResult.order_id || '');
             
                 // Redirect via POST form to myPOS Checkout
                 if (!checkoutResult.checkout_url || !checkoutResult.fields) {
