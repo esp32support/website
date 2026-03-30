@@ -542,7 +542,10 @@
                 const form = document.createElement('form');
                 form.method = 'POST';
                 form.action = checkoutResult.checkout_url;
-                Object.entries(checkoutResult.fields).forEach(([k, v]) => {
+                const orderedFields = Array.isArray(checkoutResult.fields_ordered)
+                    ? checkoutResult.fields_ordered
+                    : Object.entries(checkoutResult.fields);
+                orderedFields.forEach(([k, v]) => {
                     const input = document.createElement('input');
                     input.type = 'hidden';
                     input.name = k;
