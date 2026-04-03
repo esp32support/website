@@ -46,8 +46,14 @@
         return getCookie("cookie-consent");
     }
     
-    // Load Google Analytics (only if user accepted)
+    // Load Google Analytics only after explicit opt-in (cookie-consent === "allow").
+    // Never load googletagmanager.com on Reject or before consent — defense in depth if this
+    // function is ever called from the wrong place.
     function loadAnalytics() {
+        if (getCookie("cookie-consent") !== "allow") {
+            console.warn("Google Analytics not loaded: no analytics consent (cookie-consent !== allow).");
+            return;
+        }
         if (window.gtagLoaded) {
             console.log('Analytics already loaded');
             return;

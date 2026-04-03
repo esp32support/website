@@ -510,6 +510,7 @@
             
             // Create myPOS checkout payload with correct price (including discount and add-on)
             try {
+                const promoCodeRaw = document.getElementById('promoCode').value.trim().toUpperCase();
                 const checkoutResponse = await fetch(CREATE_CHECKOUT_SESSION_API, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
@@ -517,7 +518,7 @@
                         email: email,
                         hardware_id: hardwareId,
                         plan: plan,
-                        promo_code: appliedPromo ? document.getElementById('promoCode').value.trim().toUpperCase() : null,
+                        promo_code: promoCodeRaw || null,
                         fiat_addon: fiatAddon
                     })
                 });
