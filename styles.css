@@ -978,10 +978,11 @@ footer .subtle {
         position: fixed;
         top: 0;
         right: -100%;
-        width: 280px;
+        width: min(320px, 88vw);
         height: 100vh;
-        background: #070d1a !important;
-        backdrop-filter: none;
+        background: #050b16 !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
         display: flex !important;
         flex-direction: column !important;
         padding: 84px 18px 18px;
@@ -990,6 +991,7 @@ footer .subtle {
         border-left: 1px solid rgba(125, 211, 252, 0.2);
         box-shadow: -8px 0 24px rgba(0, 0, 0, 0.75);
         z-index: 10020;
+        opacity: 1 !important;
     }
     
     .nav-links.active {
@@ -1495,9 +1497,12 @@ h2 {
         right: 0;
         transform: translateX(110%);
         transition: transform 0.3s ease;
-        background: #070d1a !important;
+        background: #050b16 !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
         visibility: hidden;
         pointer-events: none;
+        opacity: 1 !important;
     }
 
     .nav-links.active {
