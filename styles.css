@@ -1309,15 +1309,6 @@ body {
     background-color: #080a10 !important;
 }
 
-/* Prevent white backgrounds from browser defaults on common elements */
-div:not([class*="hero"]):not([class*="modal"]):not([class*="pricing"]):not([class*="feature"]):not([class*="gallery"]):not([class*="section"]):not([class*="container"]):not([class*="checklist"]):not([class*="license"]):not([class*="contact"]) {
-    background-color: transparent !important;
-}
-
-span, p, li, ul, ol {
-    background-color: transparent !important;
-}
-
 /* Responsive + visual refresh overrides */
 :root {
     --bg: #080a10;
