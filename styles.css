@@ -953,13 +953,16 @@ footer .subtle {
     /* Navigation - Mobile Menu */
     .nav {
         position: relative;
+        z-index: 10050;
     }
     
     .mobile-menu-toggle {
         display: flex !important;
         visibility: visible !important;
         opacity: 1 !important;
-        position: relative; /* Ensure proper positioning */
+        position: fixed;
+        top: 12px;
+        right: 12px;
         z-index: 10040 !important;
     }
     
@@ -977,15 +980,15 @@ footer .subtle {
         right: -100%;
         width: 280px;
         height: 100vh;
-        background: rgba(8, 10, 16, 0.98);
-        backdrop-filter: blur(10px);
+        background: #070d1a !important;
+        backdrop-filter: none;
         display: flex !important;
         flex-direction: column !important;
-        padding: 80px 30px 30px;
+        padding: 84px 18px 18px;
         transition: right 0.3s ease;
         z-index: 999;
         border-left: 1px solid rgba(125, 211, 252, 0.2);
-        box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
+        box-shadow: -8px 0 24px rgba(0, 0, 0, 0.75);
         z-index: 10020;
     }
     
@@ -1492,7 +1495,7 @@ h2 {
         right: 0;
         transform: translateX(110%);
         transition: transform 0.3s ease;
-        background: rgba(8, 10, 16, 0.98) !important;
+        background: #070d1a !important;
         visibility: hidden;
         pointer-events: none;
     }
