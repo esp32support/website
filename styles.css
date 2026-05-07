@@ -985,6 +985,7 @@ footer .subtle {
         z-index: 999;
         border-left: 1px solid rgba(125, 211, 252, 0.2);
         box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
+        z-index: 10020;
     }
     
     .nav-links.active {
@@ -997,6 +998,9 @@ footer .subtle {
         margin: 0 !important;
         padding: 15px 0;
         font-size: 1.1rem;
+        font-weight: 600;
+        color: #e5e9f0 !important;
+        opacity: 1 !important;
         border-bottom: 1px solid rgba(125, 211, 252, 0.1);
         text-align: left;
     }

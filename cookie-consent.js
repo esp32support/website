@@ -243,17 +243,17 @@
         banner.style.cssText = 'background-color: #080a10 !important; color: #ffffff !important; position: fixed !important; bottom: 0 !important; left: 0 !important; right: 0 !important; padding: 1.5rem !important; z-index: 9999 !important; display: none !important; border-top: 2px solid rgba(125, 211, 252, 0.5) !important; box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.8) !important; opacity: 1 !important;';
         
         banner.innerHTML = `
-            <div style="max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap;">
-                <div style="flex: 1; min-width: 250px;">
-                    <p id="cookie-banner-desc" style="margin: 0; line-height: 1.6; color: #cbd5f5;">
+            <div class="cookie-consent-content">
+                <div class="cookie-consent-text">
+                    <p id="cookie-banner-desc">
                         We use cookies to improve your experience and analyze website traffic. You can allow, reject, or customize cookie usage. 
-                        <a href="privacy.html#cookies" style="color: #7dd3fc; text-decoration: underline;">Read more</a>
+                        <a href="privacy.html#cookies" class="cookie-link">Read more</a>
                     </p>
                 </div>
-                <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-                    <button id="cookie-accept-all" class="cookie-btn cookie-btn-accept" style="background-color: #00AA00; color: #ffffff; border: 2px solid #00AA00; padding: 10px 20px; cursor: pointer; border-radius: 4px; font-weight: 600; white-space: nowrap;" aria-label="Accept all cookies">Accept All</button>
-                    <button id="cookie-reject-all" class="cookie-btn cookie-btn-decline" style="background-color: #dc2626; color: #ffffff; border: 2px solid #dc2626; padding: 10px 20px; cursor: pointer; border-radius: 4px; font-weight: 600; white-space: nowrap;" aria-label="Reject all cookies">Reject</button>
-                    <button id="cookie-customize" class="cookie-btn" style="background-color: rgba(125, 211, 252, 0.2); color: #7dd3fc; border: 1px solid rgba(125, 211, 252, 0.3); padding: 10px 20px; cursor: pointer; border-radius: 4px; font-weight: 600; white-space: nowrap;" aria-label="Customize cookie settings">Customize</button>
+                <div class="cookie-consent-buttons">
+                    <button id="cookie-accept-all" class="cookie-btn cookie-btn-accept" aria-label="Accept all cookies">Accept All</button>
+                    <button id="cookie-reject-all" class="cookie-btn cookie-btn-decline" aria-label="Reject all cookies">Reject</button>
+                    <button id="cookie-customize" class="cookie-btn cookie-btn-customize" aria-label="Customize cookie settings">Customize</button>
                 </div>
             </div>
         `;
