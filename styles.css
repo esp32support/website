@@ -996,17 +996,29 @@ footer .subtle {
         display: block !important; /* Force each link to its own line */
         width: 100% !important; /* Full width */
         margin: 0 !important;
-        padding: 15px 0;
+        padding: 12px 14px;
         font-size: 1.1rem;
         font-weight: 600;
-        color: #e5e9f0 !important;
+        color: #f4f8ff !important;
         opacity: 1 !important;
-        border-bottom: 1px solid rgba(125, 211, 252, 0.1);
+        background: rgba(10, 18, 34, 0.92) !important;
+        border: 1px solid rgba(125, 211, 252, 0.28);
+        border-radius: 10px;
+        margin-bottom: 10px !important;
+        text-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
         text-align: left;
     }
     
     .nav-links a:last-child {
-        border-bottom: none;
+        margin-bottom: 0 !important;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+        background: rgba(20, 34, 62, 0.98) !important;
+        color: #ffffff !important;
+        border-color: rgba(125, 211, 252, 0.5);
+        outline: none;
     }
     
     .logo {
