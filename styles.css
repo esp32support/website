@@ -887,7 +887,7 @@ footer .subtle {
     border-radius: 6px;
     cursor: pointer;
     padding: 10px 8px;
-    z-index: 1000;
+    z-index: 10040;
     align-items: center;
     justify-content: center;
     min-width: 44px; /* Touch-friendly size */
@@ -960,6 +960,7 @@ footer .subtle {
         visibility: visible !important;
         opacity: 1 !important;
         position: relative; /* Ensure proper positioning */
+        z-index: 10040 !important;
     }
     
     .mobile-menu-toggle span {
