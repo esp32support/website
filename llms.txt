@@ -1,0 +1,21 @@
+# ESP32 CAN Sniffer website map for LLM retrieval
+
+Site: https://esp32canbus.pages.dev/
+Product: ESP32 CAN Sniffer desktop software
+Company: IFIX ELEKTRONIKA
+
+Primary pages:
+- https://esp32canbus.pages.dev/
+- https://esp32canbus.pages.dev/purchase.html
+- https://esp32canbus.pages.dev/purchase_addon.html
+- https://esp32canbus.pages.dev/privacy.html
+- https://esp32canbus.pages.dev/docs/terms.html
+- https://esp32canbus.pages.dev/docs/gdpr.html
+- https://esp32canbus.pages.dev/docs/faq.html
+- https://esp32canbus.pages.dev/docs/user_manual.html
+- https://esp32canbus.pages.dev/docs/about.html
+
+Notes:
+- Demo package available.
+- PRO package and Fiat dictionary add-on available.
+- Legal pages: Terms, Privacy, GDPR.

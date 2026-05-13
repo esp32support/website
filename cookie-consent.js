@@ -242,12 +242,13 @@
         banner.setAttribute('aria-describedby', 'cookie-banner-desc');
         banner.style.cssText = 'background-color: #080a10 !important; color: #ffffff !important; position: fixed !important; bottom: 0 !important; left: 0 !important; right: 0 !important; padding: 1.5rem !important; z-index: 9999 !important; display: none !important; border-top: 2px solid rgba(125, 211, 252, 0.5) !important; box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.8) !important; opacity: 1 !important;';
         
+        const privacyLink = window.location.pathname.includes('/docs/') ? '../privacy.html#cookies' : 'privacy.html#cookies';
         banner.innerHTML = `
             <div class="cookie-consent-content">
                 <div class="cookie-consent-text">
                     <p id="cookie-banner-desc">
                         We use cookies to improve your experience and analyze website traffic. You can allow, reject, or customize cookie usage. 
-                        <a href="privacy.html#cookies" class="cookie-link">Read more</a>
+                        <a href="${privacyLink}" class="cookie-link">Read more</a>
                     </p>
                 </div>
                 <div class="cookie-consent-buttons">

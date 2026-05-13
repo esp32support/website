@@ -4,6 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>User Manual & Installation Guide - ESP32 CAN Sniffer</title>
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://esp32canbus.pages.dev/docs/user_manual.html" />
+    <meta property="og:title" content="User Manual & Installation Guide - ESP32 CAN Sniffer" />
+    <meta property="og:description" content="Installation and usage guide for ESP32 CAN Sniffer." />
+    <meta property="og:image" content="https://esp32canbus.pages.dev/images/dashboard.png" />
+    <meta property="og:image:secure_url" content="https://esp32canbus.pages.dev/images/dashboard.png" />
+    <meta property="og:site_name" content="ESP32 CAN Sniffer" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="User Manual & Installation Guide - ESP32 CAN Sniffer" />
+    <meta name="twitter:description" content="Installation and usage guide for ESP32 CAN Sniffer." />
+    <meta name="twitter:image" content="https://esp32canbus.pages.dev/images/dashboard.png" />
+    <link rel="canonical" href="https://esp32canbus.pages.dev/docs/user_manual.html" />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='20' y='20' width='60' height='60' fill='%237dd3fc' stroke='%23bae6fd' stroke-width='2' rx='4'/%3E%3Crect x='25' y='25' width='50' height='50' fill='%23080a10'/%3E%3Ccircle cx='20' cy='35' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='20' cy='50' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='20' cy='65' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='35' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='50' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='65' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='35' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='50' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='65' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='35' cy='80' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='50' cy='80' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='65' cy='80' r='2' fill='%237dd3fc'/%3E%3C/svg%3E" />
     <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='20' y='20' width='60' height='60' fill='%237dd3fc' stroke='%23bae6fd' stroke-width='2' rx='4'/%3E%3Crect x='25' y='25' width='50' height='50' fill='%23080a10'/%3E%3Ccircle cx='20' cy='35' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='20' cy='50' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='20' cy='65' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='35' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='50' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='65' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='35' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='50' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='65' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='35' cy='80' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='50' cy='80' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='65' cy='80' r='2' fill='%237dd3fc'/%3E%3C/svg%3E" />
     <link rel="stylesheet" href="../styles.css">
@@ -12,6 +25,26 @@
     <!-- Google Analytics - Only loads if user accepts cookies -->
     <script>
         window.gaId = 'G-6KFL6RX1SM'; // ✅ Google Analytics ID
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://esp32canbus.pages.dev/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "User Manual",
+          "item": "https://esp32canbus.pages.dev/docs/user_manual.html"
+        }
+      ]
+    }
     </script>
     <style>
         body {
@@ -190,20 +223,26 @@
         <h1>User Manual & Installation Guide</h1>
         
         <h2>📦 Installation Requirements</h2>
-        
-        <h3>Software Dependencies</h3>
+
+        <h3>For Customers (recommended)</h3>
+        <ul>
+            <li><strong>Operating system:</strong> Windows 10 or Windows 11 (64-bit recommended)</li>
+            <li><strong>No Python required</strong> for the packaged EXE/installer release</li>
+            <li><strong>ESP32 USB Drivers</strong> - CP210x or CH340 drivers (usually auto-installed on Windows 10+)</li>
+            <li><strong>Arduino IDE</strong> is only needed if you want to flash/update ESP32 firmware yourself</li>
+        </ul>
+
+        <div class="info-box">
+            <strong>💡 Quick Tip:</strong> For normal usage, just run the provided <code>.exe</code>. No <code>pip install</code> steps are needed.
+        </div>
+
+        <h3>For Developers (running from source)</h3>
         <ul>
             <li><strong>Python 3.8 or higher</strong> - Download from <a href="https://www.python.org/downloads/" target="_blank" rel="noopener noreferrer">python.org</a></li>
-            <li><strong>Arduino IDE</strong> - For flashing ESP32 firmware (version 1.8.19 or later)</li>
             <li><strong>ESP32 Board Support</strong> - Install ESP32 board package in Arduino IDE</li>
-            <li><strong>ESP32 USB Drivers</strong> - CP210x or CH340 drivers (usually auto-installed on Windows 10+)</li>
         </ul>
-        
-        <div class="info-box">
-            <strong>💡 Quick Tip:</strong> If using the pre-built executable, you don't need Python or Arduino IDE installed - just run .exe!
-        </div>
-        
-        <h3>Python Packages (if running from source)</h3>
+
+        <h3>Python Packages (source mode only)</h3>
         <div class="code-block">
 pip install -r requirements.txt
         </div>
@@ -230,7 +269,7 @@ pip install -r requirements.txt
         
         <h3>1. First Launch</h3>
         <ol>
-            <li>Start the application (double-click <code>ESP32_CAN_Sniffer_OneFile.exe</code> or run <code>python main.py</code>)</li>
+            <li>Start the application (double-click <code>ESP32_CAN_Sniffer_OneFile.exe</code>)</li>
             <li>Ensure your ESP32 is powered and connected</li>
             <li>Select connection type (Serial or WiFi)</li>
             <li>Click "Connect" to establish communication</li>
