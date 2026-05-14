@@ -18,11 +18,12 @@ The website is automatically deployed via Cloudflare Pages.
 │   ├── dashboard.png
 │   ├── decoder.png
 │   └── themes.png
+├── privacy.html        # Privacy Policy (aligned with docs/gdpr.html)
 └── docs/               # Documentation pages
     ├── about.html      # About the project
     ├── faq.html        # FAQ & Troubleshooting
     ├── terms.html      # Terms & Refund Policy
-    ├── privacy.html    # Privacy Policy (GDPR Compliant)
+    ├── gdpr.html       # GDPR Data Protection Notice (aligned with privacy.html)
     └── user_manual.html # User Manual & Installation Guide
 ```
 

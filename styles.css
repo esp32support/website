@@ -1530,3 +1530,43 @@ h2 {
     }
 }
 
+/* Skip link + keyboard focus (a11y / Core Web Vitals companion) */
+.skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.skip-link:focus {
+    position: fixed;
+    left: 1rem;
+    top: 1rem;
+    width: auto;
+    height: auto;
+    clip: auto;
+    overflow: visible;
+    z-index: 10000;
+    padding: 0.75rem 1rem;
+    background: #080a10;
+    color: #7dd3fc !important;
+    border: 2px solid #7dd3fc;
+    border-radius: 4px;
+    white-space: normal;
+}
+
+a:focus-visible,
+button:focus-visible,
+.btn:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+    outline: 2px solid #7dd3fc;
+    outline-offset: 2px;
+}
+

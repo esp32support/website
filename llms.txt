@@ -16,6 +16,7 @@ Primary pages:
 - https://esp32canbus.pages.dev/docs/about.html
 
 Notes:
+- Site language is English (international audience); legal entity in Croatia (EU).
 - Demo package available.
-- PRO package and Fiat dictionary add-on available.
+- PRO package and FIAT Stilo add-on available.
 - Legal pages: Terms, Privacy, GDPR.
