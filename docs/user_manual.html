@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>User Manual & Installation Guide - ESP32 CAN Sniffer</title>
-    <meta name="description" content="Install and run ESP32 CAN Sniffer on Windows: drivers, ESP32 + MCP2515 setup, PRO licensing, Wi-Fi capture, and packaged EXE versus source workflows." />
+    <meta name="description" content="Install and run ESP32 CAN Sniffer on Windows: drivers, ESP32 + MCP2515 wiring, PRO license activation, pre-compiled firmware flash, and Wi-Fi capture." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://esp32canbus.pages.dev/docs/user_manual.html" />
     <meta property="og:title" content="User Manual & Installation Guide - ESP32 CAN Sniffer" />
@@ -228,47 +228,33 @@
             English documentation for international users. Buy or renew PRO on <a href="../purchase.html">the purchase page</a>; troubleshooting in <a href="faq.html">FAQ</a>.
         </p>
         
-        <h2>📦 Installation Requirements</h2>
+        <h2>📦 What You Need</h2>
 
-        <h3>For Customers (recommended)</h3>
+        <h3>Windows desktop app</h3>
         <ul>
             <li><strong>Operating system:</strong> Windows 10 or Windows 11 (64-bit recommended)</li>
-            <li><strong>No Python required</strong> for the packaged EXE/installer release</li>
-            <li><strong>ESP32 USB Drivers</strong> - CP210x or CH340 drivers (usually auto-installed on Windows 10+)</li>
-            <li><strong>Arduino IDE</strong> is only needed if you want to flash/update ESP32 firmware yourself</li>
+            <li><strong>Installer / EXE</strong> from your purchase — no Python required to run the app</li>
+            <li><strong>PRO license key</strong> — emailed after payment; use the same email when activating</li>
         </ul>
 
         <div class="info-box">
-            <strong>💡 Quick Tip:</strong> For normal usage, just run the provided <code>.exe</code>. No <code>pip install</code> steps are needed.
+            <strong>💡 Quick tip:</strong> Install and run the desktop app like any Windows program. Python is <em>not</em> needed for daily use.
         </div>
 
-        <h3>For Developers (running from source)</h3>
+        <h3>ESP32 firmware (one-time flash)</h3>
+        <p>PRO purchases include a <strong>separate email</strong> with a zip of pre-compiled <code>.bin</code> files and <code>flash.bat</code>. You do <strong>not</strong> need Arduino IDE or source code.</p>
         <ul>
-            <li><strong>Python 3.8 or higher</strong> - Download from <a href="https://www.python.org/downloads/" target="_blank" rel="noopener noreferrer">python.org</a></li>
-            <li><strong>ESP32 Board Support</strong> - Install ESP32 board package in Arduino IDE</li>
+            <li><strong>Python 3</strong> on Windows (for <code>esptool</code> only) — <a href="https://www.python.org/downloads/" target="_blank" rel="noopener noreferrer">python.org</a>, enable “Add to PATH”</li>
+            <li><strong>esptool:</strong> in Command Prompt inside the unzipped folder: <code>pip install esptool</code></li>
+            <li><strong>USB driver</strong> — CP210x or CH340 if no COM port appears in Device Manager</li>
         </ul>
 
-        <h3>Python Packages (source mode only)</h3>
-        <div class="code-block">
-pip install -r requirements.txt
-        </div>
-        
-        <p>Key packages include:</p>
+        <h3>Hardware</h3>
         <ul>
-            <li>PyQt5 - GUI framework</li>
-            <li>pyserial - Serial communication</li>
-            <li>pyqtgraph - Real-time plotting</li>
-            <li>numpy, pandas - Data processing</li>
-            <li>psutil - System information</li>
-        </ul>
-        
-        <h3>Hardware Requirements</h3>
-        <ul>
-            <li><strong>ESP32 Development Board</strong> (ESP32 DevKit recommended)</li>
-            <li><strong>MCP2515 CAN Controller Module</strong> or SN65HVD230 CAN Transceiver</li>
-            <li><strong>USB Cable</strong> (for Serial connection) or WiFi capability</li>
-            <li><strong>Jumper Wires</strong> (for connecting ESP32 to MCP2515)</li>
-            <li><strong>120Ω Resistor</strong> (for loopback testing without a car)</li>
+            <li><strong>ESP32 development board</strong> (ESP32 DevKit recommended)</li>
+            <li><strong>MCP2515 CAN module</strong> wired per the pin table below</li>
+            <li><strong>USB cable</strong> (data-capable, not power-only)</li>
+            <li><strong>120Ω resistor</strong> (optional — bench loopback test without a vehicle)</li>
         </ul>
         
         <h2>🚀 Quick Start Guide</h2>
@@ -388,16 +374,16 @@ pip install -r requirements.txt
             <strong>⚠️ Critical Warning:</strong> MCP2515 must be powered with 3.3V, NOT 5V! Using 5V will damage the module.
         </div>
         
-        <h3>Flashing ESP32 Firmware</h3>
+        <h3>Flashing ESP32 firmware (pre-compiled .bin)</h3>
         <ol>
-            <li>Open Arduino IDE</li>
-            <li>Install ESP32 board support (File → Preferences → Additional Board Manager URLs)</li>
-            <li>Install "esp32" by Espressif Systems</li>
-            <li>Select board: Tools → Board → ESP32 Dev Module</li>
-            <li>Open the CAN sniffer sketch: <code>arduino/can_sniffer/MCP2515/MCP2515.ino</code></li>
-            <li>Select correct COM port</li>
-            <li>Click "Upload"</li>
+            <li>Unzip the firmware email attachment (8&nbsp;MHz and 16&nbsp;MHz builds included)</li>
+            <li>Install Python 3 if needed, then run: <code>pip install esptool</code></li>
+            <li>Find the ESP32 COM port in Device Manager (e.g. <code>COM4</code>)</li>
+            <li><strong>8&nbsp;MHz MCP2515 (most modules):</strong> <code>flash.bat COM4</code></li>
+            <li><strong>16&nbsp;MHz MCP2515 only:</strong> <code>flash_16mhz.bat COM4</code></li>
+            <li>Wait for “Done”, then unplug/replug USB and open the desktop app</li>
         </ol>
+        <p style="color: #94a3b8; font-size: 0.9rem;">Replace <code>COM4</code> with your port. If flash fails, install CP210x/CH340 drivers and close any program using that COM port.</p>
         
         <h2>⚙️ Performance Tuning</h2>
         

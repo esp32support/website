@@ -210,7 +210,7 @@
             <div class="faq-answer">
                 <p><strong>A:</strong> This usually means another program is using the COM port.</p>
                 <ul>
-                    <li>Close Arduino IDE Serial Monitor if open</li>
+                    <li>Close any serial terminal program using the port</li>
                     <li>Close any other programs using the port (PuTTY, Tera Term, etc.)</li>
                     <li>Unplug and replug the USB cable</li>
                     <li>Try a different USB port</li>
@@ -253,9 +253,9 @@
             <div class="faq-answer">
                 <p><strong>A:</strong> Possible causes:</p>
                 <ul>
-                    <li>ESP32 firmware may not be the CAN sniffer sketch - flash the correct firmware</li>
+                    <li>ESP32 may not have the correct firmware — re-flash using the pre-compiled zip from your PRO email</li>
                     <li>No CAN traffic on the bus - check if CAN bus is active</li>
-                    <li>MCP2515 not initialized - check serial monitor for errors</li>
+                    <li>MCP2515 not initialized — check wiring and try the 16&nbsp;MHz build if your module uses a 16&nbsp;MHz crystal</li>
                     <li>Wrong CAN bus connection - verify CANH/CANL connections</li>
                     <li>For testing without a car: connect 120Ω resistor between CANH and CANL</li>
                 </ul>
@@ -274,7 +274,7 @@
                     <li>Verify ground connection (GND to GND)</li>
                     <li>Check for loose connections or bad jumper wires</li>
                     <li>Try a different MCP2515 module if available</li>
-                    <li>Check serial monitor for specific error messages</li>
+                    <li>Re-flash firmware if the module never responds after wiring checks</li>
                 </ul>
             </div>
         </div>
@@ -298,10 +298,9 @@
             <div class="faq-answer">
                 <p><strong>A:</strong> Use loopback mode:</p>
                 <ul>
-                    <li>Connect a 120Ω resistor between CANH and CANL pins on MCP2515</li>
-                    <li>This simulates a terminated CAN bus</li>
-                    <li>Use the CAN simulator sketch to generate test messages</li>
-                    <li>Flash <code>arduino/can_simulator/can_simulator.ino</code> to ESP32</li>
+                    <li>Connect a 120Ω resistor between CANH and CANL on the MCP2515</li>
+                    <li>This simulates a terminated CAN bus for basic bench checks</li>
+                    <li>For live traffic you need an active vehicle CAN network or approved test equipment</li>
                 </ul>
             </div>
         </div>
@@ -316,8 +315,7 @@
                     <li>Check log file: <code>can_sniffer.log</code> for error messages</li>
                     <li>Reduce buffer size in Performance Tuning settings</li>
                     <li>Close other resource-intensive applications</li>
-                    <li>Update Python and PyQt5 if running from source</li>
-                    <li>Use the crash report feature (About → Report Bug) to send details</li>
+                                        <li>Use the crash report feature (About → Report Bug) to send details</li>
                 </ul>
             </div>
         </div>
@@ -383,24 +381,9 @@
             <div class="faq-answer">
                 <p><strong>A:</strong> <strong>No</strong>, not for normal customers using the packaged EXE/installer.</p>
                 <ul>
-                    <li>The customer package is standalone (no manual <code>pip install</code> steps required)</li>
-                    <li>You only need to install USB drivers for your ESP32 board if Windows does not detect it automatically</li>
-                    <li><code>python -m venv</code> and <code>pip install -r requirements.txt</code> are only for developers running from source code</li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="faq-item">
-            <div class="faq-question">Q: Python packages won't install</div>
-            <div class="faq-answer">
-                <p><strong>A:</strong> This is a <strong>developer/source-code setup</strong> issue only. If you are a customer using the EXE, you can skip this section.</p>
-                <p><strong>For developers running from source:</strong></p>
-                <ul>
-                    <li>Update pip: <code>python -m pip install --upgrade pip</code></li>
-                    <li>Use virtual environment: <code>python -m venv venv</code></li>
-                    <li>Install packages one by one to identify problematic package</li>
-                    <li>Check Python version (3.8+ required)</li>
-                    <li>On Windows, try running as Administrator</li>
+                    <li>The desktop app (EXE/installer) does not require Python</li>
+                    <li>Python is only needed once to run <code>pip install esptool</code> when flashing the ESP32 firmware zip</li>
+                    <li>Install CP210x or CH340 USB drivers if Windows does not show a COM port</li>
                 </ul>
             </div>
         </div>
@@ -422,14 +405,14 @@
         <div class="faq-item">
             <div class="faq-question">Q: Can't flash firmware to ESP32</div>
             <div class="faq-answer">
-                <p><strong>A:</strong> Check Arduino IDE setup:</p>
+                <p><strong>A:</strong> Use the pre-compiled firmware zip from your PRO follow-up email (not Arduino IDE):</p>
                 <ul>
-                    <li>Install ESP32 board support in Arduino IDE</li>
-                    <li>Select correct board: Tools → Board → ESP32 Dev Module</li>
-                    <li>Select correct COM port</li>
-                    <li>Hold BOOT button while clicking Upload (some boards require this)</li>
-                    <li>Check Arduino IDE console for error messages</li>
-                    <li>Try different USB cable or port</li>
+                    <li>Install Python 3, then <code>pip install esptool</code> in the unzipped firmware folder</li>
+                    <li>Run <code>flash.bat COM4</code> (8&nbsp;MHz) or <code>flash_16mhz.bat COM4</code> (16&nbsp;MHz modules)</li>
+                    <li>Replace <code>COM4</code> with your ESP32 port from Device Manager</li>
+                    <li>Close other programs using that COM port before flashing</li>
+                    <li>Install CP210x/CH340 drivers if the port is missing</li>
+                    <li>Hold the ESP32 BOOT button during flash if the board requires download mode</li>
                 </ul>
             </div>
         </div>
