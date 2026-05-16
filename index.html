@@ -329,7 +329,7 @@
                                 <div style="font-weight: bold; color: #7dd3fc; margin-bottom: 0.25rem; font-size: 0.9rem;">
                                     🔧 FIAT Stilo add-on
                                 </div>
-                                <div style="color: #cbd5f5; font-size: 0.85rem;">
+                                <div id="fiatAddonDescHome" style="color: #cbd5f5; font-size: 0.85rem;">
                                     Vehicle-specific CAN database extension • <strong style="color: #00AA00;">+€30</strong> (one-time)
                                 </div>
                             </div>
@@ -509,70 +509,82 @@
         const priceNote = document.getElementById('priceNote');
         const monthlyLabel = document.getElementById('monthlyLabel');
         const yearlyLabel = document.getElementById('yearlyLabel');
+        const fiatAddonCheckboxHome = document.getElementById('fiatAddonCheckboxHome');
+        const fiatAddonDescHome = document.getElementById('fiatAddonDescHome');
+        const fiatAddonLabelHome = document.getElementById('fiatAddonLabelHome');
 
-        // Pricing values
-        const monthlyPrice = 15; // €15/month
-        const yearlyTotal = 140; // €140/year (total)
+        const monthlyPrice = 15;
+        const yearlyTotal = 140;
+        const FIAT_ADDON_MONTHLY_DESC =
+            'Vehicle-specific CAN database extension • <strong style="color: #00AA00;">+€30</strong> (one-time)';
+        const FIAT_ADDON_YEARLY_DESC =
+            '<strong style="color: #00AA00;">Included with annual plan</strong> — vehicle-specific CAN database extension';
+
+        function updatePurchaseLinks() {
+            const tier = pricingToggle.checked ? 'yearly' : 'monthly';
+            const includeFiat = tier === 'yearly' || (fiatAddonCheckboxHome && fiatAddonCheckboxHome.checked);
+            const fiatAddonParam = includeFiat ? '&fiat_addon=yes' : '';
+            const baseUrl = `purchase.html?tier=${tier}${fiatAddonParam}`;
+            ['purchaseLink', 'purchaseLinkHero', 'purchaseLinkModal'].forEach((id) => {
+                const el = document.getElementById(id);
+                if (el) el.href = baseUrl;
+            });
+        }
+
+        function styleFiatAddonLabel(checked) {
+            if (!fiatAddonLabelHome) return;
+            fiatAddonLabelHome.style.borderColor = checked
+                ? 'rgba(125, 211, 252, 0.6)'
+                : 'rgba(125, 211, 252, 0.3)';
+            fiatAddonLabelHome.style.background = checked
+                ? 'rgba(125, 211, 252, 0.15)'
+                : 'rgba(125, 211, 252, 0.1)';
+        }
+
+        function updateFiatAddonForPlan(isYearly) {
+            if (!fiatAddonCheckboxHome) return;
+            if (isYearly) {
+                fiatAddonCheckboxHome.checked = true;
+                fiatAddonCheckboxHome.disabled = true;
+                if (fiatAddonDescHome) fiatAddonDescHome.innerHTML = FIAT_ADDON_YEARLY_DESC;
+                if (fiatAddonLabelHome) fiatAddonLabelHome.style.cursor = 'default';
+                styleFiatAddonLabel(true);
+            } else {
+                fiatAddonCheckboxHome.disabled = false;
+                fiatAddonCheckboxHome.checked = false;
+                if (fiatAddonDescHome) fiatAddonDescHome.innerHTML = FIAT_ADDON_MONTHLY_DESC;
+                if (fiatAddonLabelHome) fiatAddonLabelHome.style.cursor = 'pointer';
+                styleFiatAddonLabel(false);
+            }
+            updatePurchaseLinks();
+        }
 
         function updatePricing() {
-            if (pricingToggle.checked) {
-                // Yearly pricing
+            const isYearly = pricingToggle.checked;
+            if (isYearly) {
                 proPrice.innerHTML = `€${yearlyTotal} <span class="price-period">/ year</span>`;
                 priceNote.textContent = '';
                 monthlyLabel.style.opacity = '0.6';
                 yearlyLabel.style.opacity = '1';
             } else {
-                // Monthly pricing
                 proPrice.innerHTML = `€${monthlyPrice} <span class="price-period">/ month</span>`;
                 priceNote.textContent = '';
                 monthlyLabel.style.opacity = '1';
                 yearlyLabel.style.opacity = '0.6';
             }
-            
-            // Update purchase links with selected tier and add-on
-            const tier = pricingToggle.checked ? 'yearly' : 'monthly';
-            const purchaseLink = document.getElementById('purchaseLink');
-            const purchaseLinkHero = document.getElementById('purchaseLinkHero');
-            const purchaseLinkModal = document.getElementById('purchaseLinkModal');
-            
-            const updatePurchaseLinks = () => {
-                const fiatAddonCheckbox = document.getElementById('fiatAddonCheckboxHome');
-                const fiatAddonParam = fiatAddonCheckbox && fiatAddonCheckbox.checked ? '&fiat_addon=yes' : '';
-                const baseUrl = `purchase.html?tier=${tier}${fiatAddonParam}`;
-                
-                if (purchaseLink) {
-                    purchaseLink.href = baseUrl;
-                }
-                if (purchaseLinkHero) {
-                    purchaseLinkHero.href = baseUrl;
-                }
-                if (purchaseLinkModal) {
-                    purchaseLinkModal.href = baseUrl;
-                }
-            };
-            
-            updatePurchaseLinks();
-            
-            // Update links when add-on checkbox changes
-            const fiatAddonCheckbox = document.getElementById('fiatAddonCheckboxHome');
-            const fiatAddonLabel = document.getElementById('fiatAddonLabelHome');
-            
-            if (fiatAddonCheckbox && fiatAddonLabel) {
-                fiatAddonCheckbox.addEventListener('change', function() {
-                    if (this.checked) {
-                        fiatAddonLabel.style.borderColor = 'rgba(125, 211, 252, 0.6)';
-                        fiatAddonLabel.style.background = 'rgba(125, 211, 252, 0.15)';
-                    } else {
-                        fiatAddonLabel.style.borderColor = 'rgba(125, 211, 252, 0.3)';
-                        fiatAddonLabel.style.background = 'rgba(125, 211, 252, 0.1)';
-                    }
-                    updatePurchaseLinks();
-                });
-            }
+            updateFiatAddonForPlan(isYearly);
+        }
+
+        if (fiatAddonCheckboxHome) {
+            fiatAddonCheckboxHome.addEventListener('change', function () {
+                if (this.disabled) return;
+                styleFiatAddonLabel(this.checked);
+                updatePurchaseLinks();
+            });
         }
 
         pricingToggle.addEventListener('change', updatePricing);
-        updatePricing(); // Initialize
+        updatePricing();
 
         // Mobile Menu Toggle
         const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');

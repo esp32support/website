@@ -261,7 +261,7 @@
                             <div style="color: #cbd5f5; font-size: 0.9rem; margin-bottom: 0.5rem;">
                                 Vehicle-specific CAN database extension with byte addressing, PID detection, and auto-learning
                             </div>
-                            <div style="color: #00AA00; font-weight: bold; font-size: 1rem;">
+                            <div id="fiatAddonPriceLine" style="color: #00AA00; font-weight: bold; font-size: 1rem;">
                                 +€30 (one-time purchase)
                             </div>
                         </div>
@@ -331,6 +331,7 @@
         const fiatAddonLabel = document.getElementById('fiatAddonLabel');
         
         fiatAddonCheckbox.addEventListener('change', function() {
+            if (this.disabled) return;
             fiatAddonSelected = this.checked;
             if (this.checked) {
                 fiatAddonLabel.style.borderColor = 'rgba(125, 211, 252, 0.6)';
@@ -342,15 +343,49 @@
             updateTotalPrice();
         });
         
+        const fiatAddonPriceLine = document.getElementById('fiatAddonPriceLine');
+        const FIAT_ADDON_MONTHLY_PRICE_TEXT = '+€30 (one-time purchase)';
+        const FIAT_ADDON_YEARLY_PRICE_TEXT = 'Included with annual plan';
+
+        function isYearlyPlan() {
+            return document.querySelector('input[name="plan"]:checked').value === 'yearly';
+        }
+
+        function syncFiatAddonForPlan() {
+            const yearly = isYearlyPlan();
+            if (yearly) {
+                fiatAddonCheckbox.checked = true;
+                fiatAddonCheckbox.disabled = true;
+                fiatAddonSelected = true;
+                if (fiatAddonPriceLine) {
+                    fiatAddonPriceLine.textContent = FIAT_ADDON_YEARLY_PRICE_TEXT;
+                }
+                fiatAddonLabel.style.cursor = 'default';
+                fiatAddonLabel.style.borderColor = 'rgba(125, 211, 252, 0.6)';
+                fiatAddonLabel.style.background = 'rgba(125, 211, 252, 0.15)';
+            } else {
+                fiatAddonCheckbox.disabled = false;
+                if (fiatAddonPriceLine) {
+                    fiatAddonPriceLine.textContent = FIAT_ADDON_MONTHLY_PRICE_TEXT;
+                }
+                fiatAddonLabel.style.cursor = 'pointer';
+                if (!fiatAddonCheckbox.checked) {
+                    fiatAddonLabel.style.borderColor = 'rgba(125, 211, 252, 0.3)';
+                    fiatAddonLabel.style.background = 'rgba(125, 211, 252, 0.1)';
+                }
+            }
+            updateTotalPrice();
+        }
+
         // Update total price display
         function updateTotalPrice() {
             const selectedPlan = document.querySelector('input[name="plan"]:checked').value;
             const basePrice = currentPrices[selectedPlan];
-            const totalPrice = basePrice + (fiatAddonSelected ? FIAT_ADDON_PRICE : 0);
+            const addonCharge = selectedPlan === 'yearly' ? 0 : (fiatAddonSelected ? FIAT_ADDON_PRICE : 0);
+            const totalPrice = basePrice + addonCharge;
             
-            // Update purchase button text to show total
             const purchaseBtn = document.getElementById('purchaseBtn');
-            if (fiatAddonSelected) {
+            if (addonCharge > 0) {
                 purchaseBtn.textContent = `Get PRO package (Total: €${totalPrice})`;
             } else {
                 purchaseBtn.textContent = 'Get PRO package';
@@ -502,23 +537,20 @@
                     document.getElementById('promoSuccess').style.display = 'none';
                 }
                 updatePrices();
+                syncFiatAddonForPlan();
             });
         });
         
-        // Pre-check Fiat add-on if parameter is present (after functions are defined)
-        if (fiatAddonParam === 'yes') {
-            const fiatAddonCheckbox = document.getElementById('fiatAddonCheckbox');
-            const fiatAddonLabel = document.getElementById('fiatAddonLabel');
-            if (fiatAddonCheckbox) {
-                fiatAddonCheckbox.checked = true;
-                fiatAddonSelected = true;
-                if (fiatAddonLabel) {
-                    fiatAddonLabel.style.borderColor = 'rgba(125, 211, 252, 0.6)';
-                    fiatAddonLabel.style.background = 'rgba(125, 211, 252, 0.15)';
-                }
-                // Update total price display
-                updateTotalPrice();
-            }
+        // Plan-specific FIAT add-on UI (yearly includes dictionary)
+        syncFiatAddonForPlan();
+
+        // Pre-check Fiat add-on for monthly when linked from homepage with fiat_addon=yes
+        if (fiatAddonParam === 'yes' && initialTier !== 'yearly') {
+            fiatAddonCheckbox.checked = true;
+            fiatAddonSelected = true;
+            fiatAddonLabel.style.borderColor = 'rgba(125, 211, 252, 0.6)';
+            fiatAddonLabel.style.background = 'rgba(125, 211, 252, 0.15)';
+            updateTotalPrice();
         }
 
         document.getElementById('purchaseForm').addEventListener('submit', async function(e) {
@@ -528,7 +560,7 @@
             const hardwareId = document.getElementById('hardwareId').value.trim();
             const plan = document.querySelector('input[name="plan"]:checked').value;
             const termsAccepted = document.getElementById('termsCheckbox').checked;
-            const fiatAddon = document.getElementById('fiatAddonCheckbox').checked;
+            const fiatAddon = plan === 'yearly' || document.getElementById('fiatAddonCheckbox').checked;
             
             // Clear previous errors
             document.getElementById('emailError').textContent = '';
@@ -560,7 +592,7 @@
             
             // Calculate total price (for display only - server will calculate correctly)
             const basePrice = currentPrices[plan];
-            const addonPrice = fiatAddon ? FIAT_ADDON_PRICE : 0;
+            const addonPrice = plan === 'yearly' ? 0 : (fiatAddon ? FIAT_ADDON_PRICE : 0);
             const totalPrice = basePrice + addonPrice;
             
             // Create myPOS checkout payload with correct price (including discount and add-on)
