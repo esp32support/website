@@ -360,7 +360,7 @@
                     <li><strong>Windows Pro license</strong> — activation key by email after payment</li>
                     <li><strong>ESP32 MCP2515 firmware</strong> — pre-compiled zip in a follow-up email (<code>flash.bat</code> + 8&nbsp;MHz / 16&nbsp;MHz builds; no Arduino IDE)</li>
                     <li><strong>Your hardware</strong> — ESP32 + MCP2515 module (not shipped by us)</li>
-                    <li><strong>Optional add-ons</strong> — e.g. FIAT Stilo dictionary zip by email when purchased</li>
+                    <li><strong>FIAT Stilo add-on</strong> — dictionary zip by email; <strong>included with annual plan</strong>, optional +€30 on monthly</li>
                 </ul>
 
                 <h3>Optional Add-Ons</h3>
@@ -522,6 +522,8 @@
             const includeFiat = tier === 'yearly' || (fiatAddonCheckboxHome && fiatAddonCheckboxHome.checked);
             const fiatAddonParam = includeFiat ? '&fiat_addon=yes' : '';
             const baseUrl = `purchase.html?tier=${tier}${fiatAddonParam}`;
+            sessionStorage.setItem('purchase_tier', tier);
+            sessionStorage.setItem('purchase_fiat_addon', includeFiat ? 'yes' : 'no');
             ['purchaseLink', 'purchaseLinkHero', 'purchaseLinkModal'].forEach((id) => {
                 const el = document.getElementById(id);
                 if (el) el.href = baseUrl;
@@ -544,13 +546,19 @@
                 fiatAddonCheckboxHome.checked = true;
                 fiatAddonCheckboxHome.disabled = true;
                 if (fiatAddonDescHome) fiatAddonDescHome.innerHTML = FIAT_ADDON_YEARLY_DESC;
-                if (fiatAddonLabelHome) fiatAddonLabelHome.style.cursor = 'default';
+                if (fiatAddonLabelHome) {
+                    fiatAddonLabelHome.classList.add('fiat-addon-included');
+                    fiatAddonLabelHome.style.cursor = 'default';
+                }
                 styleFiatAddonLabel(true);
             } else {
                 fiatAddonCheckboxHome.disabled = false;
                 fiatAddonCheckboxHome.checked = false;
                 if (fiatAddonDescHome) fiatAddonDescHome.innerHTML = FIAT_ADDON_MONTHLY_DESC;
-                if (fiatAddonLabelHome) fiatAddonLabelHome.style.cursor = 'pointer';
+                if (fiatAddonLabelHome) {
+                    fiatAddonLabelHome.classList.remove('fiat-addon-included');
+                    fiatAddonLabelHome.style.cursor = 'pointer';
+                }
                 styleFiatAddonLabel(false);
             }
             updatePurchaseLinks();

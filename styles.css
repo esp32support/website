@@ -580,6 +580,12 @@ h1 {
     transform: translateX(26px);
 }
 
+#fiatAddonLabelHome.fiat-addon-included {
+    opacity: 0.72;
+    cursor: default;
+    pointer-events: none;
+}
+
 .pricing {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
