@@ -85,6 +85,7 @@
                     <span></span>
                 </button>
                 <div class="nav-links">
+                    <a href="#compare">Compare</a>
                     <a href="#features">Features</a>
                     <a href="#licensing">Packages</a>
                     <a href="docs/faq.html">FAQ</a>
@@ -131,6 +132,155 @@
             </div>
         </div>
     </header>
+
+    <section id="compare" class="section compare-section">
+        <div class="container">
+            <p class="eyebrow">Value</p>
+            <h2>Compare with professional CAN tools</h2>
+            <p class="compare-tagline">
+                Professional CAN tools cost thousands. We built the same core workflow for about <strong>€140/year</strong> — tested on a real Fiat Stilo, not just a spec sheet.
+            </p>
+
+            <h3 class="compare-subhead">Software</h3>
+            <div class="compare-table-wrap" tabindex="0" aria-label="Software comparison table (scroll horizontally on small screens)">
+                <table class="compare-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Feature</th>
+                            <th scope="col">ESP32 CAN Sniffer</th>
+                            <th scope="col">SavvyCAN</th>
+                            <th scope="col">Vector CANalyzer</th>
+                            <th scope="col">PCAN-View</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Price</th>
+                            <td><strong>€140/year</strong> <span class="compare-muted">(annual PRO)</span></td>
+                            <td>Free</td>
+                            <td>€2,000–5,000+</td>
+                            <td>Free<sup>*</sup></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Hardware cost</th>
+                            <td>~€5 ESP32 + MCP2515</td>
+                            <td>Any interface</td>
+                            <td>€500–2,000+ proprietary</td>
+                            <td>€100+ PEAK only</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Windows GUI</th>
+                            <td class="compare-yes">Yes</td>
+                            <td class="compare-yes">Yes</td>
+                            <td class="compare-yes">Yes</td>
+                            <td class="compare-yes">Yes</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Vehicle dictionaries</th>
+                            <td class="compare-yes">Yes <span class="compare-muted">(Fiat tested)</span></td>
+                            <td class="compare-no">No</td>
+                            <td class="compare-partial">Extra cost</td>
+                            <td class="compare-no">No</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">DBC support</th>
+                            <td class="compare-yes">Yes</td>
+                            <td class="compare-yes">Yes</td>
+                            <td class="compare-yes">Yes</td>
+                            <td class="compare-yes">Yes</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Session replay</th>
+                            <td class="compare-yes">Yes</td>
+                            <td class="compare-yes">Yes</td>
+                            <td class="compare-yes">Yes</td>
+                            <td class="compare-no">No</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Wi‑Fi capture</th>
+                            <td class="compare-yes">Yes</td>
+                            <td class="compare-no">No</td>
+                            <td class="compare-no">No</td>
+                            <td class="compare-no">No</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Signal watch</th>
+                            <td class="compare-yes">Yes</td>
+                            <td class="compare-yes">Yes</td>
+                            <td class="compare-yes">Yes</td>
+                            <td class="compare-no">No</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Ready out of the box</th>
+                            <td class="compare-yes">Yes</td>
+                            <td class="compare-partial">DIY setup</td>
+                            <td class="compare-yes">Yes</td>
+                            <td class="compare-yes">Yes</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Support</th>
+                            <td class="compare-yes">Direct</td>
+                            <td>Community</td>
+                            <td>Corporate</td>
+                            <td>Community</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Works on cheap hardware</th>
+                            <td class="compare-yes">Yes</td>
+                            <td class="compare-yes">Yes</td>
+                            <td class="compare-no">No</td>
+                            <td class="compare-no">No</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="compare-footnote"><sup>*</sup> PCAN-View is free for basic viewing; full professional workflows often need paid PEAK hardware and tools.</p>
+
+            <h3 class="compare-subhead">Hardware</h3>
+            <div class="compare-table-wrap" tabindex="0" aria-label="Hardware comparison table (scroll horizontally on small screens)">
+                <table class="compare-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Hardware</th>
+                            <th scope="col">Typical cost</th>
+                            <th scope="col">Works with ESP32 CAN Sniffer</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="compare-highlight-row">
+                            <th scope="row">ESP32 + MCP2515</th>
+                            <td>~€5–10</td>
+                            <td class="compare-yes"><strong>Designed for this</strong></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Vector VN1610</th>
+                            <td>€800+</td>
+                            <td class="compare-no">No</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">PEAK PCAN-USB</th>
+                            <td>€100+</td>
+                            <td class="compare-no">No</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Kvaser Leaf</th>
+                            <td>€200+</td>
+                            <td class="compare-no">No</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">ELM327</th>
+                            <td>~€10</td>
+                            <td class="compare-no">Different protocol</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="compare-cta-wrap">
+                <a class="btn primary" href="purchase.html">Get PRO package</a>
+                <a class="btn secondary" href="#download">Download Demo</a>
+            </p>
+        </div>
+    </section>
 
     <section id="screens" class="section gallery">
         <div class="container">

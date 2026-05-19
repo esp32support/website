@@ -503,6 +503,117 @@ h1 {
     color: #e5e9f0 !important;
 }
 
+.compare-section {
+    background: linear-gradient(180deg, #0a0e18 0%, #0d111e 100%);
+}
+
+.compare-tagline {
+    max-width: 52rem;
+    margin: 1rem auto 2rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #cbd5f5;
+    text-align: center;
+}
+
+.compare-subhead {
+    margin: 2.5rem 0 1rem;
+    font-size: 1.25rem;
+    color: #7dd3fc;
+    text-align: left;
+}
+
+.compare-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid rgba(125, 211, 252, 0.15);
+    border-radius: 12px;
+    background: rgba(12, 16, 27, 0.85);
+    margin-bottom: 0.75rem;
+}
+
+.compare-table {
+    width: 100%;
+    min-width: 640px;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+}
+
+.compare-table th,
+.compare-table td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(125, 211, 252, 0.08);
+    color: #e5e9f0;
+    vertical-align: top;
+}
+
+.compare-table thead th {
+    background: rgba(125, 211, 252, 0.08);
+    color: #7dd3fc;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.compare-table thead th:first-child,
+.compare-table tbody th {
+    color: #e5e9f0;
+    font-weight: 500;
+}
+
+.compare-table thead th:nth-child(2) {
+    background: rgba(125, 211, 252, 0.14);
+    color: #fff;
+}
+
+.compare-table tbody th {
+    background: rgba(12, 16, 27, 0.5);
+    min-width: 10rem;
+}
+
+.compare-table tbody td:nth-child(2) {
+    background: rgba(125, 211, 252, 0.04);
+}
+
+.compare-highlight-row th,
+.compare-highlight-row td {
+    background: rgba(125, 211, 252, 0.1) !important;
+}
+
+.compare-yes {
+    color: #86efac;
+}
+
+.compare-no {
+    color: #fca5a5;
+}
+
+.compare-partial {
+    color: #fcd34d;
+}
+
+.compare-muted {
+    display: block;
+    font-size: 0.8rem;
+    color: #94a3b8;
+    font-weight: 400;
+    margin-top: 0.15rem;
+}
+
+.compare-footnote {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    margin: 0 0 1.5rem;
+}
+
+.compare-cta-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2.5rem;
+}
+
 .pricing-toggle {
     display: flex;
     align-items: center;
