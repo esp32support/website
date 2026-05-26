@@ -369,7 +369,9 @@
                 <ul>
                     <li><strong>Browser download prompt (Keep / Discard):</strong> In Edge, Chrome, Firefox, and others, Windows may ask whether to keep or discard the file. Choose <strong>Keep</strong> if you started from <a href="https://esp32canbus.pages.dev/">esp32canbus.pages.dev</a> or the GitHub link above.</li>
                     <li><strong>Windows SmartScreen:</strong> When you run the installer, SmartScreen may flag it and ask whether you want to run it. Click <strong>More info</strong>, then <strong>Run anyway</strong> (or continue setup). The installer is not signed with a commercial certificate yet; that is why SmartScreen appears.</li>
+                    <li><strong>Microsoft Defender after install:</strong> On some systems or fresh VMs, Defender may allow the installer but still block <code>ESP32_CAN_Sniffer.exe</code> on first launch. If that happens, restore/allow the app in Protection history or add the installed app folder as a Defender exclusion.</li>
                     <li>Only download from our website or <code>github.com/esp32support/esp32-can-sniffer</code> — not third-party mirrors.</li>
+                    <li>The installer includes <code>IF_WINDOWS_BLOCKS_THE_APP.txt</code> with the unblock steps if Defender blocks the app after installation.</li>
                     <li>If the app shows a Python error on first run, download again — we may have published a fixed build; contact <a href="mailto:esp32contact@gmail.com">support</a> with a screenshot.</li>
                 </ul>
                 <p>We plan to add standard Windows code signing in a future release to reduce these prompts.</p>
