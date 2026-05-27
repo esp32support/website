@@ -1408,6 +1408,15 @@ footer .subtle {
         display: inline-flex;
         align-items: center;
     }
+
+    /* Keep homepage hero CTA compact on phones */
+    .hero-cta .btn {
+        min-height: 40px !important;
+        padding: 0.72rem 1rem !important;
+        font-size: 0.92rem !important;
+        line-height: 1.2 !important;
+        border-width: 1px !important;
+    }
 }
 
 /* Landscape mobile orientation */
