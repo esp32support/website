@@ -1810,7 +1810,7 @@ select:focus-visible {
 
 /* Final mobile CTA override (keep at end) */
 @media (max-width: 768px) {
-    .hero-cta {
+    .hero .hero-content > div > .hero-cta {
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
@@ -1818,13 +1818,15 @@ select:focus-visible {
         gap: 0.7rem !important;
         text-align: center !important;
         width: 100% !important;
+        max-width: 100% !important;
         margin-left: auto !important;
         margin-right: auto !important;
+        margin-top: 0.5rem !important;
         padding-left: 0 !important;
         padding-right: 0 !important;
     }
 
-    .hero-cta .btn {
+    .hero .hero-content > div > .hero-cta > .btn {
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
@@ -1841,7 +1843,7 @@ select:focus-visible {
 }
 
 @media (max-width: 480px) {
-    .hero-cta .btn {
+    .hero .hero-content > div > .hero-cta > .btn {
         width: min(14.8rem, 80vw) !important;
         max-width: 80vw !important;
     }
