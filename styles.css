@@ -1881,5 +1881,17 @@ select:focus-visible {
         right: auto !important;
         transform: none !important;
     }
+
+    .hero .note {
+        max-width: 100% !important;
+        overflow-wrap: anywhere !important;
+        word-break: break-word !important;
+    }
+
+    .hero .note code {
+        display: inline !important;
+        overflow-wrap: anywhere !important;
+        word-break: break-all !important;
+    }
 }
 
