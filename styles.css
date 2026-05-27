@@ -1849,3 +1849,25 @@ select:focus-visible {
     }
 }
 
+/* Isolated hero CTA buttons (do not let other sections affect alignment) */
+@media (max-width: 768px) {
+    .hero .hero-cta--isolated {
+        display: block !important;
+        width: 100% !important;
+        text-align: center !important;
+        margin: 0.4rem auto 0 !important;
+        padding: 0 !important;
+    }
+
+    .hero .hero-cta--isolated .btn {
+        display: block !important;
+        width: min(15rem, 80vw) !important;
+        max-width: 80vw !important;
+        margin: 0.55rem auto !important;
+        position: static !important;
+        left: auto !important;
+        right: auto !important;
+        transform: none !important;
+    }
+}
+
