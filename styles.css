@@ -523,6 +523,32 @@ h1 {
     text-align: left;
 }
 
+.compare-quick-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.9rem;
+    margin: 0 0 1rem;
+}
+
+.compare-quick-card {
+    border: 1px solid rgba(125, 211, 252, 0.18);
+    background: rgba(7, 11, 20, 0.75);
+    border-radius: 12px;
+    padding: 0.9rem 1rem;
+}
+
+.compare-quick-card h4 {
+    font-size: 0.96rem;
+    margin-bottom: 0.35rem;
+    color: #7dd3fc !important;
+}
+
+.compare-quick-card p {
+    font-size: 0.88rem;
+    color: #cbd5f5 !important;
+    line-height: 1.45;
+}
+
 .compare-table-wrap {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
@@ -604,6 +630,13 @@ h1 {
     font-size: 0.85rem;
     color: #94a3b8;
     margin: 0 0 1.5rem;
+}
+
+.compare-mobile-hint {
+    display: none;
+    font-size: 0.82rem;
+    color: #94a3b8 !important;
+    margin: 0.55rem 0 0.15rem;
 }
 
 .compare-cta-wrap {
@@ -1582,6 +1615,30 @@ h2 {
         gap: 1.4rem;
     }
 
+    h1 {
+        max-width: 100%;
+        font-size: clamp(1.35rem, 6.6vw, 1.95rem);
+        line-height: 1.2;
+    }
+
+    .lead {
+        font-size: 0.91rem;
+        line-height: 1.55;
+    }
+
+    .hero-card {
+        padding: 1.2rem;
+    }
+
+    .hero-card .version {
+        font-size: 1.6rem;
+    }
+
+    .note {
+        font-size: 0.86rem;
+        line-height: 1.45;
+    }
+
     .hero-cta {
         width: 100%;
     }
@@ -1599,6 +1656,29 @@ h2 {
 
     .toggle-label {
         font-size: 0.88rem;
+    }
+
+    .compare-subhead {
+        margin-top: 1.55rem;
+    }
+
+    .compare-quick-grid {
+        grid-template-columns: 1fr;
+        gap: 0.7rem;
+    }
+
+    .compare-table {
+        min-width: 560px;
+        font-size: 0.86rem;
+    }
+
+    .compare-table th,
+    .compare-table td {
+        padding: 0.62rem 0.72rem;
+    }
+
+    .compare-mobile-hint {
+        display: block;
     }
 
     .nav-links {
@@ -1631,6 +1711,27 @@ h2 {
     .feature-grid article,
     .checklist {
         border-radius: 12px;
+    }
+
+    .hero {
+        padding-top: 0.85rem;
+    }
+
+    h1 {
+        font-size: clamp(1.2rem, 7.1vw, 1.6rem);
+    }
+
+    .hero-points {
+        font-size: 0.88rem;
+        line-height: 1.5;
+    }
+
+    .compare-table-wrap {
+        border-radius: 10px;
+    }
+
+    .compare-table {
+        min-width: 520px;
     }
 }
 
