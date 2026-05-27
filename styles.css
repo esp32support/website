@@ -1808,3 +1808,31 @@ select:focus-visible {
     outline-offset: 2px;
 }
 
+/* Final mobile CTA override (keep at end) */
+@media (max-width: 768px) {
+    .hero-cta {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 100% !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    .hero-cta .btn {
+        display: block !important;
+        width: min(15.5rem, 82vw) !important;
+        max-width: 82vw !important;
+        margin: 0 auto !important;
+        text-align: center !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-cta .btn {
+        width: min(14.8rem, 80vw) !important;
+        max-width: 80vw !important;
+    }
+}
+
