@@ -1650,11 +1650,14 @@ h2 {
 
     .hero-cta {
         width: 100%;
+        align-items: center;
     }
 
     .hero-cta .btn {
-        flex: 1 1 100%;
-        width: 100%;
+        flex: 0 1 auto;
+        width: auto;
+        min-width: min(17rem, 82vw);
+        max-width: min(17rem, 82vw);
     }
 
     .pricing-toggle {
@@ -1724,6 +1727,11 @@ h2 {
 
     .hero {
         padding-top: 0.85rem;
+    }
+
+    .hero-cta .btn {
+        min-width: min(15.5rem, 80vw);
+        max-width: min(15.5rem, 80vw);
     }
 
     h1 {
