@@ -260,6 +260,10 @@ h1 {
     /* Color will be set by specific button classes for proper contrast */
 }
 
+.btn .label-mobile {
+    display: none;
+}
+
 .btn.primary {
     background: linear-gradient(120deg, #7dd3fc, #60a5fa);
     color: #000000 !important; /* Pure black for maximum visibility */
@@ -1851,6 +1855,14 @@ select:focus-visible {
 
 /* Isolated hero CTA buttons (do not let other sections affect alignment) */
 @media (max-width: 768px) {
+    .hero .hero-cta--isolated .btn .label-desktop {
+        display: none !important;
+    }
+
+    .hero .hero-cta--isolated .btn .label-mobile {
+        display: inline !important;
+    }
+
     .hero .hero-cta--isolated {
         display: block !important;
         width: 100% !important;
