@@ -160,20 +160,6 @@
             background: rgba(255, 107, 107, 0.1);
             border-color: rgba(255, 107, 107, 0.3);
         }
-        .checkout-cancelled-banner {
-            display: none;
-            background: rgba(255, 193, 7, 0.12);
-            border: 1px solid rgba(255, 193, 7, 0.45);
-            border-radius: 4px;
-            padding: 1rem 1.25rem;
-            margin-bottom: 1.5rem;
-            color: #fde68a;
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-        .checkout-cancelled-banner strong {
-            color: #fef3c7;
-        }
     </style>
 </head>
 <body>
@@ -195,12 +181,6 @@
         <div class="purchase-container">
             <h1 style="color: #e5e9f0; margin-bottom: 1rem;">FIAT Stilo add-on</h1>
 
-            <div id="checkoutCancelledBanner" class="checkout-cancelled-banner" role="status">
-                <strong>Payment was not completed.</strong>
-                You left checkout before paying — no charge was made and your add-on was not activated.
-                You can try again below whenever you are ready.
-            </div>
-            
             <div class="addon-info-box">
                 <h3>FIAT Stilo add-on</h3>
                 <p style="color: #cbd5f5; margin: 0.5rem 0;">
@@ -272,23 +252,6 @@
     </div>
 
     <script>
-        (function () {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('cancelled') !== 'true') {
-                return;
-            }
-            const cancelBanner = document.getElementById('checkoutCancelledBanner');
-            if (cancelBanner) {
-                cancelBanner.style.display = 'block';
-            }
-            const cleanParams = new URLSearchParams(window.location.search);
-            cleanParams.delete('cancelled');
-            cleanParams.delete('order_id');
-            const qs = cleanParams.toString();
-            const cleanUrl = window.location.pathname + (qs ? '?' + qs : '');
-            window.history.replaceState({}, '', cleanUrl);
-        })();
-
         // API endpoints
         // ⚠️ IMPORTANT: Update this URL to your deployed API server
         const PRODUCTION_API_URL = 'https://esp32-promo-api.onrender.com'; // ✅ Production API URL

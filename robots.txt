@@ -3,5 +3,6 @@ Allow: /
 
 # Keep checkout return/cancel pages out of search results.
 Disallow: /purchase-success.html
+Disallow: /payment-cancelled.html
 
 Sitemap: https://esp32canbus.pages.dev/sitemap.xml
