@@ -177,6 +177,20 @@
             font-size: 0.9rem;
             color: #cbd5f5;
         }
+        .checkout-cancelled-banner {
+            display: none;
+            background: rgba(255, 193, 7, 0.12);
+            border: 1px solid rgba(255, 193, 7, 0.45);
+            border-radius: 4px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.5rem;
+            color: #fde68a;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        .checkout-cancelled-banner strong {
+            color: #fef3c7;
+        }
     </style>
 </head>
 <body>
@@ -196,6 +210,12 @@
     <div class="container">
         <div class="purchase-container">
             <h1 style="color: #e5e9f0; margin-bottom: 1rem;">Get PRO package</h1>
+
+            <div id="checkoutCancelledBanner" class="checkout-cancelled-banner" role="status">
+                <strong>Payment was not completed.</strong>
+                You left checkout before paying — no charge was made and no license was issued.
+                You can try again below whenever you are ready.
+            </div>
             
             <div class="info-box">
                 ✔ Secure payment via myPOS<br>
@@ -317,6 +337,19 @@
         // URL + homepage session (tier / FIAT follow index.html pricing card)
         const urlParams = new URLSearchParams(window.location.search);
         const hwId = urlParams.get('hwid');
+
+        if (urlParams.get('cancelled') === 'true') {
+            const cancelBanner = document.getElementById('checkoutCancelledBanner');
+            if (cancelBanner) {
+                cancelBanner.style.display = 'block';
+            }
+            const cleanParams = new URLSearchParams(window.location.search);
+            cleanParams.delete('cancelled');
+            cleanParams.delete('order_id');
+            const qs = cleanParams.toString();
+            const cleanUrl = window.location.pathname + (qs ? '?' + qs : '');
+            window.history.replaceState({}, '', cleanUrl);
+        }
 
         function getInitialPurchasePrefs() {
             let tier = urlParams.get('tier');
