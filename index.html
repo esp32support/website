@@ -5,15 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
     <title>ESP32 CAN Sniffer for Windows | ESP32 + MCP2515, DBC &amp; replay</title>
-    <meta name="description" content="Windows CAN software for ESP32 + MCP2515: live monitoring, DBC import/export, session save/replay, Wi-Fi capture. Optional FIAT Stilo add-on. For technicians &amp; developers worldwide." />
-    <meta name="keywords" content="ESP32 CAN sniffer Windows, CAN bus analyzer, MCP2515 ESP32, DBC decoder, CAN replay, automotive diagnostics software, vehicle CAN monitoring, Fiat CAN decoder" />
+    <meta name="description" content="Windows CAN software for ESP32 + MCP2515: live monitoring, freeze-diff RE Compare tab, DBC import/export, session save/replay, Wi-Fi capture. Optional FIAT Stilo add-on." />
+    <meta name="keywords" content="ESP32 CAN sniffer Windows, CAN bus analyzer, MCP2515 ESP32, DBC decoder, CAN replay, freeze diff CAN, reverse engineering CAN, automotive diagnostics software, Fiat CAN decoder" />
     <meta name="author" content="IFIX ELEKTRONIKA" />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://esp32canbus.pages.dev/" />
     <meta property="og:title" content="ESP32 CAN Sniffer for Windows | ESP32 + MCP2515, DBC &amp; replay" />
-    <meta property="og:description" content="Windows CAN software for ESP32 + MCP2515: live monitoring, DBC import/export, session save/replay, Wi-Fi capture. Optional FIAT Stilo add-on." />
+    <meta property="og:description" content="Windows CAN software for ESP32 + MCP2515: live monitoring, freeze-diff Compare tab, DBC import/export, session save/replay, Wi-Fi capture. Optional FIAT Stilo add-on." />
     <meta property="og:image" content="https://esp32canbus.pages.dev/images/dashboard.png" />
     <meta property="og:image:width" content="1920" />
     <meta property="og:image:height" content="1032" />
@@ -24,7 +24,7 @@
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="ESP32 CAN Sniffer for Windows | ESP32 + MCP2515, DBC &amp; replay" />
-    <meta name="twitter:description" content="Windows CAN software for ESP32 + MCP2515: live monitoring, DBC import/export, session save/replay, Wi-Fi capture. Optional FIAT Stilo add-on." />
+    <meta name="twitter:description" content="Windows CAN software for ESP32 + MCP2515: live monitoring, freeze-diff Compare tab, DBC import/export, session save/replay, Wi-Fi capture. Optional FIAT Stilo add-on." />
     <meta name="twitter:image" content="https://esp32canbus.pages.dev/images/dashboard.png" />
     
     <!-- Canonical URL -->
@@ -62,7 +62,7 @@
             "description": "PRO license: €15/month or €140/year. Free 30-day demo installer available."
           },
           "url": "https://esp32canbus.pages.dev/",
-          "description": "Windows desktop CAN analyzer for ESP32 and MCP2515 with DBC import/export, session save/replay, and optional FIAT Stilo add-on.",
+          "description": "Windows desktop CAN analyzer for ESP32 and MCP2515 with freeze-diff Compare tab, DBC import/export, session save/replay, and optional FIAT Stilo add-on.",
           "screenshot": [
             "https://esp32canbus.pages.dev/images/dashboard.png",
             "https://esp32canbus.pages.dev/images/decoder.png",
@@ -101,7 +101,7 @@
                     <p class="eyebrow">ESP32 CAN Sniffer for Windows</p>
                     <h1>See exactly what your car is saying.</h1>
                     <p class="lead">
-                        Real-time decoded diagnostic messages. Windows desktop suite for ESP32 and MCP2515 with DBC import/export, save/replay, and optional FIAT Stilo add-on (Stilo-tested dictionary data)—built for workshop technicians and developers worldwide.
+                        Real-time decoded diagnostic messages. Windows desktop suite for ESP32 and MCP2515 with DBC import/export, save/replay, a <strong>Compare</strong> tab for freeze-and-diff reverse engineering, and optional FIAT Stilo add-on (Stilo-tested dictionary data)—built for workshop technicians and developers worldwide.
                     </p>
                     <div class="hero-cta hero-cta--isolated">
                         <a id="download" class="btn primary" href="https://github.com/esp32support/esp32-can-sniffer/releases/download/v1.0.3/ESP32_CAN_Sniffer_Setup.exe" target="_blank" rel="noopener noreferrer"><span class="label-desktop">Download Demo Installer</span><span class="label-mobile">Download DEMO</span></a>
@@ -112,6 +112,7 @@
                     <p class="hero-points">
                         ✔ Real-time CAN decoding<br>
                         ✔ Signal-level analysis (not just raw data)<br>
+                        ✔ <strong>Compare tab:</strong> freeze baseline → see which ID &amp; byte changed<br>
                         ✔ Works with ESP32 + MCP2515 (no custom hardware)
                     </p>
                     <p class="hero-fiat-note">
@@ -128,6 +129,7 @@
                     <p class="version">v1.0.3</p>
                     <ul>
                         <li>Real-time CAN analysis</li>
+                        <li>Compare tab — freeze &amp; byte diff (RE)</li>
                         <li>DBC import/export</li>
                         <li>Automation rules + analytics</li>
                     </ul>
@@ -154,6 +156,10 @@
                 <article class="compare-quick-card">
                     <h4>Best for Fiat workflows</h4>
                     <p>Built-in FIAT-focused decoding workflow and add-on support in one Windows UI.</p>
+                </article>
+                <article class="compare-quick-card">
+                    <h4>Reverse-engineer faster</h4>
+                    <p><strong>Compare tab:</strong> capture a baseline, trigger a control, see exactly which CAN ID and byte changed — live or during replay.</p>
                 </article>
                 <article class="compare-quick-card">
                     <h4>Who should pick this</h4>
@@ -211,6 +217,13 @@
                             <th scope="row">Session replay</th>
                             <td class="compare-yes">Yes</td>
                             <td class="compare-yes">Yes</td>
+                            <td class="compare-yes">Yes</td>
+                            <td class="compare-no">No</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Freeze / byte diff (RE)</th>
+                            <td class="compare-yes">Yes <span class="compare-muted">(Compare tab)</span></td>
+                            <td class="compare-partial">Manual</td>
                             <td class="compare-yes">Yes</td>
                             <td class="compare-no">No</td>
                         </tr>
@@ -351,7 +364,7 @@
         <div class="modal-content">
             <button class="modal-close" aria-label="Close modal">&times;</button>
             <h2>ESP32 CAN Sniffer Desktop Suite</h2>
-            <p class="modal-lead">Professional-grade CAN bus monitoring and analysis software designed for automotive diagnostics, reverse engineering, and development workflows. Version 1.0.3 — live sniffing performance, replay UX, and security hardening.</p>
+            <p class="modal-lead">Professional-grade CAN bus monitoring and analysis software designed for automotive diagnostics, reverse engineering, and development workflows. Version 1.0.3 — live sniffing performance, Compare freeze-diff for RE, replay UX, and security hardening.</p>
             
             <div class="modal-features">
                 <h3>Core Functionality</h3>
@@ -371,6 +384,12 @@
                     <li><strong>Value Mapping:</strong> Support for enumerated values, descriptions, and custom labels</li>
                     <li><strong>DBC Import/Export:</strong> Standard DBC file support for vehicle-specific protocols</li>
                     <li><strong>Real-time Decoding:</strong> Live message decoding with database lookup and fallback mechanisms</li>
+                </ul>
+                
+                <h3>Reverse engineering</h3>
+                <ul>
+                    <li><strong>Compare tab:</strong> Capture a baseline snapshot of every CAN ID, then highlight only frames that changed — with exact bytes (e.g. d3, d0) and new IDs. Works on live traffic and session replay.</li>
+                    <li><strong>Workflow:</strong> Freeze the bus → press a stalk, button, or switch → instantly see which message and byte controls it — the core loop for building vehicle dictionaries.</li>
                 </ul>
                 
                 <h3>Data Management</h3>
