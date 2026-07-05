@@ -52,7 +52,7 @@
           "name": "ESP32 CAN Sniffer",
           "applicationCategory": "DeveloperApplication",
           "operatingSystem": "Windows 10, Windows 11",
-          "softwareVersion": "1.0.4",
+          "softwareVersion": "1.0.5",
           "offers": {
             "@type": "AggregateOffer",
             "priceCurrency": "EUR",
@@ -104,11 +104,11 @@
                         Real-time decoded diagnostic messages. Windows desktop suite for ESP32 and MCP2518FD with DBC import/export, save/replay, a <strong>Compare</strong> tab for freeze-and-diff reverse engineering, and optional FIAT Stilo add-on (Stilo-tested dictionary data)—built for workshop technicians and developers worldwide.
                     </p>
                     <div class="hero-cta hero-cta--isolated">
-                        <a id="download" class="btn primary" href="https://github.com/esp32support/esp32-can-sniffer/releases/download/v1.0.4/ESP32_CAN_Sniffer_Setup.exe" target="_blank" rel="noopener noreferrer"><span class="label-desktop">Download Demo Installer</span><span class="label-mobile">Download DEMO</span></a>
+                        <a id="download" class="btn primary" href="https://github.com/esp32support/esp32-can-sniffer/releases/download/v1.0.5/ESP32_CAN_Sniffer_Setup.exe" target="_blank" rel="noopener noreferrer"><span class="label-desktop">Download Demo Installer</span><span class="label-mobile">Download DEMO</span></a>
                         <a class="btn secondary" href="purchase.html" id="purchaseLinkHero"><span class="label-desktop">Get PRO package</span><span class="label-mobile">Get PRO</span></a>
                     </div>
                     <p class="note" style="margin-top: 0.65rem;">Buy a ~€5 ESP32 + MCP2518FD module on AliExpress, set it up and start sniffing live CAN data.</p>
-                    <p class="note" style="margin-top: 0.85rem;">SHA256: <code>858DB993BC8FC526156B42FB930FD684FC6F7B3C43FBA84D49979AA4E7EDD487</code></p>
+                    <p class="note" style="margin-top: 0.85rem;">SHA256: <code>4DDDF00A2BC325C1338D07793495FA1B8E43780F8496ED1C00FA914BA369BCAA</code></p>
                     <p class="hero-points">
                         ✔ Real-time CAN decoding<br>
                         ✔ Signal-level analysis (not just raw data)<br>
@@ -126,12 +126,13 @@
                 </div>
                 <div class="hero-card">
                     <h3>Current Release</h3>
-                    <p class="version">v1.0.4</p>
+                    <p class="version">v1.0.5</p>
+                    <p class="note" style="margin: 0.5rem 0 0.75rem; padding: 0.5rem 0.65rem; background: rgba(125, 211, 252, 0.08); border-left: 3px solid #7dd3fc; border-radius: 4px;"><strong>Hardware update:</strong> we switched from <strong>MCP2515</strong> to <strong>MCP2518FD</strong> CAN controllers. Flash the new firmware zip (v1.1) and connect USB at <strong>921600</strong> baud.</p>
                     <ul>
-                        <li>Real-time CAN analysis</li>
+                        <li>MCP2518FD firmware + USB 921600 default</li>
+                        <li>Detect CAN speed from live bus traffic</li>
                         <li>Compare tab — freeze &amp; byte diff (RE)</li>
-                        <li>DBC import/export</li>
-                        <li>Automation rules + analytics</li>
+                        <li>DBC import/export · automation rules</li>
                     </ul>
                     <p class="note">PRO package unlocks Wi-Fi, advanced databases, and automation tools. Free demo installer: use <strong>Download Demo Installer</strong> on the left.</p>
                 </div>
@@ -364,7 +365,7 @@
         <div class="modal-content">
             <button class="modal-close" aria-label="Close modal">&times;</button>
             <h2>ESP32 CAN Sniffer Desktop Suite</h2>
-            <p class="modal-lead">Professional-grade CAN bus monitoring and analysis software designed for automotive diagnostics, reverse engineering, and development workflows. Version 1.0.4 — dictionary add-on stability, correct vehicle_db paths, and graceful load when add-on is disabled.</p>
+            <p class="modal-lead">Professional-grade CAN bus monitoring and analysis software designed for automotive diagnostics, reverse engineering, and development workflows. <strong>Version 1.0.5</strong> — hardware platform moved from MCP2515 to MCP2518FD, USB serial default raised to 921600 baud, and live-bus <strong>Detect CAN speed</strong> in the desktop app. Flash firmware package v1.1 before connecting.</p>
             
             <div class="modal-features">
                 <h3>Core Functionality</h3>
@@ -599,7 +600,7 @@
             <div class="footer-content">
                 <div class="footer-text">
                     <p>© 2026 IFIX ELEKTRONIKA. All rights reserved.</p>
-                    <p class="subtle">Desktop app v1.0.4 · Firmware package v1.0</p>
+                    <p class="subtle">Desktop app v1.0.5 · Firmware package v1.1 (MCP2518FD)</p>
                     <p class="subtle">IFIX ELEKTRONIKA, obrt za usluge</p>
                     <p class="subtle">Ul. Matice hrvatske 28A</p>
                     <p class="subtle">21 000 Split</p>
