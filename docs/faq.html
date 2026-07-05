@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>FAQ & Troubleshooting - ESP32 CAN Sniffer</title>
-    <meta name="description" content="ESP32 CAN Sniffer FAQ: COM port errors, ESP32 + MCP2515 wiring, Wi-Fi capture, licensing, and Windows troubleshooting for the desktop CAN suite." />
+    <meta name="description" content="ESP32 CAN Sniffer FAQ: COM port errors, ESP32 + MCP2518FD wiring, Wi-Fi capture, licensing, and Windows troubleshooting for the desktop CAN suite." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://esp32canbus.pages.dev/docs/faq.html" />
     <meta property="og:title" content="FAQ & Troubleshooting - ESP32 CAN Sniffer" />
@@ -255,7 +255,7 @@
                 <ul>
                     <li>ESP32 may not have the correct firmware — re-flash using the pre-compiled zip from your PRO email</li>
                     <li>No CAN traffic on the bus - check if CAN bus is active</li>
-                    <li>MCP2515 not initialized — check wiring and try the 16&nbsp;MHz build if your module uses a 16&nbsp;MHz crystal</li>
+                    <li>MCP2518FD not initialized — check wiring and try the 40&nbsp;MHz build if your module uses a 40&nbsp;MHz crystal</li>
                     <li>Wrong CAN bus connection - verify CANH/CANL connections</li>
                     <li>For testing without a car: connect 120Ω resistor between CANH and CANL</li>
                 </ul>
@@ -265,7 +265,7 @@
         <h2>🔧 Hardware Issues</h2>
         
         <div class="faq-item">
-            <div class="faq-question">Q: MCP2515 initialization failed</div>
+            <div class="faq-question">Q: MCP2518FD initialization failed</div>
             <div class="faq-answer">
                 <p><strong>A:</strong> Check hardware connections:</p>
                 <ul>
@@ -273,20 +273,20 @@
                     <li>Check power connection: 3V3 (NOT 5V!) to VCC</li>
                     <li>Verify ground connection (GND to GND)</li>
                     <li>Check for loose connections or bad jumper wires</li>
-                    <li>Try a different MCP2515 module if available</li>
+                    <li>Try a different MCP2518FD module if available</li>
                     <li>Re-flash firmware if the module never responds after wiring checks</li>
                 </ul>
             </div>
         </div>
         
         <div class="faq-item">
-            <div class="faq-question">Q: MCP2515 module gets hot or doesn't work</div>
+            <div class="faq-question">Q: MCP2518FD module gets hot or doesn't work</div>
             <div class="faq-answer">
                 <div class="error-box">
                     <strong>⚠️ Critical:</strong> If the module gets hot, you may have connected 5V instead of 3.3V! Disconnect immediately.
                 </div>
                 <ul>
-                    <li>MCP2515 MUST be powered with 3.3V (ESP32's 3V3 pin)</li>
+                    <li>MCP2518FD MUST be powered with 3.3V (ESP32's 3V3 pin)</li>
                     <li>Using 5V will damage the module permanently</li>
                     <li>Check power connection before testing</li>
                 </ul>
@@ -298,7 +298,7 @@
             <div class="faq-answer">
                 <p><strong>A:</strong> Use loopback mode:</p>
                 <ul>
-                    <li>Connect a 120Ω resistor between CANH and CANL on the MCP2515</li>
+                    <li>Connect a 120Ω resistor between CANH and CANL on the MCP2518FD module</li>
                     <li>This simulates a terminated CAN bus for basic bench checks</li>
                     <li>For live traffic you need an active vehicle CAN network or approved test equipment</li>
                 </ul>
@@ -424,7 +424,7 @@
                 <p><strong>A:</strong> Use the pre-compiled firmware zip from your PRO follow-up email (not Arduino IDE):</p>
                 <ul>
                     <li>Install Python 3, then <code>pip install esptool</code> in the unzipped firmware folder</li>
-                    <li>Run <code>flash.bat COM4</code> (8&nbsp;MHz) or <code>flash_16mhz.bat COM4</code> (16&nbsp;MHz modules)</li>
+                    <li>Run <code>flash.bat COM4</code> (20&nbsp;MHz) or <code>flash_40mhz.bat COM4</code> (40&nbsp;MHz modules)</li>
                     <li>Replace <code>COM4</code> with your ESP32 port from Device Manager</li>
                     <li>Close other programs using that COM port before flashing</li>
                     <li>Install CP210x/CH340 drivers if the port is missing</li>

@@ -1,19 +1,19 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
-    <title>ESP32 CAN Sniffer for Windows | ESP32 + MCP2515, DBC &amp; replay</title>
-    <meta name="description" content="Windows CAN software for ESP32 + MCP2515: live monitoring, freeze-diff RE Compare tab, DBC import/export, session save/replay, Wi-Fi capture. Optional FIAT Stilo add-on." />
-    <meta name="keywords" content="ESP32 CAN sniffer Windows, CAN bus analyzer, MCP2515 ESP32, DBC decoder, CAN replay, freeze diff CAN, reverse engineering CAN, automotive diagnostics software, Fiat CAN decoder" />
+    <title>ESP32 CAN Sniffer for Windows | ESP32 + MCP2518FD, DBC &amp; replay</title>
+    <meta name="description" content="Windows CAN software for ESP32 + MCP2518FD: live monitoring, freeze-diff RE Compare tab, DBC import/export, session save/replay, Wi-Fi capture. Optional FIAT Stilo add-on." />
+    <meta name="keywords" content="ESP32 CAN sniffer Windows, CAN bus analyzer, MCP2518FD ESP32, DBC decoder, CAN replay, freeze diff CAN, reverse engineering CAN, automotive diagnostics software, Fiat CAN decoder" />
     <meta name="author" content="IFIX ELEKTRONIKA" />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://esp32canbus.pages.dev/" />
-    <meta property="og:title" content="ESP32 CAN Sniffer for Windows | ESP32 + MCP2515, DBC &amp; replay" />
-    <meta property="og:description" content="Windows CAN software for ESP32 + MCP2515: live monitoring, freeze-diff Compare tab, DBC import/export, session save/replay, Wi-Fi capture. Optional FIAT Stilo add-on." />
+    <meta property="og:title" content="ESP32 CAN Sniffer for Windows | ESP32 + MCP2518FD, DBC &amp; replay" />
+    <meta property="og:description" content="Windows CAN software for ESP32 + MCP2518FD: live monitoring, freeze-diff Compare tab, DBC import/export, session save/replay, Wi-Fi capture. Optional FIAT Stilo add-on." />
     <meta property="og:image" content="https://esp32canbus.pages.dev/images/dashboard.png" />
     <meta property="og:image:width" content="1920" />
     <meta property="og:image:height" content="1032" />
@@ -23,8 +23,8 @@
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="ESP32 CAN Sniffer for Windows | ESP32 + MCP2515, DBC &amp; replay" />
-    <meta name="twitter:description" content="Windows CAN software for ESP32 + MCP2515: live monitoring, freeze-diff Compare tab, DBC import/export, session save/replay, Wi-Fi capture. Optional FIAT Stilo add-on." />
+    <meta name="twitter:title" content="ESP32 CAN Sniffer for Windows | ESP32 + MCP2518FD, DBC &amp; replay" />
+    <meta name="twitter:description" content="Windows CAN software for ESP32 + MCP2518FD: live monitoring, freeze-diff Compare tab, DBC import/export, session save/replay, Wi-Fi capture. Optional FIAT Stilo add-on." />
     <meta name="twitter:image" content="https://esp32canbus.pages.dev/images/dashboard.png" />
     
     <!-- Canonical URL -->
@@ -52,7 +52,7 @@
           "name": "ESP32 CAN Sniffer",
           "applicationCategory": "DeveloperApplication",
           "operatingSystem": "Windows 10, Windows 11",
-          "softwareVersion": "1.0.7",
+          "softwareVersion": "1.0.4",
           "offers": {
             "@type": "AggregateOffer",
             "priceCurrency": "EUR",
@@ -62,7 +62,7 @@
             "description": "PRO license: €15/month or €140/year. Free 30-day demo installer available."
           },
           "url": "https://esp32canbus.pages.dev/",
-          "description": "Windows desktop CAN analyzer for ESP32 and MCP2515 with freeze-diff Compare tab, DBC import/export, session save/replay, and optional FIAT Stilo add-on.",
+          "description": "Windows desktop CAN analyzer for ESP32 and MCP2518FD with freeze-diff Compare tab, DBC import/export, session save/replay, and optional FIAT Stilo add-on.",
           "screenshot": [
             "https://esp32canbus.pages.dev/images/dashboard.png",
             "https://esp32canbus.pages.dev/images/decoder.png",
@@ -101,19 +101,19 @@
                     <p class="eyebrow">ESP32 CAN Sniffer for Windows</p>
                     <h1>See exactly what your car is saying.</h1>
                     <p class="lead">
-                        Real-time decoded diagnostic messages. Windows desktop suite for ESP32 and MCP2515 with DBC import/export, save/replay, a <strong>Compare</strong> tab for freeze-and-diff reverse engineering, and optional FIAT Stilo add-on (Stilo-tested dictionary data)—built for workshop technicians and developers worldwide.
+                        Real-time decoded diagnostic messages. Windows desktop suite for ESP32 and MCP2518FD with DBC import/export, save/replay, a <strong>Compare</strong> tab for freeze-and-diff reverse engineering, and optional FIAT Stilo add-on (Stilo-tested dictionary data)—built for workshop technicians and developers worldwide.
                     </p>
                     <div class="hero-cta hero-cta--isolated">
-                        <a id="download" class="btn primary" href="https://github.com/esp32support/esp32-can-sniffer/releases/download/v1.0.7/ESP32_CAN_Sniffer_Setup.exe" target="_blank" rel="noopener noreferrer"><span class="label-desktop">Download Demo Installer</span><span class="label-mobile">Download DEMO</span></a>
+                        <a id="download" class="btn primary" href="https://github.com/esp32support/esp32-can-sniffer/releases/download/v1.0.4/ESP32_CAN_Sniffer_Setup.exe" target="_blank" rel="noopener noreferrer"><span class="label-desktop">Download Demo Installer</span><span class="label-mobile">Download DEMO</span></a>
                         <a class="btn secondary" href="purchase.html" id="purchaseLinkHero"><span class="label-desktop">Get PRO package</span><span class="label-mobile">Get PRO</span></a>
                     </div>
-                    <p class="note" style="margin-top: 0.65rem;">Buy a ~€5 ESP32 + MCP2515 module on AliExpress, set it up and start sniffing live CAN data.</p>
-                    <p class="note" style="margin-top: 0.85rem;">SHA256: <code>26C5637AE1D4F6D2DB6E816610CDC03B3C4DB35D543E91C8A9A010B8CD0CB394</code></p>
+                    <p class="note" style="margin-top: 0.65rem;">Buy a ~€5 ESP32 + MCP2518FD module on AliExpress, set it up and start sniffing live CAN data.</p>
+                    <p class="note" style="margin-top: 0.85rem;">SHA256: <code>858DB993BC8FC526156B42FB930FD684FC6F7B3C43FBA84D49979AA4E7EDD487</code></p>
                     <p class="hero-points">
                         ✔ Real-time CAN decoding<br>
                         ✔ Signal-level analysis (not just raw data)<br>
                         ✔ <strong>Compare tab:</strong> freeze baseline → see which ID &amp; byte changed<br>
-                        ✔ Works with ESP32 + MCP2515 (no custom hardware)
+                        ✔ Works with ESP32 + MCP2518FD (no custom hardware)
                     </p>
                     <p class="hero-fiat-note">
                         🔧 FIAT Stilo add-on (tested) – €30 one-time
@@ -126,8 +126,7 @@
                 </div>
                 <div class="hero-card">
                     <h3>Current Release</h3>
-                    <p class="version">v1.0.7</p>
-                    <p class="release-date">Released 12 June 2026</p>
+                    <p class="version">v1.0.4</p>
                     <ul>
                         <li>Real-time CAN analysis</li>
                         <li>Compare tab — freeze &amp; byte diff (RE)</li>
@@ -152,7 +151,7 @@
             <div class="compare-quick-grid">
                 <article class="compare-quick-card">
                     <h4>Lowest setup cost</h4>
-                    <p><strong>ESP32 CAN Sniffer</strong> works with low-cost ESP32 + MCP2515 hardware (~€5-10).</p>
+                    <p><strong>ESP32 CAN Sniffer</strong> works with low-cost ESP32 + MCP2518FD hardware (~€5-10).</p>
                 </article>
                 <article class="compare-quick-card">
                     <h4>Best for Fiat workflows</h4>
@@ -188,7 +187,7 @@
                         </tr>
                         <tr>
                             <th scope="row">Hardware cost</th>
-                            <td>~€5 ESP32 + MCP2515</td>
+                            <td>~€5 ESP32 + MCP2518FD</td>
                             <td>Any interface</td>
                             <td>€500–2,000+ proprietary</td>
                             <td>€100+ PEAK only</td>
@@ -281,7 +280,7 @@
                     </thead>
                     <tbody>
                         <tr class="compare-highlight-row">
-                            <th scope="row">ESP32 + MCP2515</th>
+                            <th scope="row">ESP32 + MCP2518FD</th>
                             <td>~€5–10</td>
                             <td class="compare-yes"><strong>Designed for this</strong></td>
                         </tr>
@@ -365,14 +364,14 @@
         <div class="modal-content">
             <button class="modal-close" aria-label="Close modal">&times;</button>
             <h2>ESP32 CAN Sniffer Desktop Suite</h2>
-            <p class="modal-lead">Professional-grade CAN bus monitoring and analysis software designed for automotive diagnostics, reverse engineering, and development workflows. Version 1.0.7 — dictionary decode, VM-safe runtime guard, settings persistence in packaged builds, plain JSON add-on zip with license_info.json binding.</p>
+            <p class="modal-lead">Professional-grade CAN bus monitoring and analysis software designed for automotive diagnostics, reverse engineering, and development workflows. Version 1.0.4 — dictionary add-on stability, correct vehicle_db paths, and graceful load when add-on is disabled.</p>
             
             <div class="modal-features">
                 <h3>Core Functionality</h3>
                 <ul>
                     <li><strong>Real-time Monitoring:</strong> Live CAN message capture at 500+ messages/second with high-performance buffering</li>
                     <li><strong>Dual Connection:</strong> WiFi and Serial (USB) connectivity with auto-detection</li>
-                    <li><strong>Hardware Compatibility:</strong> Works with budget-friendly ESP32 + MCP2515 or SN65HVD230 CAN controllers</li>
+                    <li><strong>Hardware Compatibility:</strong> Works with budget-friendly ESP32 + MCP2518FD or SN65HVD230 CAN controllers</li>
                     <li><strong>Message Filtering:</strong> Advanced filtering by CAN ID, data patterns, and real-time highlighting</li>
                     <li><strong>Auto-Detection:</strong> Automatic port and device detection for seamless setup</li>
                 </ul>
@@ -427,7 +426,7 @@
                 <ul>
                     <li><strong>OS:</strong> Windows 10 or later (64-bit recommended)</li>
                     <li><strong>RAM:</strong> 4 GB minimum, 8 GB recommended</li>
-                    <li><strong>Hardware:</strong> ESP32 development board with MCP2515 or SN65HVD230 CAN interface</li>
+                    <li><strong>Hardware:</strong> ESP32 development board with MCP2518FD or SN65HVD230 CAN interface</li>
                     <li><strong>Connection:</strong> USB cable or WiFi network for ESP32 communication</li>
                 </ul>
             </div>
@@ -454,7 +453,7 @@
                 </article>
                 <article>
                     <h3>Budget Hardware</h3>
-                    <p>Works with ESP32 + MCP2515. No custom PCB required.</p>
+                    <p>Works with ESP32 + MCP2518FD. No custom PCB required.</p>
                 </article>
                 <article>
                     <h3>Decoder Ecosystem</h3>
@@ -540,14 +539,14 @@
                     ESP32 CAN Sniffer is a proprietary automotive diagnostic software platform developed by IFIX ELEKTRONIKA for professional CAN analysis, reverse engineering, and workshop deployment.
                 </p>
                 <p class="lead">
-                    The software works with ESP32-based CAN sniffers using the MCP2515 controller.
+                    The software works with ESP32-based CAN sniffers using the MCP2518FD controller.
                     This widely available and affordable hardware setup delivers reliable, real-time CAN monitoring without the need for custom PCB design.
                 </p>
                 <h3>What you receive (PRO purchase)</h3>
                 <ul>
                     <li><strong>Windows Pro license</strong> — activation key by email after payment</li>
-                    <li><strong>ESP32 MCP2515 firmware</strong> — pre-compiled zip in a follow-up email (<code>flash.bat</code> + 8&nbsp;MHz / 16&nbsp;MHz builds; no Arduino IDE)</li>
-                    <li><strong>Your hardware</strong> — ESP32 + MCP2515 module (not shipped by us)</li>
+                    <li><strong>ESP32 MCP2518FD firmware</strong> — pre-compiled zip in a follow-up email (<code>flash.bat</code> + 20&nbsp;MHz / 40&nbsp;MHz builds; no Arduino IDE)</li>
+                    <li><strong>Your hardware</strong> — ESP32 + MCP2518FD module (not shipped by us)</li>
                     <li><strong>FIAT Stilo add-on</strong> — dictionary zip by email; <strong>included with annual plan</strong>, optional +€30 on monthly</li>
                 </ul>
 
@@ -600,7 +599,7 @@
             <div class="footer-content">
                 <div class="footer-text">
                     <p>© 2026 IFIX ELEKTRONIKA. All rights reserved.</p>
-                    <p class="subtle">Desktop app v1.0.7 · Firmware package v1.0</p>
+                    <p class="subtle">Desktop app v1.0.4 · Firmware package v1.0</p>
                     <p class="subtle">IFIX ELEKTRONIKA, obrt za usluge</p>
                     <p class="subtle">Ul. Matice hrvatske 28A</p>
                     <p class="subtle">21 000 Split</p>

@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>User Manual & Installation Guide - ESP32 CAN Sniffer</title>
-    <meta name="description" content="Install and run ESP32 CAN Sniffer on Windows: drivers, ESP32 + MCP2515 wiring, PRO license activation, pre-compiled firmware flash, and Wi-Fi capture." />
+    <meta name="description" content="Install and run ESP32 CAN Sniffer on Windows: drivers, ESP32 + MCP2518FD wiring, PRO license activation, pre-compiled firmware flash, and Wi-Fi capture." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://esp32canbus.pages.dev/docs/user_manual.html" />
     <meta property="og:title" content="User Manual & Installation Guide - ESP32 CAN Sniffer" />
@@ -252,7 +252,7 @@
         <h3>Hardware</h3>
         <ul>
             <li><strong>ESP32 development board</strong> (ESP32 DevKit recommended)</li>
-            <li><strong>MCP2515 CAN module</strong> wired per the pin table below</li>
+            <li><strong>MCP2518FD CAN module</strong> wired per the pin table below</li>
             <li><strong>USB cable</strong> (data-capable, not power-only)</li>
             <li><strong>120Ω resistor</strong> (optional — bench loopback test without a vehicle)</li>
         </ul>
@@ -324,13 +324,13 @@
             <li>Labels are saved in settings</li>
         </ul>
         
-        <h2>🔧 Hardware Setup (ESP32 + MCP2515)</h2>
+        <h2>🔧 Hardware Setup (ESP32 + MCP2518FD)</h2>
         
         <h3>Pin Connections</h3>
         <table>
             <tr>
                 <th>ESP32 Pin</th>
-                <th>MCP2515 Pin</th>
+                <th>MCP2518FD Pin</th>
                 <th>Description</th>
             </tr>
             <tr>
@@ -371,16 +371,16 @@
         </table>
         
         <div class="warning-box">
-            <strong>⚠️ Critical Warning:</strong> MCP2515 must be powered with 3.3V, NOT 5V! Using 5V will damage the module.
+            <strong>⚠️ Critical Warning:</strong> MCP2518FD must be powered with 3.3V, NOT 5V! Using 5V will damage the module.
         </div>
         
         <h3>Flashing ESP32 firmware (pre-compiled .bin)</h3>
         <ol>
-            <li>Unzip the firmware email attachment (8&nbsp;MHz and 16&nbsp;MHz builds included)</li>
+            <li>Unzip the firmware email attachment (20&nbsp;MHz and 40&nbsp;MHz builds included)</li>
             <li>Install Python 3 if needed, then run: <code>pip install esptool</code></li>
             <li>Find the ESP32 COM port in Device Manager (e.g. <code>COM4</code>)</li>
-            <li><strong>8&nbsp;MHz MCP2515 (most modules):</strong> <code>flash.bat COM4</code></li>
-            <li><strong>16&nbsp;MHz MCP2515 only:</strong> <code>flash_16mhz.bat COM4</code></li>
+            <li><strong>20&nbsp;MHz MCP2518FD (most modules):</strong> <code>flash.bat COM4</code></li>
+            <li><strong>40&nbsp;MHz MCP2518FD only:</strong> <code>flash_40mhz.bat COM4</code></li>
             <li>Wait for “Done”, then unplug/replug USB and open the desktop app</li>
         </ol>
         <p style="color: #94a3b8; font-size: 0.9rem;">Replace <code>COM4</code> with your port. If flash fails, install CP210x/CH340 drivers and close any program using that COM port.</p>
