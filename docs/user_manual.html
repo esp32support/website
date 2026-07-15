@@ -335,8 +335,13 @@
             </tr>
             <tr>
                 <td>3V3</td>
-                <td>VCC</td>
-                <td>Power (⚠️ MUST be 3.3V, NOT 5V!)</td>
+                <td>3V3</td>
+                <td>Controller logic (3.3V only — never 5V on this pin)</td>
+            </tr>
+            <tr>
+                <td>VIN</td>
+                <td>5V</td>
+                <td>Transceiver / module 5V rail (from ESP32 VIN when USB-powered)</td>
             </tr>
             <tr>
                 <td>GND</td>
@@ -371,7 +376,7 @@
         </table>
         
         <div class="warning-box">
-            <strong>⚠️ Critical Warning:</strong> MCP2518FD must be powered with 3.3V, NOT 5V! Using 5V will damage the module.
+            <strong>⚠️ Critical:</strong> Wire <strong>3V3 → 3V3</strong> only for logic — do not connect 5V to the 3V3 pin. The separate module <strong>5V</strong> pin should connect to ESP32 <strong>VIN</strong> (5V from USB) on typical breakouts.
         </div>
         
         <h3>Flashing ESP32 firmware (pre-compiled .bin)</h3>

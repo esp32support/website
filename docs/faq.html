@@ -270,7 +270,8 @@
                 <p><strong>A:</strong> Check hardware connections:</p>
                 <ul>
                     <li>Verify all SPI pins are connected correctly (GPIO18→SCK, GPIO19→SO, GPIO23→SI, GPIO5→CS)</li>
-                    <li>Check power connection: 3V3 (NOT 5V!) to VCC</li>
+                    <li>Verify power: <strong>3V3 → 3V3</strong> (logic) and <strong>VIN → 5V</strong> (transceiver rail on typical modules)</li>
+                    <li>Never connect 5V to the module 3V3 pin</li>
                     <li>Verify ground connection (GND to GND)</li>
                     <li>Check for loose connections or bad jumper wires</li>
                     <li>Try a different MCP2518FD module if available</li>
@@ -283,11 +284,12 @@
             <div class="faq-question">Q: MCP2518FD module gets hot or doesn't work</div>
             <div class="faq-answer">
                 <div class="error-box">
-                    <strong>⚠️ Critical:</strong> If the module gets hot, you may have connected 5V instead of 3.3V! Disconnect immediately.
+                    <strong>⚠️ Critical:</strong> If the module gets hot, you may have wired 5V to the <strong>3V3</strong> pin instead of the separate <strong>5V</strong> pin. Disconnect immediately.
                 </div>
                 <ul>
-                    <li>MCP2518FD MUST be powered with 3.3V (ESP32's 3V3 pin)</li>
-                    <li>Using 5V will damage the module permanently</li>
+                    <li><strong>3V3 → 3V3</strong> for controller logic only</li>
+                    <li><strong>VIN → 5V</strong> for the transceiver rail (required on many AliExpress MCP2518FD breakouts)</li>
+                    <li>Do not swap these — 5V on the 3V3 pin can damage the module</li>
                     <li>Check power connection before testing</li>
                 </ul>
             </div>
