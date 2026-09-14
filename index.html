@@ -52,14 +52,14 @@
           "name": "ESP32 CAN Sniffer",
           "applicationCategory": "DeveloperApplication",
           "operatingSystem": "Windows 10, Windows 11",
-          "softwareVersion": "1.0.5",
+          "softwareVersion": "1.0.9",
           "offers": {
             "@type": "AggregateOffer",
             "priceCurrency": "EUR",
             "lowPrice": "15",
             "highPrice": "140",
             "offerCount": "2",
-            "description": "PRO license: €15/month or €140/year. Free 30-day demo installer available."
+            "description": "PRO license: €15/month or €140/year. Free 7-day demo installer available."
           },
           "url": "https://esp32canbus.pages.dev/",
           "description": "Windows desktop CAN analyzer for ESP32 and MCP2518FD with freeze-diff Compare tab, DBC import/export, session save/replay, and optional FIAT Stilo add-on.",
@@ -100,15 +100,23 @@
                 <div>
                     <p class="eyebrow">ESP32 CAN Sniffer for Windows</p>
                     <h1>See exactly what your car is saying.</h1>
+                    <p class="hero-obd-note">
+                        <strong>This isn't an OBD scanner — it sees more.</strong> An OBD-II port only exposes a gateway-filtered slice: generic fault codes and a handful of standard PIDs the BCM chooses to pass through. Tap the CAN bus directly and you see <strong>everything the car actually broadcasts</strong> — every module's live signals (doors, blinkers, wheel speeds, steering, windows…), not just what the gateway lets out.
+                    </p>
                     <p class="lead">
                         Real-time decoded diagnostic messages. Windows desktop suite for ESP32 and MCP2518FD with DBC import/export, save/replay, a <strong>Compare</strong> tab for freeze-and-diff reverse engineering, and optional FIAT Stilo add-on (Stilo-tested dictionary data)—built for workshop technicians and developers worldwide.
                     </p>
+                    <p class="hero-value-callout">
+                        <strong>~€10 hardware + €30 dictionary + app = read your CAN live data.</strong><br>
+                        A fraction of a €1,000+ professional tool or a dealer visit — and the demo is free.
+                    </p>
                     <div class="hero-cta hero-cta--isolated">
-                        <a id="download" class="btn primary" href="https://github.com/esp32support/esp32-can-sniffer/releases/download/v1.0.5/ESP32_CAN_Sniffer_Setup.exe" target="_blank" rel="noopener noreferrer"><span class="label-desktop">Download Demo Installer</span><span class="label-mobile">Download DEMO</span></a>
+                        <a id="download" class="btn primary" href="https://github.com/esp32support/esp32-can-sniffer/releases/download/v1.0.9/ESP32_CAN_Sniffer_Setup.exe" target="_blank" rel="noopener noreferrer"><span class="label-desktop">Download Demo Installer</span><span class="label-mobile">Download DEMO</span></a>
                         <a class="btn secondary" href="purchase.html" id="purchaseLinkHero"><span class="label-desktop">Get PRO package</span><span class="label-mobile">Get PRO</span></a>
                     </div>
-                    <p class="note" style="margin-top: 0.65rem;">Buy a ~€5 ESP32 + MCP2518FD module on AliExpress, set it up and start sniffing live CAN data.</p>
-                    <p class="note" style="margin-top: 0.85rem;">SHA256: <code>9BE6D93CE431DCE7F5A4E78DC4716474E8B1EA93038E799FF186A3F2930A92AB</code></p>
+                    <p class="hero-download-counter" id="downloadCounterNote" hidden><strong id="downloadCounterValue">—</strong> downloads and counting</p>
+                    <p class="note" style="margin-top: 0.65rem;">Grab an ESP32 + MCP2518FD module on AliExpress, wire it up, and start sniffing live CAN data.</p>
+                    <p class="note" style="margin-top: 0.85rem;">SHA256: <code>7DAD3899184C3FCD4FBF992F3676695DC569465A20495855FC94958A1C0DA9BC</code></p>
                     <p class="hero-points">
                         ✔ Real-time CAN decoding<br>
                         ✔ Signal-level analysis (not just raw data)<br>
@@ -126,7 +134,7 @@
                 </div>
                 <div class="hero-card">
                     <h3>Current Release</h3>
-                    <p class="version">v1.0.5</p>
+                    <p class="version">v1.0.9</p>
                     <p class="note" style="margin: 0.5rem 0 0.75rem; padding: 0.5rem 0.65rem; background: rgba(125, 211, 252, 0.08); border-left: 3px solid #7dd3fc; border-radius: 4px;"><strong>Hardware update:</strong> we switched from <strong>MCP2515</strong> to <strong>MCP2518FD</strong> CAN controllers. Flash the new firmware zip (v1.1) and connect USB at <strong>921600</strong> baud.</p>
                     <ul>
                         <li>MCP2518FD firmware + USB 921600 default</li>
@@ -365,7 +373,7 @@
         <div class="modal-content">
             <button class="modal-close" aria-label="Close modal">&times;</button>
             <h2>ESP32 CAN Sniffer Desktop Suite</h2>
-            <p class="modal-lead">Professional-grade CAN bus monitoring and analysis software designed for automotive diagnostics, reverse engineering, and development workflows. <strong>Version 1.0.5</strong> — hardware platform moved from MCP2515 to MCP2518FD, USB serial default raised to 921600 baud, and live-bus <strong>Detect CAN speed</strong> in the desktop app. Flash firmware package v1.1 before connecting.</p>
+            <p class="modal-lead">Professional-grade CAN bus monitoring and analysis software designed for automotive diagnostics, reverse engineering, and development workflows. <strong>Version 1.0.9</strong> — 7-day free trial, replay seek fix, hardware platform on MCP2518FD, USB serial default 921600 baud, and live-bus <strong>Detect CAN speed</strong> in the desktop app. Flash firmware package v1.1 before connecting.</p>
             
             <div class="modal-features">
                 <h3>Core Functionality</h3>
@@ -482,7 +490,7 @@
                     <ul>
                         <li>USB/Serial capture</li>
                         <li>Core decoding + CSV tools</li>
-                        <li>30-day evaluation access</li>
+                        <li>7-day evaluation access</li>
                     </ul>
                     <p class="note" style="margin-top: 1rem;">Use <a href="#download">Download Demo</a> at the top of the page.</p>
                 </div>
@@ -600,7 +608,7 @@
             <div class="footer-content">
                 <div class="footer-text">
                     <p>© 2026 IFIX ELEKTRONIKA. All rights reserved.</p>
-                    <p class="subtle">Desktop app v1.0.5 · Firmware package v1.1 (MCP2518FD)</p>
+                    <p class="subtle">Desktop app v1.0.9 · Firmware package v1.1 (MCP2518FD)</p>
                     <p class="subtle">IFIX ELEKTRONIKA, obrt za usluge</p>
                     <p class="subtle">Ul. Matice hrvatske 28A</p>
                     <p class="subtle">21 000 Split</p>
@@ -824,6 +832,67 @@
         // NOTE: removed the previous "removeWhiteBoxes()" script.
         // It was overriding computed styles globally and could fight with CSS + cause
         // unpredictable colors/contrast. Ensure styles.css/cookie-consent.css handle dark mode.
+
+        // Download counter — sums installer (.exe) download_count across all GitHub
+        // releases so the number keeps growing across version bumps, not just one release.
+        // Fails silently (element stays hidden) on network/CORS/rate-limit issues; a
+        // short localStorage cache avoids re-fetching on every page view.
+        (function () {
+            const noteEl = document.getElementById('downloadCounterNote');
+            const valueEl = document.getElementById('downloadCounterValue');
+            if (!noteEl || !valueEl) return;
+
+            const CACHE_KEY = 'esp32cs_download_count_v1';
+            const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
+
+            function formatCount(n) {
+                return n.toLocaleString('en-US');
+            }
+
+            function show(count) {
+                valueEl.textContent = formatCount(count);
+                noteEl.hidden = false;
+            }
+
+            try {
+                const cachedRaw = localStorage.getItem(CACHE_KEY);
+                if (cachedRaw) {
+                    const cached = JSON.parse(cachedRaw);
+                    if (cached && typeof cached.count === 'number' && (Date.now() - cached.at) < CACHE_TTL_MS) {
+                        show(cached.count);
+                        return;
+                    }
+                }
+            } catch (e) {
+                // localStorage unavailable (private mode, etc.) — just skip the cache.
+            }
+
+            fetch('https://api.github.com/repos/esp32support/esp32-can-sniffer/releases?per_page=100', {
+                headers: { Accept: 'application/vnd.github+json' }
+            })
+                .then((res) => (res.ok ? res.json() : Promise.reject(new Error('bad status'))))
+                .then((releases) => {
+                    let total = 0;
+                    (releases || []).forEach((rel) => {
+                        (rel.assets || []).forEach((asset) => {
+                            if (asset.name && asset.name.toLowerCase().endsWith('.exe')) {
+                                total += asset.download_count || 0;
+                            }
+                        });
+                    });
+                    if (total > 0) {
+                        show(total);
+                        try {
+                            localStorage.setItem(CACHE_KEY, JSON.stringify({ count: total, at: Date.now() }));
+                        } catch (e) {
+                            // ignore cache write failures
+                        }
+                    }
+                })
+                .catch(() => {
+                    // Silent failure — counter note stays hidden.
+                });
+        })();
     </script>
     
     <!-- Cookie Consent (GDPR Compliant) -->

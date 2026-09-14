@@ -1567,6 +1567,44 @@ h2 {
     font-size: 0.95rem;
 }
 
+.hero-obd-note {
+    margin-top: 0.85rem;
+    font-size: 1.02rem;
+    line-height: 1.55;
+    color: #cbd5f5 !important;
+    max-width: 64ch;
+}
+
+.hero-obd-note strong {
+    color: var(--accent) !important;
+}
+
+.hero-value-callout {
+    margin-top: 1rem;
+    padding: 0.75rem 1rem;
+    background: rgba(125, 211, 252, 0.08);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+    font-size: 1.03rem;
+    line-height: 1.5;
+    color: #e7ecfb !important;
+    max-width: 64ch;
+}
+
+.hero-value-callout strong {
+    color: var(--accent) !important;
+}
+
+.hero-download-counter {
+    margin-top: 0.6rem;
+    font-size: 0.88rem;
+    color: var(--text-muted) !important;
+}
+
+.hero-download-counter strong {
+    color: var(--accent) !important;
+}
+
 .hero-addon-link-wrap,
 .modal-addon-link-wrap {
     margin-top: 1rem;
