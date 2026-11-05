@@ -436,6 +436,47 @@
             </div>
         </div>
         
+        <h2>🌐 Try Online (web version)</h2>
+
+        <div class="faq-item">
+            <div class="faq-question">Q: What is the web version and what can it do?</div>
+            <div class="faq-answer">
+                <p><strong>A:</strong> It is a free page at <a href="/app/">candecoder.app/app</a> that shows live CAN frames from your ESP32 sniffer in Google Chrome. No install and no sign-up. It only watches the bus: filter by ID, see which bytes change, open the bits of one ID and use the Compare table. It never sends anything to the car. Saving, replay, DBC and the vehicle dictionary are in the desktop app.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Q: Which browsers and devices work?</div>
+            <div class="faq-answer">
+                <p><strong>A:</strong> Google Chrome on a computer (Windows, macOS, Linux). Firefox, Safari and iPhone/iPad do not support Web Serial. On Android it depends on the phone and Chrome version.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Q: The port list is empty or I get "Could not open the port"</div>
+            <div class="faq-answer">
+                <ul>
+                    <li>Close the desktop app and any other tab or program that uses the same COM port</li>
+                    <li>Check Device Manager, Ports (COM &amp; LPT): your board must appear there (install the CP210x or CH340 driver if it does not)</li>
+                    <li>Unplug and replug the USB cable, then press Connect USB again</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Q: Why does the board restart when I connect?</div>
+            <div class="faq-answer">
+                <p><strong>A:</strong> Opening a USB serial port makes many ESP32 boards reset once. The page waits for the board to start and then asks for the CAN speed, so just give it a second.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Q: Is my CAN data uploaded anywhere?</div>
+            <div class="faq-answer">
+                <p><strong>A:</strong> No. Frames stay in your browser. With your consent only anonymous usage counts (clicks, session length) are collected. See the <a href="../privacy.html">Privacy Policy</a>.</p>
+            </div>
+        </div>
+
         <h2>🆘 Still Need Help?</h2>
         
         <div class="solution-box">

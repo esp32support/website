@@ -6,6 +6,7 @@ Company: IFIX ELEKTRONIKA
 
 Primary pages:
 - https://candecoder.app/
+- https://candecoder.app/app/
 - https://candecoder.app/purchase.html
 - https://candecoder.app/purchase_addon.html
 - https://candecoder.app/privacy.html
@@ -18,5 +19,6 @@ Primary pages:
 Notes:
 - Site language is English (international audience); legal entity in Croatia (EU).
 - Demo package available.
+- Free web version (Google Chrome, USB via Web Serial, watch-only, no install) at https://candecoder.app/app/
 - PRO package and FIAT Stilo add-on available.
 - Legal pages: Terms, Privacy, GDPR.

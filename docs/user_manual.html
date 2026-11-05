@@ -295,6 +295,16 @@
             <li><strong>Statistics:</strong> Monitor message rates, buffer usage, and performance</li>
         </ul>
         
+        <h2>🌐 Try Online (no install)</h2>
+        <p>You can look at live CAN frames without installing anything: open <a href="/app/">candecoder.app/app</a> in Google Chrome on a computer.</p>
+        <ol>
+            <li>Plug the ESP32 sniffer in with a USB cable (close the desktop app first, only one program can use the port)</li>
+            <li>Press <strong>Connect USB</strong> and choose the port of your board (Chrome shows a list)</li>
+            <li>Set the CAN speed of your vehicle (or press <strong>Detect speed</strong>) and watch the frames</li>
+            <li>Use the filter, <strong>Only changing</strong> and the <strong>Compare</strong> table to find which bytes react when you press a button in the car</li>
+        </ol>
+        <p>The web version only watches the bus. No device at hand? Press <strong>Simulator</strong> to try it with made-up frames. Saving, replay, DBC and the vehicle dictionary are part of the desktop app.</p>
+
         <h2>📋 Most Used Features</h2>
         
         <h3>Message Filtering</h3>

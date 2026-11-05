@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Try online | ESP32 CAN Sniffer</title>
+    <meta name="description" content="Watch live CAN bus frames from your ESP32 CAN sniffer in Google Chrome. No install, no sign-up." />
+    <link rel="canonical" href="https://candecoder.app/app/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://candecoder.app/app/" />
+    <meta property="og:title" content="Try online | ESP32 CAN Sniffer" />
+    <meta property="og:description" content="Watch live CAN bus frames from your ESP32 sniffer in Google Chrome. No install, no sign-up." />
+    <meta property="og:image" content="https://candecoder.app/images/og-card.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "ESP32 CAN Sniffer - Try online",
+      "url": "https://candecoder.app/app/",
+      "description": "Free web version of ESP32 CAN Sniffer: watch live CAN bus frames from an ESP32 + MCP2518FD sniffer over USB in Google Chrome. No install, no sign-up.",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any with Google Chrome",
+      "browserRequirements": "Requires Google Chrome with Web Serial",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+      "publisher": { "@type": "Organization", "name": "IFIX ELEKTRONIKA", "url": "https://candecoder.app/" }
+    }
+    </script>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="/cookie-consent.css" />
+    <script>
+        // Analytics loads only after the visitor accepts cookies (see /cookie-consent.js). Same property as the main site.
+        window.gaId = 'G-6KFL6RX1SM';
+    </script>
+</head>
+<body>
+    <header class="bar">
+        <a class="brand" href="/" aria-label="ESP32 CAN Sniffer home">ESP32 CAN Sniffer <span class="tag">Try online</span></a>
+        <nav class="links">
+            <a href="/">Home</a>
+            <a href="/#download">Desktop app</a>
+        </nav>
+    </header>
+
+    <main class="wrap">
+        <div id="unsupported" class="notice" hidden>
+            Web Serial is not available in this browser. Open this page in Google Chrome on a computer.
+        </div>
+
+        <div id="note" class="notice" role="status" hidden></div>
+
+        <section class="toolbar" aria-label="Connection">
+            <button id="connect" class="btn primary" type="button">Connect USB</button>
+            <label class="field">CAN speed
+                <select id="speed" disabled>
+                    <option value="50">50 kbit/s</option>
+                    <option value="100">100 kbit/s</option>
+                    <option value="125">125 kbit/s</option>
+                    <option value="250">250 kbit/s</option>
+                    <option value="500">500 kbit/s</option>
+                </select>
+            </label>
+            <button id="detect" class="btn" type="button" disabled>Detect speed</button>
+            <button id="sim" class="btn" type="button" aria-pressed="false" title="Made-up frames, for trying the page without hardware">Simulator</button>
+            <span class="spacer"></span>
+            <span id="status" class="chip">Not connected</span>
+            <span class="stat"><span id="ids">0</span> IDs</span>
+            <span class="stat"><span id="fps">0</span> frames/s</span>
+        </section>
+
+        <section class="toolbar" aria-label="Filters">
+            <input id="filter" type="text" placeholder="Filter by ID, e.g. 3c3" autocomplete="off" disabled />
+            <button id="onlyChanging" class="btn" type="button" disabled>Only changing</button>
+            <button id="pause" class="btn" type="button" disabled>Pause</button>
+        </section>
+
+        <section class="panel live" aria-label="Live frames">
+            <table class="frames">
+                <thead>
+                    <tr><th class="c-id">ID</th><th class="c-hz">Hz</th><th class="c-cnt">Count</th><th>Data</th></tr>
+                </thead>
+                <tbody id="rows"></tbody>
+            </table>
+            <p id="nomatch" class="nomatch" hidden>No IDs match this filter.</p>
+            <div id="empty" class="empty">
+                <p class="empty-title">Connect your ESP32 sniffer</p>
+                <p>Plug it in with a USB cable, press Connect USB and choose its port. Frames appear here as the car talks. Works in Google Chrome on a computer.</p>
+                <p class="hint">No device at hand? Press Simulator above to try the page with made-up frames.</p>
+            </div>
+        </section>
+
+        <section id="compare" class="panel cmp" aria-label="Compare">
+            <div class="dhead">
+                <span class="dtitle">Compare</span>
+                <span class="cmpbtns">
+                    <label class="chk"><input id="cmpOnlyChanged" type="checkbox" checked /> Only changed</label>
+                    <button id="cmpCapture" class="btn small" type="button" disabled>Capture baseline</button>
+                    <button id="cmpReset" class="btn small" type="button" disabled>Reset</button>
+                </span>
+            </div>
+            <p id="cmpStatus" class="cmpstatus">Capture a baseline, then press a button or open a door in the car. The IDs and bits that changed show up here.</p>
+            <div class="cmpwrap">
+                <table class="cmptable">
+                    <thead><tr><th>ID</th><th>Status</th><th>Baseline</th><th>Now</th><th>Changed bits</th></tr></thead>
+                    <tbody id="cmpRows"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="detail" class="panel detail" aria-label="Selected ID" hidden>
+            <div class="dhead">
+                <span id="dTitle" class="dtitle"></span>
+                <button id="dClose" class="btn small" type="button">Close</button>
+            </div>
+            <div class="dcols">
+                <div>
+                    <div class="dlabel">Bytes and bits</div>
+                    <div id="dBits" class="bits"></div>
+                </div>
+                <div>
+                    <div class="dlabel">Recent different values</div>
+                    <ul id="dHist" class="hist"></ul>
+                </div>
+            </div>
+        </section>
+
+        <p class="foot">Your CAN data stays in your browser. With your consent we count anonymous usage (clicks, session length), never the frames. This free view only watches the bus and never sends anything to the car. Saving, replay, DBC and decoding are in the <a href="/#download">desktop app</a>.</p>
+    </main>
+
+    <script src="parser.js"></script>
+    <script src="sim.js"></script>
+    <script src="serial.js"></script>
+    <script src="app.js"></script>
+    <script src="/cookie-consent.js"></script>
+</body>
+</html>
