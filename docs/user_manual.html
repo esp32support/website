@@ -295,7 +295,7 @@
             <li><strong>Statistics:</strong> Monitor message rates, buffer usage, and performance</li>
         </ul>
         
-        <h2>🌐 Try Online (no install)</h2>
+        <h2>🌐 Try Online (no install) <span style="font-size:0.55em;padding:0.1rem 0.45rem;border-radius:4px;background:rgba(251,191,36,0.15);color:#fbbf24;vertical-align:middle;">IN TESTING</span></h2>
         <p>You can look at live CAN frames without installing anything: open <a href="/app/">candecoder.app/app</a> in Google Chrome on a computer.</p>
         <ol>
             <li>Plug the ESP32 sniffer in with a USB cable (close the desktop app first, only one program can use the port)</li>
@@ -321,6 +321,16 @@
             <li>Do one thing in the car, for example press the window switch</li>
             <li>The Compare table now lists only what changed: the ID, the bytes before and after, and the bits, written as <code>d3.2&middot;b34</code> (byte 3, bit 2, bit position 34 in the 64-bit frame)</li>
             <li>Press <strong>Reset</strong> and repeat with the next button</li>
+        </ol>
+
+        <h2>📈 Signal Plot (desktop, PRO)</h2>
+        <p>The <strong>Plot</strong> tab draws a value over time, which makes it easy to see what a signal does while you accelerate, start the engine or watch a temperature rise.</p>
+        <ol>
+            <li>Open the <strong>Plot</strong> tab. Choose <strong>Source</strong>: <em>Dictionary signal</em> (named, with units), <em>Raw bytes</em> or <em>Raw bits</em> of any CAN ID</li>
+            <li>Enter the CAN ID. For a dictionary signal press <strong>Load signals</strong> and pick one; for raw data set the byte range (and byte order) or start bit and length. <strong>Factor</strong>, <strong>Offset</strong> and <strong>Unit</strong> scale the raw number</li>
+            <li>Press <strong>Add to plot</strong>. You can add up to 8 traces. In the <em>Signal watch</em> box the <strong>Plot</strong> button sends the watched signal straight to the graph</li>
+            <li>Choose the <strong>Time window</strong> (10 s to 5 min), tick <strong>Pause view</strong> to freeze the picture, or <strong>Auto scale</strong> to follow the values. Move the mouse over the graph to read the exact values</li>
+            <li>The graph works on live traffic and on a replayed session. <strong>Clear data</strong> empties the traces, <strong>Remove selected</strong> deletes a trace</li>
         </ol>
 
         <h2>📋 Most Used Features</h2>
