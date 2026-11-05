@@ -6,20 +6,21 @@
     <title>FAQ & Troubleshooting - ESP32 CAN Sniffer</title>
     <meta name="description" content="ESP32 CAN Sniffer FAQ: COM port errors, ESP32 + MCP2518FD wiring, Wi-Fi capture, licensing, and Windows troubleshooting for the desktop CAN suite." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://esp32canbus.pages.dev/docs/faq.html" />
+    <meta property="og:url" content="https://candecoder.app/docs/faq.html" />
     <meta property="og:title" content="FAQ & Troubleshooting - ESP32 CAN Sniffer" />
     <meta property="og:description" content="Frequently asked questions and troubleshooting for ESP32 CAN Sniffer." />
-    <meta property="og:image" content="https://esp32canbus.pages.dev/images/dashboard.png" />
-    <meta property="og:image:secure_url" content="https://esp32canbus.pages.dev/images/dashboard.png" />
+    <meta property="og:image" content="https://candecoder.app/images/og-card.png" />
+    <meta property="og:image:secure_url" content="https://candecoder.app/images/og-card.png" />
     <meta property="og:site_name" content="ESP32 CAN Sniffer" />
     <meta property="og:locale" content="en_US" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="FAQ & Troubleshooting - ESP32 CAN Sniffer" />
     <meta name="twitter:description" content="Frequently asked questions and troubleshooting for ESP32 CAN Sniffer." />
-    <meta name="twitter:image" content="https://esp32canbus.pages.dev/images/dashboard.png" />
-    <link rel="canonical" href="https://esp32canbus.pages.dev/docs/faq.html" />
-    <link rel="alternate" hreflang="en" href="https://esp32canbus.pages.dev/docs/faq.html" />
-    <link rel="alternate" hreflang="x-default" href="https://esp32canbus.pages.dev/docs/faq.html" />
+    <meta name="twitter:image" content="https://candecoder.app/images/og-card.png" />
+    <meta name="twitter:image:alt" content="ESP32 CAN Sniffer: live CAN bus frames with changed bytes highlighted" />
+    <link rel="canonical" href="https://candecoder.app/docs/faq.html" />
+    <link rel="alternate" hreflang="en" href="https://candecoder.app/docs/faq.html" />
+    <link rel="alternate" hreflang="x-default" href="https://candecoder.app/docs/faq.html" />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='20' y='20' width='60' height='60' fill='%237dd3fc' stroke='%23bae6fd' stroke-width='2' rx='4'/%3E%3Crect x='25' y='25' width='50' height='50' fill='%23080a10'/%3E%3Ccircle cx='20' cy='35' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='20' cy='50' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='20' cy='65' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='35' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='50' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='65' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='35' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='50' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='65' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='35' cy='80' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='50' cy='80' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='65' cy='80' r='2' fill='%237dd3fc'/%3E%3C/svg%3E" />
     <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='20' y='20' width='60' height='60' fill='%237dd3fc' stroke='%23bae6fd' stroke-width='2' rx='4'/%3E%3Crect x='25' y='25' width='50' height='50' fill='%23080a10'/%3E%3Ccircle cx='20' cy='35' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='20' cy='50' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='20' cy='65' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='35' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='50' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='80' cy='65' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='35' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='50' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='65' cy='20' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='35' cy='80' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='50' cy='80' r='2' fill='%237dd3fc'/%3E%3Ccircle cx='65' cy='80' r='2' fill='%237dd3fc'/%3E%3C/svg%3E" />
     <link rel="stylesheet" href="../styles.css">
@@ -38,13 +39,13 @@
           "@type": "ListItem",
           "position": 1,
           "name": "Home",
-          "item": "https://esp32canbus.pages.dev/"
+          "item": "https://candecoder.app/"
         },
         {
           "@type": "ListItem",
           "position": 2,
           "name": "FAQ",
-          "item": "https://esp32canbus.pages.dev/docs/faq.html"
+          "item": "https://candecoder.app/docs/faq.html"
         }
       ]
     }
@@ -369,7 +370,7 @@
             <div class="faq-answer">
                 <p><strong>A:</strong> The installer from our official site or <a href="https://github.com/esp32support/esp32-can-sniffer/releases" target="_blank" rel="noopener noreferrer">GitHub releases</a> is the genuine ESP32 CAN Sniffer build from IFIX ELEKTRONIKA. New and independent software often triggers warnings until Windows builds reputation.</p>
                 <ul>
-                    <li><strong>Browser download prompt (Keep / Discard):</strong> In Edge, Chrome, Firefox, and others, Windows may ask whether to keep or discard the file. Choose <strong>Keep</strong> if you started from <a href="https://esp32canbus.pages.dev/">esp32canbus.pages.dev</a> or the GitHub link above.</li>
+                    <li><strong>Browser download prompt (Keep / Discard):</strong> In Edge, Chrome, Firefox, and others, Windows may ask whether to keep or discard the file. Choose <strong>Keep</strong> if you started from <a href="https://candecoder.app/">candecoder.app</a> or the GitHub link above.</li>
                     <li><strong>Windows SmartScreen:</strong> When you run the installer, SmartScreen may flag it and ask whether you want to run it. Click <strong>More info</strong>, then <strong>Run anyway</strong> (or continue setup). The installer is not signed with a commercial certificate yet; that is why SmartScreen appears.</li>
                     <li><strong>Microsoft Defender after install:</strong> On some systems or fresh VMs, Defender may allow the installer but still block <code>ESP32_CAN_Sniffer.exe</code> on first launch. If that happens, restore/allow the app in Protection history or add the installed app folder as a Defender exclusion.</li>
                     <li>Only download from our website or <code>github.com/esp32support/esp32-can-sniffer</code> — not third-party mirrors.</li>
