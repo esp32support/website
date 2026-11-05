@@ -23,6 +23,12 @@
         rows: document.getElementById("rows"),
         empty: document.getElementById("empty"),
         nomatch: document.getElementById("nomatch"),
+        devBtn: document.getElementById("devBtn"),
+        devPanel: document.getElementById("devstatus"),
+        devVerdict: document.getElementById("devVerdict"),
+        devGrid: document.getElementById("devGrid"),
+        devRefresh: document.getElementById("devRefresh"),
+        devClose: document.getElementById("devClose"),
         cmpCapture: document.getElementById("cmpCapture"),
         cmpReset: document.getElementById("cmpReset"),
         cmpOnlyChanged: document.getElementById("cmpOnlyChanged"),
@@ -38,7 +44,7 @@
 
     // Anonymous usage counting. Only runs when the visitor accepted analytics cookies (gtag exists then).
     // Never includes CAN IDs or data: only which buttons were used and coarse numbers.
-    var usage = { started: Date.now(), source: "none", selects: 0, filter: false, pause: false, changing: false, compare: false, sent: false };
+    var usage = { started: Date.now(), source: "none", selects: 0, filter: false, pause: false, changing: false, compare: false, status: false, sent: false };
     function track(name, params) {
         try {
             if (typeof window.gtag === "function" && window.gtagLoaded) window.gtag("event", name, params || {});
@@ -60,6 +66,7 @@
             used_pause: usage.pause,
             used_only_changing: usage.changing,
             used_compare: usage.compare,
+            used_status: usage.status,
             transport_type: "beacon"
         });
     }
@@ -452,7 +459,27 @@
     }
 
     // Replies from the device that are not CAN frames (speed reports, detect result).
+    var statusCapture = null;
+    var statusTimer = null;
+
     function onDeviceLine(text) {
+        if (statusCapture) {
+            if (/^=+\s*$/.test(text)) {
+                var lines = statusCapture;
+                statusCapture = null;
+                clearTimeout(statusTimer);
+                showDeviceStatus(P.parseStatus(lines));
+            } else {
+                statusCapture.push(text);
+            }
+            return true;
+        }
+        if (/^=== ESP32 CAN Sniffer Status/.test(text)) {
+            statusCapture = [];
+            clearTimeout(statusTimer);
+            statusTimer = setTimeout(function () { statusCapture = null; }, 3000);
+            return true;
+        }
         var m = /(?:speed:|detected at|set to)\s*(\d+)\s*bps/i.exec(text);
         if (m) {
             var kbit = String(Math.round(parseInt(m[1], 10) / 1000));
@@ -470,8 +497,55 @@
         return /^(CONNECTED|Detecting vehicle CAN)/i.test(text);
     }
 
+    var devTimer = null;
+
+    function devMetric(label, value, cls) {
+        return '<div class="metric' + (cls ? " " + cls : "") + '"><span class="mlabel">' + esc(label) + '</span><span class="mval mono">' + esc(value) + "</span></div>";
+    }
+
+    function showDeviceStatus(st) {
+        clearTimeout(devTimer);
+        els.devPanel.hidden = false;
+        if (!st) {
+            els.devVerdict.className = "verdict info";
+            els.devVerdict.textContent = "The board answered, but the reply was not recognised.";
+            els.devGrid.textContent = "";
+            return;
+        }
+        var v = P.statusVerdict(st);
+        els.devVerdict.className = "verdict " + v.level;
+        els.devVerdict.textContent = v.text;
+        var lossy = st.overflows > 0;
+        var html = devMetric("CAN speed", st.bps === null ? "-" : (st.bps / 1000) + " kbit/s") + devMetric("Mode", st.mode || "-") +
+            devMetric("Frames received", st.messages === null ? "-" : String(st.messages)) + devMetric("Different IDs", st.ids === null ? "-" : String(st.ids)) +
+            devMetric("Frames sent", st.tx === null ? "-" : st.tx + " (failed " + st.txFailed + ")");
+        if (st.peak !== null) {
+            html += devMetric("Buffer peak", st.peak + " / " + st.capacity, st.peak >= Math.floor(st.capacity * 0.75) ? "warn" : "") +
+                devMetric("Overflows (lost)", String(st.overflows), lossy ? "bad" : "") +
+                devMetric("Bus errors REC / TEC", st.rec + " / " + st.tec, Math.max(st.rec, st.tec) >= 96 ? "warn" : "");
+        }
+        els.devGrid.innerHTML = html;
+    }
+
+    function askDeviceStatus() {
+        if (!link) return;
+        usage.status = true;
+        track("webui_device_status");
+        els.devPanel.hidden = false;
+        els.devVerdict.className = "verdict info";
+        els.devVerdict.textContent = "Asking the board\u2026";
+        clearTimeout(devTimer);
+        devTimer = setTimeout(function () {
+            els.devVerdict.textContent = "No reply from the board. Try again.";
+        }, 3000);
+        link.send("STATUS").catch(function () { /* link closed */ });
+    }
+
     // UI part of stopping: shared by a user stop and by an unplugged cable.
     function uiStopped() {
+        els.devBtn.disabled = true;
+        els.devPanel.hidden = true;
+        statusCapture = null;
         clearTimeout(noFramesTimer);
         noFramesNote = false;
         state.paused = false;
@@ -557,6 +631,7 @@
         els.connect.textContent = "Disconnect";
         els.speed.disabled = false;
         els.detect.disabled = false;
+        els.devBtn.disabled = false;
         setControls(true);
         setStatus("USB connected \u00b7 921600 baud", true);
         var restartMsg = "The board restarts once when you connect, so the first moments can be empty.";
@@ -583,6 +658,10 @@
         els.connect.disabled = true;
         try { await startUsb(); } finally { els.connect.disabled = !navigator.serial; }
     });
+
+    els.devBtn.addEventListener("click", askDeviceStatus);
+    els.devRefresh.addEventListener("click", askDeviceStatus);
+    els.devClose.addEventListener("click", function () { els.devPanel.hidden = true; });
 
     els.speed.addEventListener("change", function () {
         if (link) link.send("SETCAN " + els.speed.value).catch(function () { /* link closed */ });

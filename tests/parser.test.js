@@ -106,4 +106,37 @@ test("simulator output parses end to end through random cuts", function () {
     assert.ok(Object.keys(ids).length >= 30, "distinct ids " + Object.keys(ids).length);
 });
 
+test("parseStatus reads the new STATUS reply and rates it", function () {
+    var lines = ["Messages received: 12345", "Unique CAN IDs: 26", "Vehicle CAN: 50000 bps, LISTEN-ONLY", "TX frames: 0, failed: 0",
+        "RX driver buffer peak: 40/256, hardware RX overflows: 0", "CAN error counters: REC=0 TEC=0", "Output format: id,rtr,ide,dlc,data,B-CAN"];
+    var s = P.parseStatus(lines);
+    assert.strictEqual(s.messages, 12345);
+    assert.strictEqual(s.ids, 26);
+    assert.strictEqual(s.bps, 50000);
+    assert.strictEqual(s.mode, "LISTEN-ONLY");
+    assert.strictEqual(s.peak, 40);
+    assert.strictEqual(s.capacity, 256);
+    assert.strictEqual(s.overflows, 0);
+    assert.strictEqual(P.statusVerdict(s).level, "ok");
+});
+
+test("statusVerdict: warn near full, bad on overflow, bus errors, not running, old firmware", function () {
+    function mk(o) { return Object.assign({ running: true, peak: 10, capacity: 256, overflows: 0, rec: 0, tec: 0 }, o); }
+    assert.strictEqual(P.statusVerdict(mk({ peak: 200 })).level, "warn");
+    assert.strictEqual(P.statusVerdict(mk({ overflows: 3 })).level, "bad");
+    assert.strictEqual(P.statusVerdict(mk({ peak: 256 })).level, "bad");
+    assert.strictEqual(P.statusVerdict(mk({ rec: 120 })).level, "warn");
+    assert.strictEqual(P.statusVerdict(mk({ running: false })).level, "bad");
+    assert.strictEqual(P.statusVerdict(mk({ peak: null, capacity: null, overflows: null })).level, "info");
+});
+
+test("parseStatus handles old firmware (no loss lines) and non-status text", function () {
+    var old = P.parseStatus(["Messages received: 5", "Unique CAN IDs: 2", "Vehicle CAN: 500000 bps, ACTIVE (TX ON)", "TX frames: 3, failed: 1"]);
+    assert.strictEqual(old.peak, null);
+    assert.strictEqual(old.tx, 3);
+    assert.strictEqual(old.txFailed, 1);
+    assert.strictEqual(P.parseStatus(["hello", "world"]), null);
+    assert.strictEqual(P.parseStatus(["Vehicle CAN: 50000 bps, LISTEN-ONLY (CAN NOT RUNNING)"]).running, false);
+});
+
 console.log("\n" + passed + " tests passed");

@@ -64,6 +64,7 @@
                 </select>
             </label>
             <button id="detect" class="btn" type="button" disabled>Detect speed</button>
+            <button id="devBtn" class="btn" type="button" disabled title="Ask the board for its counters, including lost frames">Device status</button>
             <button id="sim" class="btn" type="button" aria-pressed="false" title="Made-up frames, for trying the page without hardware">Simulator</button>
             <span class="spacer"></span>
             <span id="status" class="chip">Not connected</span>
@@ -90,6 +91,19 @@
                 <p>Plug it in with a USB cable, press Connect USB and choose its port. Frames appear here as the car talks. Works in Google Chrome on a computer.</p>
                 <p class="hint">No device at hand? Press Simulator above to try the page with made-up frames.</p>
             </div>
+        </section>
+
+        <section id="devstatus" class="panel dev" aria-label="Device status" hidden>
+            <div class="dhead">
+                <span class="dtitle">Device status</span>
+                <span class="cmpbtns">
+                    <button id="devRefresh" class="btn small" type="button">Refresh</button>
+                    <button id="devClose" class="btn small" type="button">Close</button>
+                </span>
+            </div>
+            <p id="devVerdict" class="verdict"></p>
+            <div id="devGrid" class="devgrid"></div>
+            <p class="cmpstatus">Counters since the board started. Buffer peak is the fullest the board's receive buffer has been; any overflow means frames were lost on the board. Loss on the USB link to the computer is not counted here.</p>
         </section>
 
         <section id="compare" class="panel cmp" aria-label="Compare">

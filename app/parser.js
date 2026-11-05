@@ -84,7 +84,42 @@
         return lines;
     };
 
-    var api = { parseLine: parseLine, LineSplitter: LineSplitter, hexByte: hexByte, formatId: formatId };
+
+    // Reply to STATUS from the sniffer firmware:
+    //   Messages received: N / Unique CAN IDs: N / Vehicle CAN: 50000 bps, LISTEN-ONLY / TX frames: N, failed: N
+    //   RX driver buffer peak: P/256, hardware RX overflows: N / CAN error counters: REC=r TEC=t
+    function parseStatus(lines) {
+        var s = { messages: null, ids: null, bps: null, mode: "", running: true, tx: null, txFailed: null,
+                  peak: null, capacity: null, overflows: null, rec: null, tec: null };
+        for (var i = 0; i < lines.length; i++) {
+            var l = String(lines[i]).trim(), m;
+            if ((m = /^Messages received:\s*(\d+)/.exec(l))) s.messages = +m[1];
+            else if ((m = /^Unique CAN IDs:\s*(\d+)/.exec(l))) s.ids = +m[1];
+            else if ((m = /^Vehicle CAN:\s*(\d+)\s*bps,?\s*(.*)$/.exec(l))) { s.bps = +m[1]; s.mode = m[2]; s.running = !/NOT RUNNING/i.test(m[2]); }
+            else if ((m = /^TX frames:\s*(\d+),\s*failed:\s*(\d+)/.exec(l))) { s.tx = +m[1]; s.txFailed = +m[2]; }
+            else if ((m = /RX driver buffer peak:\s*(\d+)\s*\/\s*(\d+).*hardware RX overflows:\s*(\d+)/.exec(l))) { s.peak = +m[1]; s.capacity = +m[2]; s.overflows = +m[3]; }
+            else if ((m = /REC=(\d+)\s+TEC=(\d+)/.exec(l))) { s.rec = +m[1]; s.tec = +m[2]; }
+        }
+        return s.bps === null && s.messages === null ? null : s;
+    }
+
+    // Plain-language reading of the counters. level: ok | warn | bad | info
+    function statusVerdict(s) {
+        if (!s.running) return { level: "bad", text: "The CAN controller is not running. Check the wiring, the module power and the crystal setting of the firmware." };
+        if (s.peak === null) return { level: "info", text: "This firmware does not report loss counters. Flash the newer sniffer firmware to see them." };
+        if (s.overflows > 0 || s.peak >= s.capacity) {
+            return { level: "bad", text: "Frames were lost on the board: its receive buffer overflowed (" + s.overflows + " overflow" + (s.overflows === 1 ? "" : "s") + ", buffer peak " + s.peak + "/" + s.capacity + ")." };
+        }
+        if (s.peak >= Math.floor(s.capacity * 0.75)) {
+            return { level: "warn", text: "The receive buffer got close to full (peak " + s.peak + "/" + s.capacity + "). Frames may be lost when the bus is busier." };
+        }
+        if (Math.max(s.rec || 0, s.tec || 0) >= 96) {
+            return { level: "warn", text: "The CAN controller sees bus errors (REC " + s.rec + ", TEC " + s.tec + "). Check the CAN speed and the wiring." };
+        }
+        return { level: "ok", text: "No loss on the board side (buffer peak " + s.peak + "/" + s.capacity + ", no overflows)." };
+    }
+
+    var api = { parseLine: parseLine, LineSplitter: LineSplitter, hexByte: hexByte, formatId: formatId, parseStatus: parseStatus, statusVerdict: statusVerdict };
     if (typeof module !== "undefined" && module.exports) module.exports = api;
     else root.CanParser = api;
 })(typeof window !== "undefined" ? window : globalThis);
