@@ -477,6 +477,46 @@
             </div>
         </div>
 
+        <div class="faq-item">
+            <div class="faq-question">Q: Why does the web version have no CSV export, saving or replay?</div>
+            <div class="faq-answer">
+                <p><strong>A:</strong> The web version is a quick, free look at the bus. Saving and replaying sessions, CSV export, DBC import/export, the vehicle dictionary, sending frames and Wi-Fi are part of the desktop app.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Q: Is it safe to connect it to my car?</div>
+            <div class="faq-answer">
+                <p><strong>A:</strong> The web page only listens. The sniffer firmware starts in listen-only mode (it does not acknowledge or send anything on the bus) and the page cannot turn transmitting on or send frames. The only settings it changes are the CAN speed and the speed detection.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Q: Which CAN speed should I choose?</div>
+            <div class="faq-answer">
+                <p><strong>A:</strong> Many cars use 50 kbit/s for the body/comfort bus and 500 kbit/s for the powertrain bus (a Fiat Stilo, for example, has a 50 kbit/s B-CAN and a 500 kbit/s C-CAN), but it depends on the vehicle and the connector pins. If you are not sure, press <strong>Detect speed</strong> with the car awake: it listens at each supported speed and takes about 10 seconds.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Q: I am connected but there are no frames</div>
+            <div class="faq-answer">
+                <ul>
+                    <li>Check the CAN H and CAN L wires and the ground, and that they go to the right bus</li>
+                    <li>Switch the ignition on or wake the car: many buses are silent when the car sleeps</li>
+                    <li>Set the CAN speed of that bus, or press Detect speed</li>
+                    <li>Check that the board is powered from USB and the CAN module is wired correctly (see the Hardware Setup chapter of the manual)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Q: Do I need to flash the firmware first?</div>
+            <div class="faq-answer">
+                <p><strong>A:</strong> Yes, the ESP32 must run the MCP2518FD firmware package (v1.1 or newer) that talks at 921600 baud. The web page uses that fixed speed, so older firmware on another speed will not show frames.</p>
+            </div>
+        </div>
+
         <h2>🆘 Still Need Help?</h2>
         
         <div class="solution-box">

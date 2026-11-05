@@ -305,6 +305,23 @@
         </ol>
         <p>The web version only watches the bus. No device at hand? Press <strong>Simulator</strong> to try it with made-up frames. Saving, replay, DBC and the vehicle dictionary are part of the desktop app.</p>
 
+        <h3>Reading the web table</h3>
+        <ul>
+            <li><strong>Hz</strong> is how many times per second that ID arrived, <strong>Count</strong> is the total since you connected, <strong>frames/s</strong> at the top is the total over all IDs</li>
+            <li>A byte that just changed is highlighted for about a second; <strong>Only changing</strong> hides the IDs that have been quiet</li>
+            <li>Click a row to see its bytes as bits and its last different values</li>
+            <li>On a very busy bus (for example a 500 kbit/s powertrain bus) the USB serial link can drop an occasional frame. That is normal for this hardware and does not affect what you learn from the Compare table</li>
+        </ul>
+
+        <h3>Compare example: which bits does a button change?</h3>
+        <ol>
+            <li>Connect and wait until the table is stable</li>
+            <li>Press <strong>Capture baseline</strong> in the Compare box</li>
+            <li>Do one thing in the car, for example press the window switch</li>
+            <li>The Compare table now lists only what changed: the ID, the bytes before and after, and the bits, written as <code>d3.2&middot;b34</code> (byte 3, bit 2, bit position 34 in the 64-bit frame)</li>
+            <li>Press <strong>Reset</strong> and repeat with the next button</li>
+        </ol>
+
         <h2>📋 Most Used Features</h2>
         
         <h3>Message Filtering</h3>
