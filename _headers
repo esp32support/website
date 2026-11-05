@@ -1,0 +1,3 @@
+# The web app changes often while it is tested: browsers must revalidate it instead of using a 4 hour cache.
+/app/*
+  Cache-Control: no-cache
