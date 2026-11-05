@@ -218,7 +218,7 @@ a:hover, a:hover * {
     display: grid;
     gap: 2rem;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    align-items: center;
+    align-items: start; /* the release card starts level with the text under the heading, not centred */
 }
 
 .eyebrow {
@@ -1566,6 +1566,9 @@ h2 {
     color: var(--accent) !important;
     font-size: 0.95rem;
 }
+
+/* the first paragraph starts level with the release card */
+.hero-content > div > .hero-obd-note:first-child { margin-top: 0; }
 
 .hero-obd-note {
     margin-top: 0.85rem;
