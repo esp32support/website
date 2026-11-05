@@ -42,6 +42,28 @@
     };
     var HISTORY_MAX = 12;
 
+    // DEVICE mode: this page was served by the sniffer itself over its Wi-Fi (http://192.168.4.1/), so the data
+    // comes from a WebSocket to the board instead of from the USB port. Everything else is shared.
+    var DEVICE = !!window.CAN_DEVICE;
+    var LINK_NAME = DEVICE ? "Wi-Fi" : "USB";
+    var CONNECT_LABEL = DEVICE ? "Connect Wi-Fi" : "Connect USB";
+
+    // The empty table text talks about USB on the public page; on the page served by the board (Wi-Fi) it must not.
+    function setEmptyText(mode) {
+        if (!DEVICE) return;
+        var title = els.empty.querySelector(".empty-title");
+        var paras = els.empty.querySelectorAll("p");
+        var hint = els.empty.querySelector(".hint");
+        var text = {
+            connecting: ["Connecting to the sniffer\u2026", "Your phone must be on the sniffer's Wi-Fi network."],
+            connected: ["Waiting for CAN frames", "You are connected to the sniffer over Wi-Fi. Frames appear here as the car talks."],
+            off: ["Not connected to the sniffer", "Make sure your phone is on the sniffer's Wi-Fi network, then press Connect Wi-Fi."]
+        }[mode];
+        if (title) title.textContent = text[0];
+        if (paras.length > 1) paras[1].textContent = text[1];
+        if (hint) hint.hidden = true;
+    }
+
     // Anonymous usage counting. Only runs when the visitor accepted analytics cookies (gtag exists then).
     // Never includes CAN IDs or data: only which buttons were used and coarse numbers.
     var usage = { started: Date.now(), source: "none", selects: 0, filter: false, pause: false, changing: false, compare: false, status: false, sent: false };
@@ -486,12 +508,12 @@
             for (var i = 0; i < els.speed.options.length; i++) {
                 if (els.speed.options[i].value === kbit) els.speed.value = kbit;
             }
-            if (state.source && state.source.name === "USB") setStatus("USB connected \u00b7 CAN " + kbit + " kbit/s", true);
+            if (state.source && state.source.name === "USB") setStatus(LINK_NAME + " connected \u00b7 CAN " + kbit + " kbit/s", true);
             return true;
         }
         if (/^ERR no CAN traffic/i.test(text)) {
             showNote("No CAN traffic at any supported speed. Check the wiring and that the car is awake.");
-            if (state.source && state.source.name === "USB") setStatus("USB connected", true);
+            if (state.source && state.source.name === "USB") setStatus(LINK_NAME + " connected", true);
             return true;
         }
         return /^(CONNECTED|Detecting vehicle CAN)/i.test(text);
@@ -545,6 +567,7 @@
     function uiStopped() {
         els.devBtn.disabled = true;
         els.devPanel.hidden = true;
+        setEmptyText("off");
         statusCapture = null;
         clearTimeout(noFramesTimer);
         noFramesNote = false;
@@ -553,7 +576,7 @@
         els.pause.setAttribute("aria-pressed", "false");
         els.sim.textContent = "Simulator";
         els.sim.setAttribute("aria-pressed", "false");
-        els.connect.textContent = "Connect USB";
+        els.connect.textContent = CONNECT_LABEL;
         els.speed.disabled = true;
         els.detect.disabled = true;
         setControls(false);
@@ -601,20 +624,32 @@
         link = null;
         state.source = null;
         uiStopped();
-        showNote("USB connection lost. Plug the device back in and press Connect USB.");
         track("webui_usb_lost");
+        if (DEVICE) {
+            showNote("Wi-Fi connection lost. Reconnecting\u2026 (is your phone still on the sniffer's Wi-Fi?)");
+            setTimeout(function () { if (!state.source) startUsb(true); }, 3000);
+        } else {
+            showNote("USB connection lost. Plug the device back in and press Connect USB.");
+        }
     }
 
-    async function startUsb() {
-        showNote("");
-        var l = new window.CanSerial.SerialLink({ api: navigator.serial, onText: ingestText, onClose: usbEnded });
+    async function startUsb(isRetry) {
+        if (!isRetry) showNote("");
+        var l = DEVICE
+            ? new window.CanWs.WsLink({ url: "ws://" + location.hostname + ":81/", onText: ingestText, onClose: usbEnded })
+            : new window.CanSerial.SerialLink({ api: navigator.serial, onText: ingestText, onClose: usbEnded });
         try {
             await l.open();
         } catch (e) {
             if (e.code === "cancelled") {
                 setStatus("No port selected", false);
             } else if (e.code === "busy") {
-                showNote("Could not open the port. Close the desktop app and any other tab that uses it, then try again.");
+                if (DEVICE) {
+                    showNote("Could not reach the sniffer. Is your phone on its Wi-Fi network? Press Connect Wi-Fi to try again.");
+                    if (isRetry) setTimeout(function () { if (!state.source) startUsb(true); }, 3000);
+                } else {
+                    showNote("Could not open the port. Close the desktop app and any other tab that uses it, then try again.");
+                }
                 track("webui_connect_error", { reason: "busy" });
             } else {
                 showNote("Could not connect: " + (e.message || e.code));
@@ -625,7 +660,7 @@
         resetData();
         link = l;
         state.source = { name: "USB", stop: function () { var x = link; link = null; if (x) x.close(); } };
-        usage.source = "usb";
+        usage.source = DEVICE ? "wifi" : "usb";
         usage.sent = false;
         track("webui_connected");
         els.connect.textContent = "Disconnect";
@@ -633,15 +668,18 @@
         els.detect.disabled = false;
         els.devBtn.disabled = false;
         setControls(true);
-        setStatus("USB connected \u00b7 921600 baud", true);
-        var restartMsg = "The board restarts once when you connect, so the first moments can be empty.";
-        showNote(restartMsg);
-        setTimeout(function () { if (els.note.textContent === restartMsg) showNote(""); }, 5000);
+        setStatus(DEVICE ? "Wi-Fi connected" : "USB connected \u00b7 921600 baud", true);
+        setEmptyText("connected");
+        if (!DEVICE) {
+            var restartMsg = "The board restarts once when you connect, so the first moments can be empty.";
+            showNote(restartMsg);
+            setTimeout(function () { if (els.note.textContent === restartMsg) showNote(""); }, 5000);
+        }
         // Opening the port can reset the board: give it time to boot, then say hello and ask for the CAN speed.
         setTimeout(function () {
             if (link !== l) return;
             l.send("CONNECT").then(function () { return l.send("SPEED"); }).catch(function () { /* link closed meanwhile */ });
-        }, 900);
+        }, DEVICE ? 150 : 900);
         noFramesTimer = setTimeout(function () {
             if (link === l && state.totalFrames === 0) {
                 noFramesNote = true;
@@ -653,10 +691,10 @@
     els.connect.addEventListener("click", async function () {
         track("webui_connect_click");
         if (state.source && state.source.name === "USB") { stopSource(); return; }
-        if (!navigator.serial) { els.unsupported.hidden = false; return; }
+        if (!DEVICE && !navigator.serial) { els.unsupported.hidden = false; return; }
         if (state.source) stopSource();
         els.connect.disabled = true;
-        try { await startUsb(); } finally { els.connect.disabled = !navigator.serial; }
+        try { await startUsb(); } finally { els.connect.disabled = !DEVICE && !navigator.serial; }
     });
 
     els.devBtn.addEventListener("click", askDeviceStatus);
@@ -714,9 +752,15 @@
         if (!state.paused) render(performance.now());
     });
 
-    if (!navigator.serial) {
+    if (!DEVICE && !navigator.serial) {
         els.unsupported.hidden = false;
         els.connect.disabled = true;
+    }
+
+    if (DEVICE) {
+        setEmptyText("connecting");
+        els.connect.textContent = CONNECT_LABEL;
+        startUsb(true); // no user gesture is needed for a WebSocket: connect as soon as the page opens
     }
 
     // test hook for development: window.__can.stats()
