@@ -239,7 +239,8 @@
             <div class="faq-answer">
                 <p><strong>A:</strong> For WiFi connections:</p>
                 <ul>
-                    <li>Ensure you're connected to the ESP32 WiFi network first</li>
+                    <li>Ensure you're connected to the sniffer's WiFi network first: <code>ESP32-CAN-Sniffer</code>, password <code>canbus123</code>. If the device says "no internet", choose stay connected and switch mobile data off</li>
+                    <li>On a phone, open <code>http://192.168.4.1/</code> with the full <code>http://</code>; "connection refused" usually means the browser switched to https</li>
                     <li>Check IP address (default: 192.168.4.1)</li>
                     <li>Check port (default: 82)</li>
                     <li>Verify ESP32 is in Access Point (AP) mode</li>
