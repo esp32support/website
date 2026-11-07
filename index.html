@@ -108,11 +108,11 @@
                         <strong>This isn't an OBD scanner — it sees more.</strong> An OBD-II port only exposes a gateway-filtered slice: generic fault codes and a handful of standard PIDs the BCM chooses to pass through. Tap the CAN bus directly and you see <strong>everything the car actually broadcasts</strong> — every module's live signals (doors, blinkers, wheel speeds, steering, windows…), not just what the gateway lets out.
                     </p>
                     <p class="lead">
-                        Real-time decoded diagnostic messages. Windows desktop suite for ESP32 and MCP2518FD with DBC import/export, save/replay, a <strong>Compare</strong> tab for freeze-and-diff reverse engineering, a <strong>Signal plot</strong> tab that draws any signal over time, and optional FIAT Stilo add-on (Stilo-tested dictionary data)—built for workshop technicians and developers worldwide.
+                        Windows suite for ESP32 + MCP2518FD that turns raw CAN frames into readable live signals. Press a button in the car and see exactly which byte changed. Optional Fiat Stilo dictionary. Built for workshop technicians and developers.
                     </p>
                     <p class="hero-value-callout">
-                        <strong>~€10 hardware + €30 dictionary + app = read your CAN live data.</strong><br>
-                        A fraction of a €1,000+ professional tool or a dealer visit — and the demo is free.
+                        <strong>Read your car's live CAN data on a cheap ESP32 board.</strong><br>
+                        A fraction of the cost of a professional tool or a dealer visit — and the demo is free.
                     </p>
                     <div class="hero-cta hero-cta--isolated">
                         <a id="download" class="btn primary" href="https://github.com/esp32support/esp32-can-sniffer/releases/download/v1.2/ESP32_CAN_Sniffer_Setup.exe" target="_blank" rel="noopener noreferrer"><span class="label-desktop">Download Demo Installer</span><span class="label-mobile">Download DEMO</span></a>
@@ -160,12 +160,36 @@
         </div>
     </header>
 
+    <section id="how-it-works" class="section">
+        <div class="container">
+            <p class="eyebrow">How it works</p>
+            <h2>From your car to an answer in three steps</h2>
+            <div class="feature-grid">
+                <article>
+                    <h3>1. Connect</h3>
+                    <p>Plug the ESP32 sniffer into your car's CAN wires (or the OBD port). Join its own Wi-Fi or use a USB cable.</p>
+                </article>
+                <article>
+                    <h3>2. Open</h3>
+                    <p>Use the Windows app, Chrome on a computer, or <strong>your smartphone browser</strong>: join <code>ESP32-CAN-Sniffer</code> and open <code>http://192.168.4.1/</code>. No app, no internet.</p>
+                </article>
+                <article>
+                    <h3>3. Press a button, see the byte</h3>
+                    <p>Freeze the bus, press a window switch or a stalk, and the Compare tab shows which message and byte changed.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
     <section id="compare" class="section compare-section">
         <div class="container">
             <p class="eyebrow">Value</p>
             <h2>Compare with professional CAN tools</h2>
             <p class="compare-tagline">
-                Professional CAN tools cost thousands. We built the same core workflow for about <strong>€140/year</strong> — tested on a real Fiat Stilo, not just a spec sheet.
+                Professional CAN tools cost thousands. This is a practical alternative for about <strong>€140/year</strong> — tested on a real Fiat Stilo, not just a spec sheet.
+            </p>
+            <p class="compare-tagline" style="margin-top:0.5rem;">
+                <strong>Honest note:</strong> SavvyCAN is an excellent free, open-source tool and a great choice if you already own a CAN interface and like to set things up yourself. ESP32 CAN Sniffer is for people who want a ready-made setup: one cheap board, a Fiat-tested vehicle dictionary, and sniffing from a browser or even your phone.
             </p>
 
             <h3 class="compare-subhead">Software</h3>
@@ -393,12 +417,12 @@
         <div class="modal-content">
             <button class="modal-close" aria-label="Close modal">&times;</button>
             <h2>ESP32 CAN Sniffer Desktop Suite</h2>
-            <p class="modal-lead">Professional-grade CAN bus monitoring and analysis software designed for automotive diagnostics, reverse engineering, and development workflows. <strong>Version 1.2</strong> — new <strong>Signal plot</strong> tab (graph any signal over time), <strong>Compare</strong> tab, live device status (RX/TX), more reliable license checks, plus the 7-day free trial, MCP2518FD hardware platform, USB serial default 921600 baud and live-bus <strong>Detect CAN speed</strong> in the desktop app. Flash firmware package v1.1 before connecting.</p>
+            <p class="modal-lead">CAN bus monitoring and analysis software for automotive diagnostics, reverse engineering, and development workflows. <strong>Version 1.2</strong> — new <strong>Signal plot</strong> tab (graph any signal over time), <strong>Compare</strong> tab, live device status (RX/TX), plus the 7-day free trial, MCP2518FD hardware platform, USB serial default 921600 baud and live-bus <strong>Detect CAN speed</strong> in the desktop app. Flash firmware package v1.1 before connecting.</p>
             
             <div class="modal-features">
                 <h3>Core Functionality</h3>
                 <ul>
-                    <li><strong>Real-time Monitoring:</strong> Live CAN message capture at 500+ messages/second with high-performance buffering</li>
+                    <li><strong>Real-time Monitoring:</strong> Live CAN message capture at thousands of messages per second with high-performance buffering</li>
                     <li><strong>Dual Connection:</strong> WiFi and Serial (USB) connectivity with auto-detection</li>
                     <li><strong>Hardware Compatibility:</strong> Works with budget-friendly ESP32 + MCP2518FD or SN65HVD230 CAN controllers</li>
                     <li><strong>Message Filtering:</strong> Advanced filtering by CAN ID, data patterns, and real-time highlighting</li>
@@ -482,15 +506,11 @@
                     <p>High-performance capture with real-time filtering and stream stats.</p>
                 </article>
                 <article>
-                    <h3>Budget Hardware</h3>
-                    <p>Works with ESP32 + MCP2518FD. No custom PCB required.</p>
-                </article>
-                <article>
                     <h3>Decoder Ecosystem</h3>
                     <p>DBC support, custom decoding and structured CAN analysis workflows.</p>
                 </article>
                 <article>
-                    <h3>Professional Automation Suite</h3>
+                    <h3>Automation Suite</h3>
                     <p>Batch session save/load, automated health reports, and CAN activity analytics to accelerate diagnostics.</p>
                 </article>
                 <article>
